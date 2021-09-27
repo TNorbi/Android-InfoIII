@@ -105,16 +105,27 @@ fun feladat6(){
 }
 
 fun feladat7(){
-    val daysOfWeek = mutableListOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+    /**-------------a) alpont--------------------**/
+
+    val daysOfWeek = listOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+    val mutableList = daysOfWeek.toMutableList()
     for(elem in daysOfWeek){
         if(elem.contains('n')){
-            daysOfWeek.removeAt(daysOfWeek.indexOf(elem))
+            mutableList.remove(elem)
         }
     }
 
-    daysOfWeek.forEach{print("$it ")}
+    mutableList.forEach{print("$it ")}
     println()
 
+    /**-------------b) alpont--------------------**/
+    val listWithIndex = mutableList.withIndex()
+    listWithIndex.forEach{println("Item at ${it.index} is ${it.value}")}
+
+    /**-------------c) alpont---------------------**/
+    mutableList.sort()
+    println()
+    mutableList.forEach{print("$it ")}
 }
 
 fun main(){
