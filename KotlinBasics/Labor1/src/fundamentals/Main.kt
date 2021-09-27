@@ -105,15 +105,14 @@ fun feladat6(){
 }
 
 fun feladat7(){
-    var daysOfWeek = ("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday").MutableList
+    val daysOfWeek = mutableListOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
     for(elem in daysOfWeek){
         if(elem.contains('n')){
-            daysOfWeek.removeAt()
+            daysOfWeek.removeAt(daysOfWeek.indexOf(elem))
         }
     }
 
-    daysOfWeek.forEach{ print("$it ")}
-
+    daysOfWeek.forEach{print("$it ")}
     println()
 
 }
