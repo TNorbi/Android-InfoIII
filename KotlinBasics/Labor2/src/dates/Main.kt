@@ -115,7 +115,7 @@ fun main() {
     dateList.reverse()
     dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
 
-    Collections.sort(dateList,Date())
+    Collections.sort(dateList,ComparatorDate())
     println("\nThe date list custom order(Comparator):")
     dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
 }
