@@ -1,6 +1,8 @@
 package dates
 
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 import kotlin.reflect.jvm.internal.impl.types.DynamicType
 
@@ -103,5 +105,17 @@ fun main() {
     val dateList = generateDateList()
 
     println("\nThe received date list:")
+    dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
+
+    println("\nThe date list natural order(Comparable):")
+    dateList.sort()
+    dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
+
+    println("\nThe natural sorted date list reversed:")
+    dateList.reverse()
+    dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
+
+    Collections.sort(dateList,Date())
+    println("\nThe date list custom order(Comparator):")
     dateList.forEach{println("${it.year}-${it.month}-${it.day}")}
 }
