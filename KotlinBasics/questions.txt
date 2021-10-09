@@ -1,0 +1,15 @@
+Who is the creator of Kotlin?
+ JetBrains
+ Google
+ Microsoft
+ None of the Above
+Which open source license is Kotlin released under?
+ Apache License 2.0
+ GNU General Public License
+ MIT License
+ None of the Above
+What is the default behavior of Kotlin classes?
+ All classes are final
+ All classes are public
+ All classes are sealed
+ All are Correct
