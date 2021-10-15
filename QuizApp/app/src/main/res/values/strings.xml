@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">QuizApp</string>
+    <string name="quiz">QUIZ</string>
+    <string name="getStarted">GET STARTED</string>
+    <string name="userName">Your Name</string>
+    <string name="your_name">Your Name</string>
+    <string name="SecondActivity_Title">The name of the player is:</string>
+    <string name="choose_contact">CHOOSE CONTACT</string>
 </resources>
