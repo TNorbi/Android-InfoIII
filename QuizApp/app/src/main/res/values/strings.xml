@@ -6,4 +6,6 @@
     <string name="your_name">Your Name</string>
     <string name="SecondActivity_Title">The name of the player is:</string>
     <string name="choose_contact">CHOOSE CONTACT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
