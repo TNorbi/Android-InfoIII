@@ -5,12 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private lateinit var quizEndTitle: TextView
+private lateinit var quizResult: TextView
+private lateinit var tryAgainButton: Button
 
 /**
  * A simple [Fragment] subclass.
@@ -35,7 +42,27 @@ class QuizEndFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz_end, container, false)
+        val view = inflater.inflate(R.layout.fragment_quiz_end, container, false)
+
+        view?.apply {
+            initialize(this)
+            initializeListeners(this)
+        }
+
+        return view
+    }
+
+    private fun initialize(view: View) {
+        quizEndTitle = view.findViewById(R.id.quizEndTitle)
+        quizResult = view.findViewById(R.id.quizResult)
+        tryAgainButton = view.findViewById(R.id.tryAgainButton)
+    }
+
+    private fun initializeListeners(view: View) {
+        tryAgainButton.setOnClickListener{
+            //ha a User megnyomja a Try Again gombot akkor visszaugrunk a program kezdokepernyojere, vagyis vissza kell menjunk a Quiz Start Fragmentbe
+            findNavController().navigate(R.id.action_quizEndFragment_to_quizStartFragment)
+        }
     }
 
     companion object {
