@@ -11,4 +11,8 @@
     <string name="fragment_next_button">Next Button</string>
     <string name="quiz_result">Quiz Result</string>
     <string name="try_again">TRY AGAIN</string>
+    <string name="radiobutton1" />
+    <string name="radiobutton2" />
+    <string name="radiobutton3" />
+    <string name="radiobutton4" />
 </resources>

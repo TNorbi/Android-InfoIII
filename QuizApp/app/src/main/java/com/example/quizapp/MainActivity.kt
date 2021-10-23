@@ -1,23 +1,10 @@
 package com.example.quizapp
 
-import android.app.ActivityOptions
-import android.content.ContentResolver
-import android.content.Intent
-import android.net.Uri
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.provider.CalendarContract.Attendees.query
-import android.provider.ContactsContract
-
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
-import androidx.core.app.ActivityOptionsCompat
+
 
 const val TAG_MAIN: String = "MainActivity"
 
@@ -67,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i(TAG_MAIN,"onCreate() called")
         setContentView(R.layout.activity_main)
-
         //initializeView()
         //registerListeners()
     }

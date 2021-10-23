@@ -1,4 +1,4 @@
-package com.example.quizapp.quiz
+package com.example.quizapp.quiz_ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
+import com.example.quizapp.models.QuizViewModel
+import java.time.Duration
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-private lateinit var quizEndTitle: TextView
-private lateinit var quizResult: TextView
-private lateinit var tryAgainButton: Button
+
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +32,11 @@ class QuizEndFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var quizEndTitle: TextView
+    private lateinit var quizResult: TextView
+    private lateinit var tryAgainButton: Button
+    private val viewModel : QuizViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +58,23 @@ class QuizEndFragment : Fragment() {
             initializeListeners(this)
         }
 
+        //----------------------------------------------------------------------------------------------------
+        //itt lekezelem a Back Buttont, hogy ne lepjen vissza az utolso kerdesre, ugymond elhitettem a userrel, hogy a back buttont nem lehet hasznalni a kiertekeleskor
+        val callBack = object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Toast.makeText(context,"",Toast.LENGTH_SHORT)
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
+        //-----------------------------------------------------------------------------------------------
+
+        quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}"
+
         return view
     }
+
 
     private fun initialize(view: View) {
         quizEndTitle = view.findViewById(R.id.quizEndTitle)
@@ -61,6 +85,8 @@ class QuizEndFragment : Fragment() {
     private fun initializeListeners(view: View) {
         tryAgainButton.setOnClickListener{
             //ha a User megnyomja a Try Again gombot akkor visszaugrunk a program kezdokepernyojere, vagyis vissza kell menjunk a Quiz Start Fragmentbe
+            viewModel.setPoints(0)
+            viewModel.setCurrentQuestionID(0)
             findNavController().navigate(R.id.action_quizEndFragment_to_quizStartFragment)
         }
     }

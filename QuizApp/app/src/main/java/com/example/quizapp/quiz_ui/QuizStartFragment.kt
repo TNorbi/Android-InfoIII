@@ -1,8 +1,7 @@
-package com.example.quizapp.quiz
+package com.example.quizapp.quiz_ui
 
-import android.content.Intent
+import android.content.res.AssetManager
 import android.os.Bundle
-import android.provider.AlarmClock
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,12 +11,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.quizapp.MainActivity
 import com.example.quizapp.R
-import com.example.quizapp.SecondActivity
-import com.example.quizapp.TAG_MAIN
+import com.example.quizapp.models.QuizController
+import com.example.quizapp.models.QuizViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +40,8 @@ class QuizStartFragment : Fragment() {
     private lateinit var userName: EditText
     private lateinit var startButton: Button
     private lateinit var contactButton: Button
+    private val viewModel : QuizViewModel by activityViewModels()
+    private lateinit var assetManager : AssetManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,18 @@ class QuizStartFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_quiz_start, container, false)
 
+        //---------------------------------------------------------------------------------------------
+        //itt lekezem a Back Buttont, hogy ne menjen vissza a QuizEndFragmentbe a program
+        val callBack = object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Toast.makeText(context,"", Toast.LENGTH_SHORT)
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
+    //---------------------------------------------------------------------------------------------------
+
         //hogyha a kapott view nem null akkor fogom inicializalni a dolgokat(valtozokat es Listeners-eket)
         view?.apply {
             initializeViewElements(this) //a megadott view-ban levo valtozokat fogja inicializalni
@@ -64,7 +81,6 @@ class QuizStartFragment : Fragment() {
             initializeViewElements(view)
             registerListeners(view)
         }*/
-
         return view
     }
 
@@ -75,10 +91,14 @@ class QuizStartFragment : Fragment() {
             view.findViewById(R.id.StartButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
         contactButton =
             view.findViewById(R.id.contactButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
+        assetManager = activity?.assets!!
+
     }
 
     private fun registerListeners(view: View) {
         startButton.setOnClickListener {
+            viewModel.initializeQuizController(assetManager)
+            viewModel.getController().randomizeQuestions()
             findNavController().navigate(R.id.action_quizStartFragment_to_questionFragment)
         }
 
