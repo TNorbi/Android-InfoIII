@@ -53,12 +53,21 @@ class QuizEndFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_quiz_end, container, false)
 
+        resolveBackButton()
+
         view?.apply {
             initialize(this)
             initializeListeners(this)
         }
 
-        //----------------------------------------------------------------------------------------------------
+
+        quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}"
+
+        return view
+    }
+
+
+    private fun resolveBackButton(){
         //itt lekezelem a Back Buttont, hogy ne lepjen vissza az utolso kerdesre, ugymond elhitettem a userrel, hogy a back buttont nem lehet hasznalni a kiertekeleskor
         val callBack = object: OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
@@ -68,13 +77,7 @@ class QuizEndFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
-        //-----------------------------------------------------------------------------------------------
-
-        quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}"
-
-        return view
     }
-
 
     private fun initialize(view: View) {
         quizEndTitle = view.findViewById(R.id.quizEndTitle)

@@ -195,16 +195,19 @@ class QuestionFragment : Fragment() {
     private fun isGoodAnswer(): Boolean {
 
 
-        //feltetelezem az elejen, hogy az elso opcio a helyes valasz (kesobb kell ezt modositsam ugy, hogy a valodi valasz legyen a helyes)!
+        /*//feltetelezem az elejen, hogy az elso opcio a helyes valasz (kesobb kell ezt modositsam ugy, hogy a valodi valasz legyen a helyes)!
 
         if(radioGroup.checkedRadioButtonId == 0){
             return true
-        }
+        }*/
 
-        /*ez majd kesobbre fel kell hasznaljam
+
         val index = radioGroup.checkedRadioButtonId
-        val seg = radioGroup.findViewById<RadioButton>(index)
-        Log.i("qFragment",seg.text.toString())*/
+        val valasztottOpcio = radioGroup.findViewById<RadioButton>(index)
+
+        if(valasztottOpcio.text == quizController.questions[currentQuestionID as Int].goodAnswer){
+            return true
+        }
 
         return false
     }

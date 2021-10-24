@@ -5,7 +5,7 @@ import android.content.res.AssetManager
 import java.util.*
 
 class QuizController(file: AssetManager) {
-     val questions = arrayListOf<Question>()
+    val questions = arrayListOf<Question>()
 
     init { //ez a diagram szerint a QuizController()-nek fog megfelelni
 
@@ -13,18 +13,30 @@ class QuizController(file: AssetManager) {
 
         val lines = inputStream.bufferedReader().use { it.readLines() }
 
+        var kerdes = ""
+        var helyesValasz = ""
+
         for (i in 0 until lines.size) {
-            if (i % 5 == 0) {
+
+            val segedLista = lines[i].split('|')
+
+            kerdes = segedLista[0]
+            helyesValasz = segedLista[2]
+            val answers = segedLista[1].split(';')
+
+            /*if (i % 5 == 0) {
                 //kerdesrol van szo
                 //uj valaszlista
                 val answers = ArrayList<String>()
                 for (j in i + 1..i + 4) {
                     answers.add(lines[j])
-                }
+                }*/
 
-                val question = Question(answers, lines[i])
-                questions.add(question)
-            }
+            //val question = Question(answers, lines[i])
+            val question = Question(answers, kerdes, helyesValasz)
+            questions.add(question)
+
+
         }
         inputStream.close()
     }
