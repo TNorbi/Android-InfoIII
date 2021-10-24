@@ -42,6 +42,7 @@ class QuizStartFragment : Fragment() {
     private lateinit var contactButton: Button
     private val viewModel : QuizViewModel by activityViewModels()
     private lateinit var assetManager : AssetManager
+    private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,14 +93,20 @@ class QuizStartFragment : Fragment() {
         contactButton =
             view.findViewById(R.id.contactButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
         assetManager = activity?.assets!!
-
     }
 
     private fun registerListeners(view: View) {
         startButton.setOnClickListener {
-            viewModel.initializeQuizController(assetManager)
-            viewModel.getController().randomizeQuestions()
-            findNavController().navigate(R.id.action_quizStartFragment_to_questionFragment)
+            if(userName.text.isEmpty()){
+                toast = Toast.makeText(context,"Please give a name",Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            else{
+                toast.cancel()
+                viewModel.initializeQuizController(assetManager)
+                viewModel.getController().randomizeQuestions()
+                findNavController().navigate(R.id.action_quizStartFragment_to_questionFragment)
+            }
         }
 
         val getContactList = registerForActivityResult(

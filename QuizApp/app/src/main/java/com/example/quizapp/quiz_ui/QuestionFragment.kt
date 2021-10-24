@@ -23,6 +23,7 @@ import java.util.ArrayList
 import androidx.databinding.DataBindingUtil
 
 import android.R.string.no
+import androidx.core.view.children
 import androidx.databinding.ViewDataBinding
 import com.example.quizapp.databinding.FragmentQuestionBinding
 import com.example.quizapp.models.QuizController
@@ -162,6 +163,7 @@ class QuestionFragment : Fragment() {
             radioButton = RadioButton(context)
             radioButton.text = answers[i]
             radioButton.id = i
+            radioButton.setButtonDrawable(android.R.drawable.btn_radio)
             radioButton.setTextColor(Color.parseColor("black"))
             radioGroup.addView(radioButton)
         }
@@ -175,6 +177,11 @@ class QuestionFragment : Fragment() {
             //ha utolso kerdesnel vagyunk akkor atmegyunk a 3-dik es egyben utolso fragmentbe, a fragment quiz endbe!
             //itt kell majd hasznaljak ViewModelt!
 
+            //meg kell nezzem, hogy a User a helyes valaszt valasztotta vagy sem, az szerint fog kapni pontot
+            if(isGoodAnswer()){
+                viewModel.increasePoints()
+            }
+
             viewModel.increaseQuestionID()
 
             if (currentQuestionID != quizController.questions.size-1) {
@@ -183,6 +190,23 @@ class QuestionFragment : Fragment() {
                 findNavController().navigate(R.id.action_questionFragment_to_quizEndFragment)
             }
         }
+    }
+
+    private fun isGoodAnswer(): Boolean {
+
+
+        //feltetelezem az elejen, hogy az elso opcio a helyes valasz (kesobb kell ezt modositsam ugy, hogy a valodi valasz legyen a helyes)!
+
+        if(radioGroup.checkedRadioButtonId == 0){
+            return true
+        }
+
+        /*ez majd kesobbre fel kell hasznaljam
+        val index = radioGroup.checkedRadioButtonId
+        val seg = radioGroup.findViewById<RadioButton>(index)
+        Log.i("qFragment",seg.text.toString())*/
+
+        return false
     }
 
     companion object {
