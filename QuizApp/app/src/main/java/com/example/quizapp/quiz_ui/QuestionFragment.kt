@@ -20,6 +20,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 import com.example.quizapp.models.QuizViewModel
 import java.util.ArrayList
+import androidx.databinding.DataBindingUtil
+
+import android.R.string.no
+import androidx.databinding.ViewDataBinding
+import com.example.quizapp.databinding.FragmentQuestionBinding
+import com.example.quizapp.models.QuizController
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,8 +46,10 @@ class QuestionFragment : Fragment() {
 
     private val viewModel: QuizViewModel by activityViewModels()
     private lateinit var questionTitle: TextView
-    private lateinit var radioGroup : RadioGroup
+    private lateinit var radioGroup: RadioGroup
     private lateinit var nextButton: Button
+    private lateinit var currentQuestionID : Number
+    private lateinit var quizController : QuizController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,19 +64,49 @@ class QuestionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_question, container, false)
 
-        //itt kezelem le a Back buttont-----------------------------------------
+        //val view = inflater.inflate(R.layout.fragment_question, container, false)
+
+        /**-----------------Itt elkezdtem hasznalni a Data Bindingot---------------------**/
+
+        val binding: FragmentQuestionBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_question, container, false
+        ) //itt letrehoztam a data bindingot
+
+        val view = binding.root //a letrejott data binding-tol lekerdeztem a view-jat
+
+
+        resolveBackButton() //ez a fuggveny lekezeli a Back Button problemat
+
+        /**Ez a data binding nelkuli verzio**/
+        /*view?.apply {
+            initialize(this)
+            showQuestionAnswers()
+            initializeListeners(this)
+        }
+        return view*/
+
+        /**Ez pedig a data binding verzio**/
+
+        initialize(binding)
+        initializeListeners(view)
+        showQuestionAnswers()
+
+        return view
+    }
+
+    private fun resolveBackButton() {
         //egy Alert Dialog fog megjeleni mindig,amikor a User a Back Buttont megnyomja
         //ha a User a No opciot valassza,akkor a kurens kerdesnel marad es folytathatja kitolteni a Quizt
         //Ha a User a Yes opciot valassz, akkor befejezi a Quizt, egyenesen a QuizEndFragmentbe fog ugrani a program,ahol a User ki lesz ertekelve
-        val callBack = object : OnBackPressedCallback(true){
+
+        val callBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val alertDialog = AlertDialog.Builder(context)
                 alertDialog.setTitle("Exit")
                 alertDialog.setMessage("Are you sure you want to end this quiz?")
 
-                alertDialog.setPositiveButton("Yes"){ _, _ ->
+                alertDialog.setPositiveButton("Yes") { _, _ ->
                     findNavController().navigate(R.id.action_questionFragment_to_quizEndFragment)
                 }
 
@@ -81,45 +120,45 @@ class QuestionFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(callBack)
-        //---------------------------------------------------------------------------------------------------
-
-        view?.apply {
-            initialize(this)
-            showQuestionAnswers()
-            initializeListeners(this)
-        }
-        return view
     }
 
-    private fun initialize(view: View) {
-        //itt be kell olvassam a kerdest a fajlbol
-        questionTitle = view.findViewById(R.id.questionTitle)
+    private fun initialize(binding: FragmentQuestionBinding) {
+
+        /**--------Data Binding nelkuli verzio(parametereben view: View volt)----------------**/
+        /*questionTitle = view.findViewById(R.id.questionTitle)
         nextButton = view.findViewById(R.id.nextButton)
-        radioGroup = view.findViewById(R.id.RadioGroup)
+        radioGroup = view.findViewById(R.id.RadioGroup)*/
 
-        //itt be kell olvassam az answers tombbe a valaszokat
-        //4 db valaszt kell megjeleniteni a kepernyon, illetve a hozzajuk egy-egy Radio buttont!
+        /**-------------Data Binding-os verzio-----------------**/
+        questionTitle = binding.questionTitle
+        nextButton = binding.nextButton
+        radioGroup = binding.RadioGroup
+        currentQuestionID = viewModel.getCurrentQuestionID()
+        quizController = viewModel.getController()
     }
 
-    private fun showQuestionAnswers(){
+    private fun showQuestionAnswers() {
 
-        val currentQuestionID = viewModel.getCurrentQuestionID()
-        var radioButton : RadioButton
+        //val currentQuestionID = viewModel.getCurrentQuestionID()
+        //val quizController = viewModel.getController()
+        var radioButton: RadioButton
 
-        if(currentQuestionID == viewModel.getController().questions.size-1){
+        if (currentQuestionID == quizController.questions.size - 1) {
             nextButton.text = "Submit"
         }
 
-        questionTitle.text = viewModel.getController().questions[currentQuestionID].text
+        questionTitle.text = quizController.questions[currentQuestionID as Int].text
 
-        val answers = viewModel.getController().questions[currentQuestionID].answers.shuffled()
+        val answers = quizController.questions[currentQuestionID as Int].answers.shuffled()
 
         /*radioGroup.findViewById<RadioButton>(R.id.radioButton1).text = answers[0]
         radioGroup.findViewById<RadioButton>(R.id.radioButton2).text = answers[1]
         radioGroup.findViewById<RadioButton>(R.id.radioButton3).text = answers[2]
         radioGroup.findViewById<RadioButton>(R.id.radioButton4).text = answers[3]*/
 
-        for(i in 0 until answers.size){
+        //ez a kodreszlet dinamikusan fog RadioButton-eket csatolni a RadioGrouphoz
+        //annyi RadioButton lesz ahany darab valaszunk van
+        for (i in 0 until answers.size) {
             radioButton = RadioButton(context)
             radioButton.text = answers[i]
             radioButton.id = i
@@ -138,7 +177,7 @@ class QuestionFragment : Fragment() {
 
             viewModel.increaseQuestionID()
 
-            if (viewModel.getCurrentQuestionID() < viewModel.getController().questions.size) {
+            if (currentQuestionID != quizController.questions.size-1) {
                 findNavController().navigate(R.id.action_questionFragment_self)
             } else {
                 findNavController().navigate(R.id.action_questionFragment_to_quizEndFragment)
