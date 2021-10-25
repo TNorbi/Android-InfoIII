@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="fragment_next_button">Next</string>
-    <string name="quiz_result">Quiz Result</string>
-    <string name="try_again">TRY AGAIN</string>
-</resources>
