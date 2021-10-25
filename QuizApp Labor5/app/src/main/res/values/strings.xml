@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="quiz">QUIZ</string>
+    <string name="getStarted">GET STARTED</string>
+    <string name="userName">Your Name</string>
+    <string name="your_name">Your Name</string>
+    <string name="SecondActivity_Title">The name of the player is:</string>
+    <string name="choose_contact">CHOOSE CONTACT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_next_button">Next</string>
+    <string name="quiz_result">Quiz Result</string>
+    <string name="try_again">TRY AGAIN</string>
+</resources>
