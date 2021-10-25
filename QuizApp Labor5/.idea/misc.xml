@@ -1,3 +1,4 @@
+<<<<<<< HEAD:QuizApp Labor5/.idea/misc.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
@@ -26,4 +27,29 @@
       </ProjectState>
     </option>
   </component>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/EGYETEMI-DOLGOK/HARMAD_EV/FELEV1/Android_programozas/Repository/Android-InfoIII/QuizApp/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/EGYETEMI-DOLGOK/HARMAD_EV/FELEV1/Android_programozas/Repository/Android-InfoIII/QuizApp/app/src/main/res/layout/activity_second.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
+  </component>
+>>>>>>> f8120296053b33b6312951c5da78edd270a38548:QuizApp Labor4/.idea/misc.xml
 </project>
