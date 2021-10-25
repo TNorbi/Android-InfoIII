@@ -13,8 +13,8 @@ class QuizController(file: AssetManager) {
 
         val lines = inputStream.bufferedReader().use { it.readLines() }
 
-        var kerdes = ""
-        var helyesValasz = ""
+        var kerdes: String
+        var helyesValasz: String
 
         for (i in 0 until lines.size) {
 
@@ -23,16 +23,6 @@ class QuizController(file: AssetManager) {
             kerdes = segedLista[0]
             helyesValasz = segedLista[2]
             val answers = segedLista[1].split(';')
-
-            /*if (i % 5 == 0) {
-                //kerdesrol van szo
-                //uj valaszlista
-                val answers = ArrayList<String>()
-                for (j in i + 1..i + 4) {
-                    answers.add(lines[j])
-                }*/
-
-            //val question = Question(answers, lines[i])
             val question = Question(answers, kerdes, helyesValasz)
             questions.add(question)
 
