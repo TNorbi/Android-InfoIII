@@ -40,8 +40,8 @@ class QuizStartFragment : Fragment() {
     private lateinit var userName: EditText
     private lateinit var startButton: Button
     private lateinit var contactButton: Button
-    private val viewModel : QuizViewModel by activityViewModels()
-    private lateinit var assetManager : AssetManager
+    private val viewModel: QuizViewModel by activityViewModels()
+    private lateinit var assetManager: AssetManager
     private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,17 +75,17 @@ class QuizStartFragment : Fragment() {
         return view
     }
 
-    private fun resolveBackButton(){
+    private fun resolveBackButton() {
 
         //itt lekezelem a Back Buttont, hogy ne menjen vissza a QuizEndFragmentbe a program
-        val callBack = object: OnBackPressedCallback(true){
+        val callBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                Toast.makeText(context,"", Toast.LENGTH_SHORT)
+                return
             }
 
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callBack)
     }
 
     private fun initializeViewElements(view: View) {
@@ -95,17 +95,18 @@ class QuizStartFragment : Fragment() {
             view.findViewById(R.id.StartButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
         contactButton =
             view.findViewById(R.id.contactButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
-        toast = Toast.makeText(context,"Please give a name",Toast.LENGTH_SHORT)
-        assetManager = activity?.assets!! //egy AssetManagert hozok letre,amit majd a fajl megnyitasara es annak tartalmara valo feldolgozasnal fogok felhasznalni a QuizController-ben!
+        toast = Toast.makeText(context, "Please give a name", Toast.LENGTH_SHORT)
+
+        assetManager =
+            activity?.assets!! //egy AssetManagert hozok letre,amit majd a fajl megnyitasara es annak tartalmara valo feldolgozasnal fogok felhasznalni a QuizController-ben!
     }
 
     private fun registerListeners(view: View) {
         startButton.setOnClickListener {
-            if(userName.text.isEmpty()){
-                toast = Toast.makeText(context,"Please give a name",Toast.LENGTH_SHORT)
+            if (userName.text.isEmpty()) {
+                toast = Toast.makeText(context, "Please give a name", Toast.LENGTH_SHORT)
                 toast.show()
-            }
-            else{
+            } else {
                 toast.cancel()
                 viewModel.initializeQuizController(assetManager)
                 viewModel.getController().randomizeQuestions()

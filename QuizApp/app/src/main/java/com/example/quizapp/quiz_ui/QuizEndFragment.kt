@@ -71,7 +71,7 @@ class QuizEndFragment : Fragment() {
         //itt lekezelem a Back Buttont, hogy ne lepjen vissza az utolso kerdesre, ugymond elhitettem a userrel, hogy a back buttont nem lehet hasznalni a kiertekeleskor
         val callBack = object: OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                Toast.makeText(context,"",Toast.LENGTH_SHORT)
+                return
             }
 
         }

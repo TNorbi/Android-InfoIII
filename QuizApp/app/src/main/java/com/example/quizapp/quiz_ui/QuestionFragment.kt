@@ -194,15 +194,13 @@ class QuestionFragment : Fragment() {
 
     private fun isGoodAnswer(): Boolean {
 
-
-        /*//feltetelezem az elejen, hogy az elso opcio a helyes valasz (kesobb kell ezt modositsam ugy, hogy a valodi valasz legyen a helyes)!
-
-        if(radioGroup.checkedRadioButtonId == 0){
-            return true
-        }*/
-
-
         val index = radioGroup.checkedRadioButtonId
+
+        if(index < 0){
+            //a felhasznalo nem valasztott ki egy opciot se => false-t teritek vissza => nem fog kapni majd pontot
+            return false
+        }
+
         val valasztottOpcio = radioGroup.findViewById<RadioButton>(index)
 
         if(valasztottOpcio.text == quizController.questions[currentQuestionID as Int].goodAnswer){
