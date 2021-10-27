@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +23,9 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var testSkillButton: Button
+    private lateinit var readQuestionsButton: Button
+    private lateinit var createQuestionsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +40,38 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        view?.apply {
+            //itt fogom inicializalni a Button valtozokat,illetve az onClickListenereket
+            initializeView(this)
+            initializeListeners(this)
+        }
+
+        return view
+    }
+
+    private fun initializeView(view: View) {
+        testSkillButton = view.findViewById(R.id.testSkillsButton)
+        readQuestionsButton = view.findViewById(R.id.readQuestionsButton)
+        createQuestionsButton = view.findViewById(R.id.createQuestionsButton)
+    }
+
+    private fun initializeListeners(view: View) {
+        testSkillButton.setOnClickListener {
+            //ha a User ranyom a test your skills gombra akkor atugrok a quiz start fragmentbe
+            findNavController().navigate(R.id.quizStartFragment)
+        }
+
+        readQuestionsButton.setOnClickListener {
+            //ha a User ranyom a read Questions gombra akkor atugrok a Question List Fragmentbe
+            findNavController().navigate(R.id.questionListFragment)
+        }
+
+        createQuestionsButton.setOnClickListener {
+            //ha a User ranyom a Create Questions gombra akkor atugrok a QuestionAddFragmentbe
+            findNavController().navigate(R.id.questionAddFragment)
+        }
     }
 
     companion object {

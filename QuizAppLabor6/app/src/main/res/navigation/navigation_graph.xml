@@ -59,4 +59,9 @@
         android:name="com.example.quizapplabor6.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/questionAddFragment"
+        android:name="com.example.quizapplabor6.ui.questions.QuestionAddFragment"
+        android:label="fragment_question_add"
+        tools:layout="@layout/fragment_question_add" />
 </navigation>
