@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".quiz_ui.QuizEndFragment">
+    tools:context="com.example.quizapplabor6.ui.quiz.QuizEndFragment">
 
     <TextView
         android:id="@+id/quizEndTitle"

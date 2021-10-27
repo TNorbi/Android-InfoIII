@@ -6,7 +6,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".quiz_ui.QuestionFragment">
+    tools:context="com.example.quizapplabor6.ui.quiz.QuestionFragment">
 
 
     <TextView

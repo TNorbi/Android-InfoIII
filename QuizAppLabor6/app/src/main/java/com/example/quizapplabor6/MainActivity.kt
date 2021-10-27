@@ -61,7 +61,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i(TAG_MAIN, "onCreate() called")
         setContentView(R.layout.activity_main)
+
         val viewModel: QuizViewModel by viewModels()
+
         initializeView()
         initializeMenu()
     }
@@ -84,7 +86,9 @@ class MainActivity : AppCompatActivity() {
             when(menuItem.itemId){
                 R.id.navigation_menu_home -> findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragment)
                 R.id.navigation_menu_quizTime -> findNavController(R.id.nav_host_fragment).navigate(R.id.quizStartFragment)
-                //R.id.navigation_menu_profile -> findNavController(R.id.nav_host_fragment).navigate(R.id.fragmentProfile) itt crashel meg..
+                R.id.navigation_menu_profile -> findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment)
+                R.id.navigation_menu_ListOfQuestions -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionListFragment)
+                R.id.navigation_menu_newQuestion -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionDetailFragment)
             }
 
             drawerLayout.close()

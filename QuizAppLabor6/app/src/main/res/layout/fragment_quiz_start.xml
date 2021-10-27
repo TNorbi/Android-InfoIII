@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".quiz_ui.QuizStartFragment">
+    tools:context="com.example.quizapplabor6.ui.quiz.QuizStartFragment">
 
     <TextView
         android:id="@+id/title"
@@ -40,15 +40,15 @@
 
     <Button
         android:id="@+id/StartButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactButton"
         android:layout_width="204dp"
         android:layout_height="63dp"
         android:layout_marginTop="40dp"
         android:background="@android:color/holo_orange_light"
         android:text="@string/getStarted"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactButton"
         tools:ignore="TextContrastCheck" />
 
     <Button
