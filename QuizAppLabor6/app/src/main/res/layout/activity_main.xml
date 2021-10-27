@@ -42,7 +42,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/transparent"
                     android:elevation="0dp"
-                    app:navigationIcon="@drawable/ic_menu_icon"
+                    app:navigationIcon="@drawable/ic_menu"
                     app:title="QuizApp" />
 
             </com.google.android.material.appbar.AppBarLayout>

@@ -5,19 +5,24 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_menu_home"
+            android:icon="@drawable/ic_menu_home"
             android:checked="true"
             android:title="@string/home" />
         <item
             android:id="@+id/navigation_menu_quizTime"
+            android:icon="@drawable/ic_menu_quiz"
             android:title="@string/quiz_time" />
         <item
             android:id="@+id/navigation_menu_profile"
+            android:icon="@drawable/ic_menu_profile"
             android:title="@string/profile" />
         <item
             android:id="@+id/navigation_menu_ListOfQuestions"
+            android:icon="@drawable/ic_menu_question_list"
             android:title="@string/list_of_questions" />
         <item
             android:id="@+id/navigation_menu_newQuestion"
+            android:icon="@drawable/ic_menu_question_add"
             android:title="@string/new_question" />
     </group>
 </menu>
