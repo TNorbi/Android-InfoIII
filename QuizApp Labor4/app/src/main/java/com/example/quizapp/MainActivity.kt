@@ -11,9 +11,9 @@ const val TAG_MAIN: String = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-    //private lateinit var userName: EditText
-    //private lateinit var startButton : Button
-    //private lateinit var  contactButton : Button
+    private lateinit var userName: EditText
+    private lateinit var startButton : Button
+    private lateinit var  contactButton : Button
 
     //itt az onCreate fog eloszor meghivodni es majd csak az onStart
 
@@ -54,11 +54,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i(TAG_MAIN,"onCreate() called")
         setContentView(R.layout.activity_main)
-        //initializeView()
-        //registerListeners()
+        initializeView()
+        registerListeners()
     }
 
-    /*private fun registerListeners() {
+    private fun registerListeners() {
         startButton.setOnClickListener{
             //itt mondom meg ,hogy mit tortenjen amikor a user megnyomja a gombot!
             Toast.makeText(applicationContext,"Start button pressed",Toast.LENGTH_LONG).show() //ez csak letrehozza a toast-ot a megadott uzenettel majd megjeleniti
@@ -97,5 +97,5 @@ class MainActivity : AppCompatActivity() {
         userName = findViewById(R.id.userName) //ezzel lekerem a viewban levo Username erteket (plaintext erteket)
         startButton = findViewById(R.id.StartButton)
         contactButton = findViewById(R.id.contactButton)
-    }*/
+    }
 }

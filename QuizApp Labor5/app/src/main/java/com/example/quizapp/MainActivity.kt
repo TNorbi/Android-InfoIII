@@ -4,6 +4,8 @@ package com.example.quizapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
+import com.example.quizapp.models.QuizViewModel
 
 
 const val TAG_MAIN: String = "MainActivity"
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i(TAG_MAIN,"onCreate() called")
         setContentView(R.layout.activity_main)
+
+        val viewModel : QuizViewModel by viewModels()
 
     }
 }
