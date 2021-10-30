@@ -12,7 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
-import com.example.quizapp.models.QuizViewModel
+import com.example.quizapplabor6.models.SharedViewModel
 import androidx.databinding.DataBindingUtil
 import com.example.quizapp.databinding.FragmentQuestionBinding
 import com.example.quizapp.models.QuizController
@@ -34,12 +34,12 @@ class QuestionFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private val viewModel: QuizViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
     private lateinit var questionTitle: TextView
     private lateinit var radioGroup: RadioGroup
     private lateinit var nextButton: Button
-    private lateinit var currentQuestionID : Number
-    private lateinit var quizController : QuizController
+    private lateinit var currentQuestionID: Number
+    private lateinit var quizController: QuizController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,13 +167,13 @@ class QuestionFragment : Fragment() {
             //itt kell majd hasznaljak ViewModelt!
 
             //meg kell nezzem, hogy a User a helyes valaszt valasztotta vagy sem, az szerint fog kapni pontot
-            if(isGoodAnswer()){
+            if (isGoodAnswer()) {
                 viewModel.increasePoints()
             }
 
             viewModel.increaseQuestionID()
 
-            if (currentQuestionID != quizController.questions.size-1) {
+            if (currentQuestionID != quizController.questions.size - 1) {
                 findNavController().navigate(R.id.action_questionFragment_self)
             } else {
                 findNavController().navigate(R.id.action_questionFragment_to_quizEndFragment)
@@ -185,14 +185,14 @@ class QuestionFragment : Fragment() {
 
         val index = radioGroup.checkedRadioButtonId
 
-        if(index < 0){
+        if (index < 0) {
             //a felhasznalo nem valasztott ki egy opciot se => false-t teritek vissza => nem fog kapni majd pontot
             return false
         }
 
         val valasztottOpcio = radioGroup.findViewById<RadioButton>(index)
 
-        if(valasztottOpcio.text == quizController.questions[currentQuestionID as Int].goodAnswer){
+        if (valasztottOpcio.text == quizController.questions[currentQuestionID as Int].goodAnswer) {
             return true
         }
 

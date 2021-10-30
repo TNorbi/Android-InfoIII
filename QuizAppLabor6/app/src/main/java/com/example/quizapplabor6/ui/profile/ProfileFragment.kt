@@ -1,11 +1,19 @@
 package com.example.quizapplabor6.ui.profile
 
 import android.os.Bundle
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.activityViewModels
+import com.example.quizapplabor6.models.SharedViewModel
+
+import android.text.Editable
 import com.example.quizapp.R
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +29,9 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var playerName: EditText
+    private lateinit var highScore: TextView
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +46,42 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        view?.apply {
+            initializeView(this)
+            updateView()
+            initializeListeners()
+        }
+
+        return view
+    }
+
+
+    private fun updateView() {
+        playerName.setText(viewModel.getPlayerName())
+        highScore.text = viewModel.getHighScore().toString()
+    }
+
+    private fun initializeView(view: View) {
+        playerName = view.findViewById(R.id.profilePersonName)
+        highScore = view.findViewById(R.id.highScoreShow)
+    }
+
+    private fun initializeListeners() {
+        //ez a Listener mindig akkor aktivalodik,amikor az Edittextem (jelen esetben a playerName) a content/szoveg modosul
+        playerName.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //miutan az Edittext szovege erteke (playerName) modosult akkor ezt elmentem a viewModelbe!
+                viewModel.setPlayerName(playerName.text.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+        })
     }
 
     companion object {

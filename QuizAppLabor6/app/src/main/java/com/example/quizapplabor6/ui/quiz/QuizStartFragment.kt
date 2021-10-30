@@ -16,7 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
-import com.example.quizapp.models.QuizViewModel
+import com.example.quizapplabor6.models.SharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +36,7 @@ class QuizStartFragment : Fragment() {
     private lateinit var userName: EditText
     private lateinit var startButton: Button
     private lateinit var contactButton: Button
-    private val viewModel: QuizViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
     private lateinit var assetManager: AssetManager
     private lateinit var toast: Toast
 
@@ -87,6 +87,7 @@ class QuizStartFragment : Fragment() {
     private fun initializeViewElements(view: View) {
         userName =
             view.findViewById(R.id.userName) //megadott view-ban levo EditTextet fogja megkeresni ID alapjan
+        userName.setText(viewModel.getPlayerName())
         startButton =
             view.findViewById(R.id.StartButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
         contactButton =
@@ -104,6 +105,7 @@ class QuizStartFragment : Fragment() {
                 toast.show()
             } else {
                 toast.cancel()
+                viewModel.setPlayerName(userName.text.toString())
                 viewModel.initializeQuizController(assetManager)
                 viewModel.getController().randomizeQuestions()
                 findNavController().navigate(R.id.action_quizStartFragment_to_questionFragment)

@@ -7,20 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
-import com.example.quizapp.models.QuizViewModel
-import java.time.Duration
+import com.example.quizapplabor6.models.SharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
 
 
 /**
@@ -36,7 +32,7 @@ class QuizEndFragment : Fragment() {
     private lateinit var quizEndTitle: TextView
     private lateinit var quizResult: TextView
     private lateinit var tryAgainButton: Button
-    private val viewModel : QuizViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,23 +56,33 @@ class QuizEndFragment : Fragment() {
             initializeListeners(this)
         }
 
+        //hogyha a User kurens eredmenye jobb lett,mint az eddigi legjobb (curent score > high score),akkor frissiteni fogom ezt a profiljaban
+        //ugyanakkor szolni fogok neki,hogy egy uj High Score-t ert el
+        if (viewModel.updateHighScore()) {
 
-        quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}"
+            quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}\n\nCongratulations!\nYou got a new High Score!\nYou can check it by viewing your Profile!"
+        }
+        else{
+            quizResult.text = "${viewModel.getPoints()}/${viewModel.getController().questions.size}"
+        }
+
+        viewModel.setPoints(0)
+        viewModel.setCurrentQuestionID(0)
 
         return view
     }
 
 
-    private fun resolveBackButton(){
+    private fun resolveBackButton() {
         //itt lekezelem a Back Buttont, hogy ne lepjen vissza az utolso kerdesre, ugymond elhitettem a userrel, hogy a back buttont nem lehet hasznalni a kiertekeleskor
-        val callBack = object: OnBackPressedCallback(true){
+        val callBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 return
             }
 
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callBack)
     }
 
     private fun initialize(view: View) {
@@ -86,10 +92,8 @@ class QuizEndFragment : Fragment() {
     }
 
     private fun initializeListeners(view: View) {
-        tryAgainButton.setOnClickListener{
+        tryAgainButton.setOnClickListener {
             //ha a User megnyomja a Try Again gombot akkor visszaugrunk a program kezdokepernyojere, vagyis vissza kell menjunk a Quiz Start Fragmentbe
-            viewModel.setPoints(0)
-            viewModel.setCurrentQuestionID(0)
             findNavController().navigate(R.id.action_quizEndFragment_to_quizStartFragment)
         }
     }

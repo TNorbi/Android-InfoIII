@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
-import com.example.quizapp.models.QuizViewModel
+import com.example.quizapplabor6.models.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 
@@ -62,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG_MAIN, "onCreate() called")
         setContentView(R.layout.activity_main)
 
-        val viewModel: QuizViewModel by viewModels()
+        val viewModel: SharedViewModel by viewModels()
 
         initializeView()
         initializeMenu()
