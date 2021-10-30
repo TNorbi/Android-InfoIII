@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_menu_quizTime -> findNavController(R.id.nav_host_fragment).navigate(R.id.quizStartFragment)
                 R.id.navigation_menu_profile -> findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment)
                 R.id.navigation_menu_ListOfQuestions -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionListFragment)
-                R.id.navigation_menu_newQuestion -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionDetailFragment)
+                R.id.navigation_menu_newQuestion -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionAddFragment)
             }
 
             drawerLayout.close()

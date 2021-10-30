@@ -2,6 +2,7 @@ package com.example.quizapplabor6.models
 
 import android.content.res.AssetManager
 import androidx.lifecycle.ViewModel
+import com.example.quizapp.models.Question
 import com.example.quizapp.models.QuizController
 
 class SharedViewModel : ViewModel() {
@@ -53,4 +54,8 @@ class SharedViewModel : ViewModel() {
     fun getCurrentQuestionID() = currentQuestionID
 
     fun getHighScore() = highScore
+
+    fun addQuestion(question: Question){
+        quizController.questions.add(question)
+    }
 }

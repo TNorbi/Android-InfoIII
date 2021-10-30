@@ -25,4 +25,8 @@
     <string name="menu_options">Menu Options</string>
     <string name="subtitle">Enjoy the quiz</string>
     <string name="profile_photo">profile photo</string>
+    <string name="answers_label">Answers</string>
+    <string name="add_question">ADD QUESTION</string>
+    <string name="type_your_question_here">Type your question here</string>
+    <string name="new_answer">New answer</string>
 </resources>
