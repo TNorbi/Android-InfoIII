@@ -37,16 +37,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/QuestionInputLayout" />
 
-    <RadioGroup
-        android:id="@+id/newQuestionRadioGroup"
+    <LinearLayout
+        android:id="@+id/answersLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/addQuestionButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answersLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/answersLabel"
+        app:layout_constraintVertical_bias="0.349">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/newQuestionRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editTextLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/addQuestionButton"
@@ -59,6 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <Button
         android:id="@+id/addAnswer"
         android:layout_width="wrap_content"
@@ -66,11 +89,9 @@
         android:layout_marginTop="40dp"
         android:text="@string/new_answer"
         android:textColor="#006064"
-        app:layout_constraintBottom_toTopOf="@+id/newQuestionRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toEndOf="@+id/answersLabel"
-        app:layout_constraintTop_toBottomOf="@+id/QuestionInputLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/QuestionInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

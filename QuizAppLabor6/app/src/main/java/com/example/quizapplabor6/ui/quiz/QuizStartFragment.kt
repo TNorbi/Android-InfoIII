@@ -37,7 +37,7 @@ class QuizStartFragment : Fragment() {
     private lateinit var startButton: Button
     private lateinit var contactButton: Button
     private val viewModel: SharedViewModel by activityViewModels()
-    private lateinit var assetManager: AssetManager
+
     private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,8 +94,7 @@ class QuizStartFragment : Fragment() {
             view.findViewById(R.id.contactButton) //a megadott kurens view-ban levo Buttont fogja megkeresni ID alapjan(ugyszinten xml fajlbol keres)
         toast = Toast.makeText(context, "Please give a name", Toast.LENGTH_SHORT)
 
-        assetManager =
-            activity?.assets!! //egy AssetManagert hozok letre,amit majd a fajl megnyitasara es annak tartalmara valo feldolgozasnal fogok felhasznalni a QuizController-ben!
+
     }
 
     private fun registerListeners(view: View) {
@@ -106,7 +105,6 @@ class QuizStartFragment : Fragment() {
             } else {
                 toast.cancel()
                 viewModel.setPlayerName(userName.text.toString())
-                viewModel.initializeQuizController(assetManager)
                 viewModel.getController().randomizeQuestions()
                 findNavController().navigate(R.id.action_quizStartFragment_to_questionFragment)
             }

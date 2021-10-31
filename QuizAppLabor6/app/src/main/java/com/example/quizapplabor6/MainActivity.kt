@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 
+import android.content.res.AssetManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var topAppBar: MaterialToolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var assetManager: AssetManager
+    private val viewModel: SharedViewModel by viewModels()
     //itt az onCreate fog eloszor meghivodni es majd csak az onStart
 
     override fun onStart() {
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG_MAIN, "onCreate() called")
         setContentView(R.layout.activity_main)
 
-        val viewModel: SharedViewModel by viewModels()
+
 
         initializeView()
         initializeMenu()
@@ -70,6 +73,8 @@ class MainActivity : AppCompatActivity() {
         topAppBar = findViewById(R.id.topAppBar)
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
+        assetManager = this.assets //egy AssetManagert hozok letre,amit majd a fajl megnyitasara es annak tartalmara valo feldolgozasnal fogok felhasznalni a QuizController-ben!
+        viewModel.initializeQuizController(assetManager)
     }
 
     private fun initializeMenu() {
