@@ -1,11 +1,22 @@
 package com.example.quizapplabor6.ui.questions
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.core.view.size
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
+import com.example.quizapp.models.Question
+import com.example.quizapplabor6.models.SharedViewModel
+import com.google.android.material.textfield.TextInputEditText
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +33,12 @@ class QuestionAddFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var questionTitle: TextInputEditText
+    private lateinit var addAnswerButton: Button
+    private lateinit var answerGroup: RadioGroup
+    private lateinit var addQuestionButton: Button
+    private val viewModel : SharedViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,7 +52,55 @@ class QuestionAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question_add, container, false)
+        val view = inflater.inflate(R.layout.fragment_question_add, container, false)
+
+        view?.apply {
+            initializeView(this)
+            initializeListeners()
+        }
+
+        return view
+    }
+
+
+    private fun initializeView(view: View) {
+        questionTitle = view.findViewById(R.id.newQuestionTitle)
+        addAnswerButton = view.findViewById(R.id.addAnswer)
+        answerGroup = view.findViewById(R.id.newQuestionRadioGroup)
+        addQuestionButton = view.findViewById(R.id.addQuestionButton)
+    }
+
+
+    private fun initializeListeners() {
+        addAnswerButton.setOnClickListener {
+            //ha a User megnyomja az ADD Answer gombot,akkor uj valasz fog megadni a kerdesre (dinamikusan adok hozza minden uj kerdeshez valaszt)
+            val radioButton = RadioButton(context)
+            radioButton.text = ""
+            radioButton.id = answerGroup.size
+            radioButton.setButtonDrawable(android.R.drawable.btn_radio)
+            radioButton.setTextColor(Color.parseColor("black"))
+            answerGroup.addView(radioButton)
+        }
+
+        addQuestionButton.setOnClickListener {
+            //Ha a User ranyom az ADD Question gombra,akkor az uj kerdest beteszem a viewModelben levo quizcontrollerbe
+            //egy Toast uzenettel fogom ertesiteni a Usert, hogy az uj kerdest sikeresen be lett teve
+            // vegezetul pedig megint meghivom a fragmentet (onmagat)
+
+            addNewQuestion()
+            Toast.makeText(context,"Question was added!",Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_questionAddFragment_self)
+        }
+    }
+
+    private fun addNewQuestion() {
+        val title = questionTitle.text.toString()
+        val answers = ArrayList<String>()
+        val rightAnswer = ""
+
+        val question = Question(answers,title,rightAnswer)
+
+        viewModel.getController().questions.add(question)
     }
 
     companion object {
