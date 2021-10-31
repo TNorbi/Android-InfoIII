@@ -1,5 +1,6 @@
 package com.example.quizapplabor6.ui.questions
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -39,6 +40,7 @@ class QuestionAddFragment : Fragment() {
     private lateinit var answerGroup: RadioGroup
     private lateinit var addQuestionButton: Button
     private lateinit var linearLayout: LinearLayout
+    private var canSubmit = true
     private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +60,22 @@ class QuestionAddFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
+            changeColorOfTitle()
             initializeListeners(this)
         }
 
         return view
+    }
+
+    private fun changeColorOfTitle() {
+        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
+        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
+        val nightModeFlags = requireContext().resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> questionTitle.setTextColor(Color.parseColor("white"))
+            Configuration.UI_MODE_NIGHT_NO,Configuration.UI_MODE_NIGHT_UNDEFINED -> questionTitle.setTextColor(Color.parseColor("black"))
+        }
     }
 
 
@@ -91,13 +105,16 @@ class QuestionAddFragment : Fragment() {
             // vegezetul pedig megint meghivom a fragmentet (onmagat)
 
             addNewQuestion()
-            Toast.makeText(context, "Question was added!", Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.action_questionAddFragment_self)
-            Log.i("qAddFragment",viewModel.getController().questions.toString())
+
+            if(canSubmit){
+                Toast.makeText(context, "Question was added!", Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_questionAddFragment_self)
+            }
         }
     }
 
     private fun addEdittext() {
+
         val inputText = EditText(context)
         inputText.id = linearLayout.size
         inputText.hint = "Type your answer here"
@@ -129,10 +146,19 @@ class QuestionAddFragment : Fragment() {
 
         //kikeresem a valaszok kozul a helyes valaszt is (vagyis azt,amelyik be volt jelolve a radioButton altal)
         val rightAnswerIndex = answerGroup.checkedRadioButtonId
+
+        if (rightAnswerIndex < 0){
+            Toast.makeText(context,"Please choose a correct answer!",Toast.LENGTH_LONG).show()
+            canSubmit = false
+            return
+        }
+
         val rightAnswer = linearLayout.findViewById<EditText>(rightAnswerIndex).text.toString()
 
         //letrehozom a Question objektumot,ahol el lesz tarolva a kerdes adatai
         val question = Question(answers, title, rightAnswer)
+
+        canSubmit = true
 
         //vegezetul pedig az uj kerdest beteszem a kerdes kollecioba
         viewModel.getController().questions.add(question)
