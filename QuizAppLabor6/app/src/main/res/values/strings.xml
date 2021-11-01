@@ -29,4 +29,6 @@
     <string name="add_question">ADD QUESTION</string>
     <string name="type_your_question_here">Type your question here</string>
     <string name="new_answer">New answer</string>
+    <string name="details_button_text">DETAILS</string>
+    <string name="delete_button_text">DELETE</string>
 </resources>

@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
+import com.example.quizapp.models.Question
+import com.example.quizapplabor6.adapter.QuizAdapter
+import com.example.quizapplabor6.models.MyItem
+import com.example.quizapplabor6.models.SharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +28,7 @@ class QuestionListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +43,55 @@ class QuestionListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question_list, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_question_list, container, false)
+
+        view?.apply {
+            initializeRecyclerView(this)
+        }
+
+        return view
+    }
+
+    private fun initializeRecyclerView(view: View) {
+        val list = uploadList(viewModel.getController().questions.size)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+
+        recyclerView.adapter = QuizAdapter(list)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+    }
+
+    //ez a fuggveny fel fogja tolteni egy listaban a kerdeseket es a hozza tartozo helyes valaszokat
+    private fun uploadList(size: Int): List<MyItem> {
+
+        val list = ArrayList<MyItem>()
+        val quizController = viewModel.getController()
+        var currentQuestion: Question
+        var currentTitle: String
+        var currentAnswer: String
+
+        for (i in 0 until size) {
+            currentQuestion = quizController.questions[i]
+            if (currentQuestion.text.length > 20) {
+                currentTitle = currentQuestion.text.substring(0..20) + "..."
+            } else {
+                currentTitle = currentQuestion.text
+            }
+
+            if (currentQuestion.goodAnswer.length > 10) {
+                currentAnswer = currentQuestion.goodAnswer.substring(0..10) + "..."
+            } else {
+                currentAnswer = currentQuestion.goodAnswer
+            }
+
+            val item = MyItem(currentTitle, currentAnswer)
+
+            list += item
+        }
+        //list += MyItem("asd","asd")
+        return list
     }
 
     companion object {
