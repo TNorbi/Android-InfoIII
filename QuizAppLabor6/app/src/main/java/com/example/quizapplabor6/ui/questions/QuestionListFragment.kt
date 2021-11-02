@@ -111,8 +111,8 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
         //majd kitorlom a kerdest a questions listabol
         if (!(position < 0 || position >= viewModel.getController().questions.size)) {
             viewModel.getController().questions.removeAt(position)
-            //adapter.notifyItemRemoved(position)
-            recyclerView.adapter?.notifyItemRemoved(position)
+            adapter.notifyItemRemoved(position)
+
         }
     }
 

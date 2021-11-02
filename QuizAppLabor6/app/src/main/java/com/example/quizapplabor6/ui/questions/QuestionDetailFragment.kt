@@ -1,6 +1,7 @@
 package com.example.quizapplabor6.ui.questions
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -78,6 +79,7 @@ class QuestionDetailFragment : Fragment() {
 
             if(currentAnswer == goodAnswer){
                 textView.setTextColor(Color.parseColor("teal"))
+                textView.setTypeface(null, Typeface.BOLD);
             }
             else{
                 textView.setTextColor(Color.parseColor("black"))
