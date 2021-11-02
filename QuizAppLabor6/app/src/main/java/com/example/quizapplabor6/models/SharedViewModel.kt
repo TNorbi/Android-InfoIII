@@ -11,7 +11,7 @@ class SharedViewModel : ViewModel() {
     private var currentQuestionID = 0
     private var playerName = ""
     private var highScore = 0
-    var currentPosition = 0
+    var adapterCurrentPosition = 0
 
     fun updateHighScore(): Boolean {
         if (highScore < currentpoints) {

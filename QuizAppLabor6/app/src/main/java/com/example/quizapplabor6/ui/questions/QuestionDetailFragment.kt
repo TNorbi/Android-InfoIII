@@ -1,11 +1,18 @@
 package com.example.quizapplabor6.ui.questions
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.marginBottom
+import androidx.fragment.app.activityViewModels
 import com.example.quizapp.R
+import com.example.quizapplabor6.models.SharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +28,9 @@ class QuestionDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var questionTitle: TextView
+    private lateinit var answersLayout: LinearLayout
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +45,47 @@ class QuestionDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_question_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_question_detail, container, false)
+
+        view?.apply {
+            initializeView(this)
+            displayQuestion()
+        }
+
+        return view
+    }
+
+    private fun initializeView(view: View) {
+        questionTitle = view.findViewById(R.id.questionDetail_title)
+        answersLayout = view.findViewById(R.id.questionDetail_answersLayout)
+    }
+
+    private fun displayQuestion() {
+        val position = viewModel.adapterCurrentPosition
+
+        questionTitle.text = viewModel.getController().questions[position].text
+
+        val answers = viewModel.getController().questions[position].answers
+        val goodAnswer = viewModel.getController().questions[position].goodAnswer
+
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.setMargins(20, 20, 20, 40)
+
+        for(currentAnswer in answers){
+            val textView = TextView(context)
+            textView.text = currentAnswer
+            textView.layoutParams = params
+
+            if(currentAnswer == goodAnswer){
+                textView.setTextColor(Color.parseColor("teal"))
+            }
+            else{
+                textView.setTextColor(Color.parseColor("black"))
+            }
+
+            answersLayout.addView(textView)
+        }
+
     }
 
     companion object {

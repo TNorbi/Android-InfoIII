@@ -1,6 +1,7 @@
 package com.example.quizapplabor6.ui.questions
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -120,13 +121,14 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
     }
 
     override fun onDetailsClick(position: Int) {
-        viewModel.currentPosition = position
+        viewModel.adapterCurrentPosition = position
         findNavController().navigate(R.id.action_questionListFragment_to_questionDetailFragment)
-
     }
 
     override fun onDeleteClick(position: Int) {
-        viewModel.getController().questions.removeAt(position)
-        adapter.notifyItemRemoved(position)
+        if(!(position < 0 || position >= viewModel.getController().questions.size)){
+            viewModel.getController().questions.removeAt(position)
+            adapter.notifyItemRemoved(position)
+        }
     }
 }
