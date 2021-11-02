@@ -24,21 +24,29 @@ class QuizAdapter(
 
         init {
             detailButtonView.setOnClickListener(this)
-            //deleteButtonView.setOnClickListener(this)
+            deleteButtonView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             val position = absoluteAdapterPosition
-            if(position != RecyclerView.NO_POSITION){
-                listener.onDetailsClick(position)
-                //listener.onDeleteClick(position)
+            if (position != RecyclerView.NO_POSITION) {
+
+                //hogyha a Details Buttonra kattintott a User, akkor meg kell jeleniteni a kerdes reszleteit
+                if (this.detailButtonView.isPressed) {
+                    listener.onDetailsClick(position)
+                }
+
+                //hogyha a Delete Buttonra kattintott a User, akkor a kivalasztott kerdest ki kell torolni
+                if (this.deleteButtonView.isPressed) {
+                    listener.onDeleteClick(position)
+                }
             }
         }
     }
 
     interface OnItemClickListener {
         fun onDetailsClick(position: Int)
-        fun onDeleteClick(position : Int)
+        fun onDeleteClick(position: Int)
     }
 
 

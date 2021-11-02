@@ -31,7 +31,7 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private val viewModel: SharedViewModel by activityViewModels()
-    private lateinit var list: List<MyItem>
+    private lateinit var list: ArrayList<MyItem>
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: QuizAdapter
 
@@ -60,7 +60,7 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
 
     private fun initializeRecyclerView(view: View) {
         list = uploadList(viewModel.getController().questions.size)
-        adapter = QuizAdapter(list,this)
+        adapter = QuizAdapter(list, this)
 
         //itt fogom inicializalni a RecyclerView-ot
         recyclerView = view.findViewById(R.id.recycler_view)
@@ -100,6 +100,22 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
         return list
     }
 
+    override fun onDetailsClick(position: Int) {
+        viewModel.adapterCurrentPosition = position
+        findNavController().navigate(R.id.action_questionListFragment_to_questionDetailFragment)
+    }
+
+    override fun onDeleteClick(position: Int) {
+        list.removeAt(position) //kitorlom a RecyclerView listajabol a kivalasztott kerdest
+
+        //majd kitorlom a kerdest a questions listabol
+        if (!(position < 0 || position >= viewModel.getController().questions.size)) {
+            viewModel.getController().questions.removeAt(position)
+            //adapter.notifyItemRemoved(position)
+            recyclerView.adapter?.notifyItemRemoved(position)
+        }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -118,17 +134,5 @@ class QuestionListFragment : Fragment(), QuizAdapter.OnItemClickListener {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-
-    override fun onDetailsClick(position: Int) {
-        viewModel.adapterCurrentPosition = position
-        findNavController().navigate(R.id.action_questionListFragment_to_questionDetailFragment)
-    }
-
-    override fun onDeleteClick(position: Int) {
-        if(!(position < 0 || position >= viewModel.getController().questions.size)){
-            viewModel.getController().questions.removeAt(position)
-            adapter.notifyItemRemoved(position)
-        }
     }
 }
