@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapplabor6
 
 
 import android.content.res.AssetManager
@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import com.example.quizapp.R
 import com.example.quizapplabor6.models.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
@@ -88,10 +89,16 @@ class MainActivity : AppCompatActivity() {
 
             when(menuItem.itemId){
                 R.id.navigation_menu_home -> findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragment)
-                R.id.navigation_menu_quizTime -> findNavController(R.id.nav_host_fragment).navigate(R.id.quizStartFragment)
+                R.id.navigation_menu_quizTime -> findNavController(R.id.nav_host_fragment).navigate(
+                    R.id.quizStartFragment
+                )
                 R.id.navigation_menu_profile -> findNavController(R.id.nav_host_fragment).navigate(R.id.profileFragment)
-                R.id.navigation_menu_ListOfQuestions -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionListFragment)
-                R.id.navigation_menu_newQuestion -> findNavController(R.id.nav_host_fragment).navigate(R.id.questionAddFragment)
+                R.id.navigation_menu_ListOfQuestions -> findNavController(R.id.nav_host_fragment).navigate(
+                    R.id.questionListFragment
+                )
+                R.id.navigation_menu_newQuestion -> findNavController(R.id.nav_host_fragment).navigate(
+                    R.id.questionAddFragment
+                )
             }
 
             drawerLayout.close()
