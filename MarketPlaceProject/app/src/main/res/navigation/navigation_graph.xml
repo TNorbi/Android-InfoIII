@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/fragmentRegister">
+    app:startDestination="@id/fragmentLogIn">
     <fragment
         android:id="@+id/fragmentLogIn"
         android:name="com.example.marketplaceproject.ui.bazaar_login.FragmentLogIn"

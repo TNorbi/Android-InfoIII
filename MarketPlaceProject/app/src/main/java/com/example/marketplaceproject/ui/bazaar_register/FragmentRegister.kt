@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
@@ -23,6 +25,11 @@ class FragmentRegister : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var firstName_input : EditText
+    private lateinit var lastName_input : EditText
+    private lateinit var email_input : EditText
+    private lateinit var password_input : EditText
+    private lateinit var registerButton : Button
     private lateinit var login_hiperlink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +63,11 @@ class FragmentRegister : Fragment() {
 
     private fun initializeView(view: View) {
         login_hiperlink = view.findViewById(R.id.register_login_hiperlink)
+        firstName_input = view.findViewById(R.id.register_irstName_input)
+        lastName_input = view.findViewById(R.id.register_lastName_input)
+        email_input = view.findViewById(R.id.register_email_input)
+        password_input = view.findViewById(R.id.register_password_input)
+        registerButton = view.findViewById(R.id.register_button)
     }
 
     companion object {

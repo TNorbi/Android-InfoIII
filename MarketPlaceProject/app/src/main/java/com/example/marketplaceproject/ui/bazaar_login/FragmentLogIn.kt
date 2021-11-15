@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +24,10 @@ class FragmentLogIn : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var email_input : EditText
+    private lateinit var password_input: EditText
+    private lateinit var loginButton: Button
+    private lateinit var registerButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +42,32 @@ class FragmentLogIn : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_log_in, container, false)
+        val view = inflater.inflate(R.layout.fragment_log_in, container, false)
+
+        view?.apply {
+            initializeView(this)
+            initializeListeners(this)
+        }
+
+        return view
+    }
+
+    private fun initializeListeners(view: View) {
+        loginButton.setOnClickListener{
+            //itt meg kell hivjam majd a viewModelben a login Post kereset(coroutine hivas)
+        }
+
+        registerButton.setOnClickListener {
+            //ha a User ranyom a Sign Up gombra,akkor atnavigalja a Register reszre
+            findNavController().navigate(R.id.action_fragmentLogIn_to_fragmentRegister)
+        }
+    }
+
+    private fun initializeView(view: View) {
+        email_input = view.findViewById(R.id.emailInput)
+        password_input = view.findViewById(R.id.passwordInput)
+        loginButton  = view.findViewById(R.id.logInButton)
+        registerButton = view.findViewById(R.id.login_registerButton)
     }
 
     companion object {
