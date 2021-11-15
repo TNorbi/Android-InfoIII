@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Market Place Project</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_in_page_title">Log In</string>
+    <string name="minta_gmail_com">minta@gmail.com</string>
+    <string name="password_hint_text">Password</string>
+    <string name="log_in_button_text">Log In</string>
+    <string name="login_registerText">New to Bazaar?</string>
+    <string name="sign_up_buttonText">Sign Up</string>
+    <string name="registerTitle_text">Register</string>
+    <string name="first_name_hintText">First Name</string>
+    <string name="last_name_hintText">Last Name</string>
+    <string name="register_buttonText">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
 </resources>
