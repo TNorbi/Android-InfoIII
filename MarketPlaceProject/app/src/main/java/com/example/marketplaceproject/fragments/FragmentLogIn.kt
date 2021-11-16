@@ -1,8 +1,9 @@
-package com.example.marketplaceproject.ui.bazaar_login
+package com.example.marketplaceproject.fragments
 
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.login.LoginViewModel
+import com.example.marketplaceproject.viewModels.login.LoginViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,10 +34,11 @@ class FragmentLogIn : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var title : TextView
-    private lateinit var email_input : EditText
-    private lateinit var password_input: EditText
+    private lateinit var usernameInput : EditText
+    private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
+    private lateinit var loginViewModel : LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,10 @@ class FragmentLogIn : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //itt letrehozom a login viewModeljet!
+        val factory = LoginViewModelFactory(this.requireContext(), Repository()) //factory altal peldanyositani fogom a loginViewModelt!
+        loginViewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java) //itt fog lenyegeben letrejonni a loginViewModel!
     }
 
     override fun onCreateView(
@@ -54,12 +65,43 @@ class FragmentLogIn : Fragment() {
             initializeListeners(this)
         }
 
+        //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
+        //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
+        loginViewModel.token.observe(viewLifecycleOwner){
+            Log.d("xxx", "navigate to list")
+            findNavController().navigate(R.id.action_fragmentLogIn_to_timelineFragment)
+        }
+
         return view
     }
 
     private fun initializeListeners(view: View) {
         loginButton.setOnClickListener{
             //itt meg kell hivjam majd a viewModelben a login Post kereset(coroutine hivas)
+
+            //hogyha a User nem adta meg a username-t vagy jelszavat
+            //akkor emlekeztesse a Usert, hogy meg kell adja ezeket(ez esetben nem fog elvegzodni a login muvelet)!
+            if(usernameInput.text.isEmpty()){
+                Toast.makeText(context,"Username field is empty!",Toast.LENGTH_LONG).show()
+            }
+            else if(passwordInput.text.isEmpty()){
+                Toast.makeText(context,"Password field is empty!",Toast.LENGTH_LONG).show()
+            }
+            else{
+                //itt a loginViewModelnek atadom a username-et, illetve a passwordot, hogy majd felhasznalhassam ezt a login-nal!
+                loginViewModel.user.value.let {
+                    if (it != null) {
+                        it.username = usernameInput.text.toString() //eltarolom a username-et loginra a viewModelben!
+                    }
+
+                    if (it != null) {
+                        it.password = passwordInput.text.toString() //atadom a viewModelnek a passwordot
+                    }
+                }
+
+                //itt meghivom a login fuggvenyt(maga a coroutine hivas maga a viewModelben lesz es nem a fragmentben!)
+                loginViewModel.login()
+            }
         }
 
         registerButton.setOnClickListener {
@@ -70,8 +112,8 @@ class FragmentLogIn : Fragment() {
 
     private fun initializeView(view: View) {
         title = view.findViewById(R.id.logInTitle)
-        email_input = view.findViewById(R.id.emailInput)
-        password_input = view.findViewById(R.id.passwordInput)
+        usernameInput = view.findViewById(R.id.login_username_input)
+        passwordInput = view.findViewById(R.id.passwordInput)
         loginButton  = view.findViewById(R.id.logInButton)
         registerButton = view.findViewById(R.id.login_registerButton)
     }

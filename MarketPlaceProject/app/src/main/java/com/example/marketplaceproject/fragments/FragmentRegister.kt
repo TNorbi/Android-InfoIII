@@ -1,4 +1,4 @@
-package com.example.marketplaceproject.ui.bazaar_register
+package com.example.marketplaceproject.fragments
 
 import android.content.res.Configuration
 import android.graphics.Color

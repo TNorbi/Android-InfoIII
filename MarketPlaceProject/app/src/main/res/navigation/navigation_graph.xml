@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_fragmentLogIn_to_fragmentRegister"
             app:destination="@id/fragmentRegister" />
+        <action
+            android:id="@+id/action_fragmentLogIn_to_timelineFragment"
+            app:destination="@id/timelineFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentRegister"
@@ -22,4 +25,9 @@
             android:id="@+id/action_fragmentRegister_to_fragmentLogIn"
             app:destination="@id/fragmentLogIn" />
     </fragment>
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="com.example.marketplaceproject.ui.bazaar_mainScreen.TimeLineFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_timeline" />
 </navigation>

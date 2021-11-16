@@ -11,4 +11,6 @@
     <string name="last_name_hintText">Last Name</string>
     <string name="register_buttonText">Register</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="username_input_hintText">Username</string>
+    <string name="order_button_text">Order Now</string>
 </resources>
