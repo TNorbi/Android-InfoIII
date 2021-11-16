@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.adapters.TimelineAdapter
 import com.example.marketplaceproject.models.Product
-import com.example.marketplaceproject.models.ProductItem
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
@@ -32,7 +31,6 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var timelineViewModel: TimelineViewModel
-    private lateinit var list: ArrayList<ProductItem>
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TimelineAdapter
 
@@ -44,7 +42,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         }
 
         //letrehozom a timeline viewmodeljet
-        val factory = TimelineViewModelFactory(this.requireContext(), Repository())
+        val factory = TimelineViewModelFactory(Repository())
         timelineViewModel = ViewModelProvider(this,factory).get(TimelineViewModel::class.java)
     }
 
@@ -57,6 +55,13 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
 
         view?.apply {
             //inicializalasok
+            setupRecyclerView(view)
+
+            timelineViewModel.products.observe(viewLifecycleOwner){
+                adapter.setData(timelineViewModel.products.value as ArrayList<Product>)
+                adapter.notifyDataSetChanged()
+            }
+
         }
 
         return view
@@ -79,37 +84,6 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.setHasFixedSize(true)
-    }
-
-    //ez a fuggveny fel fogja tolteni egy listaban a kerdeseket es a hozza tartozo helyes valaszokat
-    private fun uploadList(size: Int): ArrayList<ProductItem> {
-
-        val list = ArrayList<ProductItem>()
-        val quizController = viewModel.getController()
-        var currentQuestion: Question
-        var currentTitle: String
-        var currentAnswer: String
-
-        for (i in 0 until size) {
-            currentQuestion = quizController.questions[i]
-            if (currentQuestion.text.length > 20) {
-                currentTitle = currentQuestion.text.substring(0..20) + "..."
-            } else {
-                currentTitle = currentQuestion.text
-            }
-
-            if (currentQuestion.goodAnswer.length > 10) {
-                currentAnswer = currentQuestion.goodAnswer.substring(0..10) + "..."
-            } else {
-                currentAnswer = currentQuestion.goodAnswer
-            }
-
-            val item = ProductItem(currentTitle, currentAnswer)
-
-            list += item
-        }
-
-        return list
     }
 
     override fun onDetailsClick(position: Int) {

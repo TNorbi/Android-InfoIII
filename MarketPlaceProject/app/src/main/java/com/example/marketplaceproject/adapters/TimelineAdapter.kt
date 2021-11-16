@@ -1,6 +1,7 @@
 package com.example.marketplaceproject.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.models.Product
 
@@ -60,14 +62,31 @@ class TimelineAdapter(
         val currentItem = list[position] //itt lekerem a listabol a kurens pozicioban levo elemet
 
         //a ViewHolder tartalmat fogom frissiteni itt
-
-        //holder.productImageView = currentItem.productImage
-        //holder.ownerImageView = currentItem.ownerImage
-
+        val priceText = currentItem.price_per_unit + " " + currentItem.price_type + "/" + currentItem.amount_type
         holder.ownerNameView.text = currentItem.username
         holder.productNameView.text = currentItem.title
-        holder.productPriceView.text = currentItem.price_per_unit
+        holder.productPriceView.text = priceText
+
+        val images = currentItem.images
+        if( images != null && images.size > 0) {
+            Log.d("xxx", "#num_images: ${images.size}")
+        }
+
+        Glide.with(this.context)
+            .load(R.drawable.ic_bazaar_launcher_foreground)
+            .override(200, 200)
+            .into(holder.productImageView)
+
+        Glide.with(this.context)
+            .load(R.drawable.ic_bazaar_launcher_foreground)
+            .override(200, 200)
+            .into(holder.ownerImageView)
     }
 
     override fun getItemCount() = list.size
+
+    // Update the list
+    fun setData(newlist: ArrayList<Product>){
+        list = newlist
+    }
 }

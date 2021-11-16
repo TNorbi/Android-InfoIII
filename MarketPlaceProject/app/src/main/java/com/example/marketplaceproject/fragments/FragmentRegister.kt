@@ -10,8 +10,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.register.RegisterViewModel
+import com.example.marketplaceproject.viewModels.register.RegisterViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +31,7 @@ class FragmentRegister : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var registerViewModel: RegisterViewModel
     private lateinit var title: TextView
     private lateinit var registerButtomText: TextView
     private lateinit var firstName_input: EditText
@@ -42,6 +47,10 @@ class FragmentRegister : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //itt letrehozom a registerViewModelt!
+        val factory = RegisterViewModelFactory(this.requireContext(), Repository())
+        registerViewModel = ViewModelProvider(this,factory).get(RegisterViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -57,12 +66,16 @@ class FragmentRegister : Fragment() {
             initializeListeners(this)
         }
 
-        return view;
+        return view
     }
 
     private fun initializeListeners(view: View) {
         login_hiperlink.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentRegister_to_fragmentLogIn)
+        }
+
+        registerButton.setOnClickListener {
+            //meg kell nezzem, ha a User minden egyes adatot megadott!
         }
     }
 

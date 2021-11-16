@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentLogIn">
     <fragment
         android:id="@+id/fragmentLogIn"
-        android:name="com.example.marketplaceproject.ui.bazaar_login.FragmentLogIn"
+        android:name="com.example.marketplaceproject.fragments.FragmentLogIn"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentRegister"
-        android:name="com.example.marketplaceproject.ui.bazaar_register.FragmentRegister"
+        android:name="com.example.marketplaceproject.fragments.FragmentRegister"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/timelineFragment"
-        android:name="com.example.marketplaceproject.ui.bazaar_mainScreen.TimeLineFragment"
+        android:name="com.example.marketplaceproject.fragments.TimeLineFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_timeline" />
 </navigation>

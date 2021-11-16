@@ -63,13 +63,13 @@ class FragmentLogIn : Fragment() {
             initializeView(this)
             changeColorOfTitle()
             initializeListeners(this)
-        }
 
-        //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
-        //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
-        loginViewModel.token.observe(viewLifecycleOwner){
-            Log.d("xxx", "navigate to list")
-            findNavController().navigate(R.id.action_fragmentLogIn_to_timelineFragment)
+            //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
+            //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
+            loginViewModel.token.observe(viewLifecycleOwner){
+                Log.d("xxx", "navigate to list")
+                findNavController().navigate(R.id.action_fragmentLogIn_to_timelineFragment)
+            }
         }
 
         return view

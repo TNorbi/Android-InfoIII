@@ -19,3 +19,14 @@ data class LoginResponse (
     var creation_time: Long,
     var refresh_time: Long
 )
+
+@JsonClass(generateAdapter = true)
+data class RegisterRequest(
+    var username: String,
+    var password: String,
+    var email: String,
+    var phone_number: String,
+    var firebase_token:String,
+    //var userImage : String
+)
+
