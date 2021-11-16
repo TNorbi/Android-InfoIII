@@ -2,7 +2,7 @@ package com.example.marketplaceproject.models
 
 import com.squareup.moshi.JsonClass
 
-data class User(var username: String="", var password: String="", val email: String="", var phone_number: String="")
+data class User(var username: String="", var password: String="", var email: String="", var phone_number: String="")
 
 @JsonClass(generateAdapter = true)
 data class LoginRequest (

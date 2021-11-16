@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
@@ -34,8 +35,7 @@ class FragmentRegister : Fragment() {
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var title: TextView
     private lateinit var registerButtomText: TextView
-    private lateinit var firstName_input: EditText
-    private lateinit var lastName_input: EditText
+    private lateinit var usernameInput: EditText
     private lateinit var email_input: EditText
     private lateinit var password_input: EditText
     private lateinit var registerButton: Button
@@ -76,6 +76,27 @@ class FragmentRegister : Fragment() {
 
         registerButton.setOnClickListener {
             //meg kell nezzem, ha a User minden egyes adatot megadott!
+
+            if(usernameInput.text.isEmpty() || email_input.text.isEmpty() || password_input.text.isEmpty()){
+                Toast.makeText(context,"Username,email or password is missing!",Toast.LENGTH_LONG).show()
+            }
+            else{
+                registerViewModel.user.value.let {
+                    if (it != null) {
+                        it.username = usernameInput.text.toString()
+                    }
+
+                    if (it != null) {
+                        it.email = email_input.text.toString()
+                    }
+
+                    if (it != null) {
+                        it.password = password_input.text.toString()
+                    }
+                }
+
+                registerViewModel.register()
+            }
         }
     }
 
@@ -83,8 +104,7 @@ class FragmentRegister : Fragment() {
         title = view.findViewById(R.id.registerTitle)
         registerButtomText = view.findViewById(R.id.register_bottom_text)
         login_hiperlink = view.findViewById(R.id.register_login_hiperlink)
-        firstName_input = view.findViewById(R.id.register_irstName_input)
-        lastName_input = view.findViewById(R.id.register_lastName_input)
+        usernameInput = view.findViewById(R.id.login_username_input)
         email_input = view.findViewById(R.id.register_email_input)
         password_input = view.findViewById(R.id.register_password_input)
         registerButton = view.findViewById(R.id.register_button)

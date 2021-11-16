@@ -2,6 +2,7 @@ package com.example.marketplaceproject.viewModels.register
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,9 +25,31 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
             val request =
                 RegisterRequest(username = user.value!!.username, password = user.value!!.password, email = user.value!!.email, phone_number = user.value!!.phone_number, firebase_token = "token")
             try {
-                val result = repository.register(request)
-                Log.d("xxx", "Register result:  $result")
-            } catch (e: Exception) {
+                repository.register(request)
+            } catch (e: retrofit2.HttpException) {
+                Log.d("xxx", "RegisterViewModel - exception: $e, code : ${e.code()}")
+
+                //itt lekezelem a HTTP hibakat
+                if(e.code() == 300){
+                    Toast.makeText(context,"One of the following  username , password ,\n" +
+                            "email , phone_number, userImage are either\n" +
+                            "empty or missing.",Toast.LENGTH_LONG).show()
+                }
+
+                if(e.code() == 301){
+                    Toast.makeText(context,"Wrong file format. Only jpeg or png are allowed.",Toast.LENGTH_LONG).show()
+                }
+
+                if(e.code() == 302){
+                    Toast.makeText(context,"Email incorrect. You need to enter another\n" +
+                            "email.",Toast.LENGTH_LONG).show()
+                }
+
+                if(e.code() == 303){
+                    Toast.makeText(context,"Username,email or phone number already used.",Toast.LENGTH_LONG).show()
+                }
+
+            }catch (e: Exception){
                 Log.d("xxx", "RegisterViewModel - exception: $e")
             }
         }
