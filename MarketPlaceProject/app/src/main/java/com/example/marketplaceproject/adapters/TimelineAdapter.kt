@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marketplaceproject.R
-import com.example.marketplaceproject.models.ProductItem
+import com.example.marketplaceproject.models.Product
 
 class TimelineAdapter(
-    private val list: List<ProductItem>,
+    private var list: ArrayList<Product>,
+    private val context: Context,
     private val listener: OnItemClickListener
 ): RecyclerView.Adapter<TimelineAdapter.DataViewHolder>() {
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -61,9 +63,10 @@ class TimelineAdapter(
 
         //holder.productImageView = currentItem.productImage
         //holder.ownerImageView = currentItem.ownerImage
-        holder.ownerNameView.text = currentItem.ownerName
-        holder.productNameView.text = currentItem.productName
-        holder.productPriceView.text = currentItem.productPrice
+
+        holder.ownerNameView.text = currentItem.username
+        holder.productNameView.text = currentItem.title
+        holder.productPriceView.text = currentItem.price_per_unit
     }
 
     override fun getItemCount() = list.size

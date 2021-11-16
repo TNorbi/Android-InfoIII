@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.adapters.TimelineAdapter
+import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.models.ProductItem
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
@@ -61,7 +62,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         return view
     }
 
-    private fun initializeRecyclerView(view: View) {
+    /*private fun initializeRecyclerView(view: View) {
         list = uploadList(viewModel.getController().questions.size)
         adapter = TimelineAdapter(list, this)
 
@@ -69,6 +70,14 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+    }*/
+
+    private fun setupRecyclerView(view: View){
+        adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.setHasFixedSize(true)
     }
 

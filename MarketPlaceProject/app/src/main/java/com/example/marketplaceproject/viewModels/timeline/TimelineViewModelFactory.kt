@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.marketplaceproject.repository.Repository
 
-class TimelineViewModelFactory(private val context: Context, private val repository: Repository) : ViewModelProvider.Factory {
+class TimelineViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TimelineViewModel(context, repository) as T
+        return TimelineViewModel(repository) as T
     }
 }
