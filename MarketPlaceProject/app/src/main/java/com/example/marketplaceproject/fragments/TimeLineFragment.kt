@@ -15,6 +15,7 @@ import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +34,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TimelineAdapter
+    private lateinit var bottomNavigationMenuView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,27 +58,19 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         view?.apply {
             //inicializalasok
             setupRecyclerView(view)
+            bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
+        }
 
-            timelineViewModel.products.observe(viewLifecycleOwner){
-                adapter.setData(timelineViewModel.products.value as ArrayList<Product>)
-                adapter.notifyDataSetChanged()
-            }
+        //megjelenitem a menut a timeline fragmentben
+        bottomNavigationMenuView.visibility = View.VISIBLE
 
+        timelineViewModel.products.observe(viewLifecycleOwner){
+            adapter.setData(timelineViewModel.products.value as ArrayList<Product>)
+            adapter.notifyDataSetChanged()
         }
 
         return view
     }
-
-    /*private fun initializeRecyclerView(view: View) {
-        list = uploadList(viewModel.getController().questions.size)
-        adapter = TimelineAdapter(list, this)
-
-        //itt fogom inicializalni a RecyclerView-ot
-        recyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-    }*/
 
     private fun setupRecyclerView(view: View){
         adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)

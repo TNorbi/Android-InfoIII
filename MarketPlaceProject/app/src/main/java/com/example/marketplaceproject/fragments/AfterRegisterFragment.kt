@@ -65,7 +65,7 @@ class AfterRegisterFragment : Fragment() {
             initializeListeners(this)
         }
 
-        //elrejtem a Bottom Navigation a Register fragmentben
+        //elrejtem a Bottom Navigation az AfterRegister fragmentben
         bottomNavigationMenuView.visibility = View.GONE
 
         registerViewModel.activateResponse.observe(viewLifecycleOwner){
