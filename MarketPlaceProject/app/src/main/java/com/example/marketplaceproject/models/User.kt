@@ -1,6 +1,7 @@
 package com.example.marketplaceproject.models
 
 import com.squareup.moshi.JsonClass
+import java.sql.Timestamp
 
 data class User(var username: String="", var password: String="", var email: String="", var phone_number: String="")
 
@@ -18,6 +19,14 @@ data class LoginResponse (
     var token: String,
     var creation_time: Long,
     var refresh_time: Long
+)
+
+@JsonClass(generateAdapter = true)
+data class RegisterResponse(
+    var code: String,
+    var message: String,
+    var creation_time: Long,
+    var timestamp: Long?
 )
 
 @JsonClass(generateAdapter = true)

@@ -1,9 +1,6 @@
 package com.example.marketplaceproject.api
 
-import com.example.marketplaceproject.models.LoginRequest
-import com.example.marketplaceproject.models.LoginResponse
-import com.example.marketplaceproject.models.ProductResponse
-import com.example.marketplaceproject.models.RegisterRequest
+import com.example.marketplaceproject.models.*
 import com.example.marketplaceproject.utils.Constants
 import retrofit2.http.*
 
@@ -15,5 +12,8 @@ interface MarketApi {
     suspend fun getProducts(@Header("token") token: String): ProductResponse
 
     @POST(Constants.REGISTER_URL)
-    suspend fun register(@Body request: RegisterRequest)
+    suspend fun register(@Body request: RegisterRequest) : RegisterResponse
+
+    @GET(Constants.ACTIVATE_USER_URL)
+    suspend fun activateUser(username: String)
 }

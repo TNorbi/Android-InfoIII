@@ -15,4 +15,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="username_input_hintText">Username</string>
     <string name="order_button_text">Order Now</string>
+    <string name="after_register_title_text">Thank you for joining the Bazaar\'s community! We will send an activation link to your email adress!</string>
+    <string name="activation_textviewLink_text">Didn\'t receive email? Please click here in order to activate your account!</string>
 </resources>

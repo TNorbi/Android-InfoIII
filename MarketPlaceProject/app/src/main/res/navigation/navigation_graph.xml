@@ -24,10 +24,18 @@
         <action
             android:id="@+id/action_fragmentRegister_to_fragmentLogIn"
             app:destination="@id/fragmentLogIn" />
+        <action
+            android:id="@+id/action_fragmentRegister_to_afterRegisterFragment"
+            app:destination="@id/afterRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/timelineFragment"
         android:name="com.example.marketplaceproject.fragments.TimeLineFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_timeline" />
+    <fragment
+        android:id="@+id/afterRegisterFragment"
+        android:name="com.example.marketplaceproject.fragments.AfterRegisterFragment"
+        android:label="fragment_after_register"
+        tools:layout="@layout/fragment_after_register" />
 </navigation>

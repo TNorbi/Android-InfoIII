@@ -14,6 +14,7 @@ import com.example.marketplaceproject.repository.Repository
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(val context: Context,val repository: Repository) : ViewModel() {
+    var activateResponse: MutableLiveData<String> = MutableLiveData()
     var user = MutableLiveData<User>()
 
     init {
@@ -25,10 +26,11 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
             val request =
                 RegisterRequest(username = user.value!!.username, password = user.value!!.password, email = user.value!!.email, phone_number = user.value!!.phone_number, firebase_token = "token")
             try {
-                repository.register(request)
+                val result = repository.register(request)
+                activateResponse.value = result.creation_time.toString()
                 Log.d("xxx","User successfully created!")
                 //itt kene atvaltsak egy ablakra,ahol megjelenitem a Usernek,
-                // hogy a Regisztracio sikeres lett eshogy az email postajat megnezve tudja majd aktivalni a fiokjat!
+                // hogy a Regisztracio sikeres lett eshogy az email postajat megnezve tudja majd aktivalni a fiokjat
             } catch (e: retrofit2.HttpException) {
                 Log.d("xxx", "RegisterViewModel - exception: $e, code : ${e.code()}")
 

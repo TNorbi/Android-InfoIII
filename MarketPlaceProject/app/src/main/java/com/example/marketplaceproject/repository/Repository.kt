@@ -1,10 +1,7 @@
 package com.example.marketplaceproject.repository
 
 import com.example.marketplaceproject.api.RetrofitInstance
-import com.example.marketplaceproject.models.LoginRequest
-import com.example.marketplaceproject.models.LoginResponse
-import com.example.marketplaceproject.models.ProductResponse
-import com.example.marketplaceproject.models.RegisterRequest
+import com.example.marketplaceproject.models.*
 
 class Repository {
     suspend fun login(request: LoginRequest): LoginResponse {
@@ -15,7 +12,11 @@ class Repository {
         return RetrofitInstance.api.getProducts(token)
     }
 
-    suspend fun register(request: RegisterRequest){
+    suspend fun register(request: RegisterRequest): RegisterResponse {
         return RetrofitInstance.api.register(request)
+    }
+
+    suspend fun activateUser(username: String){
+        return RetrofitInstance.api.activateUser(username)
     }
 }
