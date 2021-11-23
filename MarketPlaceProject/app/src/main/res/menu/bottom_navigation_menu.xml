@@ -8,10 +8,12 @@
     <item
         android:id="@+id/my_market"
         android:enabled="true"
+        android:icon="@drawable/ic_my_market"
         android:title="@string/my_market_text"/>
 
     <item
         android:id="@+id/my_fares"
         android:enabled="true"
+        android:icon="@drawable/ic_my_fares"
         android:title="@string/my_fares_text"/>
 </menu>
