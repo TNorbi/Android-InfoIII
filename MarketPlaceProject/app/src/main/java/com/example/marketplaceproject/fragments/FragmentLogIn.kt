@@ -18,6 +18,7 @@ import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.login.LoginViewModel
 import com.example.marketplaceproject.viewModels.login.LoginViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +40,7 @@ class FragmentLogIn : Fragment() {
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
     private lateinit var loginViewModel : LoginViewModel
+    private lateinit var bottomNavigationMenuView : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +65,16 @@ class FragmentLogIn : Fragment() {
             initializeView(this)
             changeColorOfTitle()
             initializeListeners(this)
+        }
 
-            //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
-            //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
-            loginViewModel.token.observe(viewLifecycleOwner){
-                Log.d("xxx", "navigate to list")
-                findNavController().navigate(R.id.action_fragmentLogIn_to_timelineFragment)
-            }
+        //elrejtem a Bottom Navigationt a Login fragmentben
+        bottomNavigationMenuView.visibility = View.GONE
+
+        //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
+        //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
+        loginViewModel.token.observe(viewLifecycleOwner){
+            Log.d("xxx", "navigate to list")
+            findNavController().navigate(R.id.action_fragmentLogIn_to_timelineFragment)
         }
 
         return view
@@ -116,6 +121,7 @@ class FragmentLogIn : Fragment() {
         passwordInput = view.findViewById(R.id.passwordInput)
         loginButton  = view.findViewById(R.id.logInButton)
         registerButton = view.findViewById(R.id.login_registerButton)
+        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTitle() {

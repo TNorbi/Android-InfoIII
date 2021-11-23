@@ -50,7 +50,7 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
                 }
 
                 if(e.code() == 303){
-                    Toast.makeText(context,"Username,email or phone number already used.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Username or email already used.",Toast.LENGTH_LONG).show()
                 }
 
             }catch (e: Exception){

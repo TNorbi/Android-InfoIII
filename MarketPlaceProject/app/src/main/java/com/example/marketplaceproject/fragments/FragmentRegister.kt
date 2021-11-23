@@ -18,6 +18,8 @@ import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.register.RegisterViewModel
 import com.example.marketplaceproject.viewModels.register.RegisterViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +43,7 @@ class FragmentRegister : Fragment() {
     private lateinit var passwordInput: EditText
     private lateinit var registerButton: Button
     private lateinit var loginHiperlink: TextView
+    private lateinit var bottomNavigationMenuView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +69,9 @@ class FragmentRegister : Fragment() {
             changeColorOfTextView()
             initializeListeners(this)
         }
+
+        //elrejtem a Bottom Navigation a Register fragmentben
+        bottomNavigationMenuView.visibility = View.GONE
 
         registerViewModel.registerResponse.observe(viewLifecycleOwner){
             Log.d("xxx", "navigate to after registration fragment")
@@ -114,6 +120,7 @@ class FragmentRegister : Fragment() {
         emailInput = view.findViewById(R.id.register_email_input)
         passwordInput = view.findViewById(R.id.register_password_input)
         registerButton = view.findViewById(R.id.register_button)
+        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTextView() {

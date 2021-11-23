@@ -15,11 +15,7 @@ import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.register.RegisterViewModel
 import com.example.marketplaceproject.viewModels.register.RegisterViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-
-
-
-
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +35,7 @@ class AfterRegisterFragment : Fragment() {
     private lateinit var afterRegisterTitle: TextView
     private lateinit var activationTextView: TextView
     private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var bottomNavigationMenuView: BottomNavigationView
 
     //itt letre kell hozzam a registration viewModeljet(peldanyositani)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +65,9 @@ class AfterRegisterFragment : Fragment() {
             initializeListeners(this)
         }
 
+        //elrejtem a Bottom Navigation a Register fragmentben
+        bottomNavigationMenuView.visibility = View.GONE
+
         registerViewModel.activateResponse.observe(viewLifecycleOwner){
             //hogyha visszakapjuk a HTML kodot,akkor azt jelenti, hogy sikeresen aktivalva lett a user!
             Toast.makeText(context,"Your account has been activated! Now you can log in!",Toast.LENGTH_LONG).show()
@@ -87,6 +87,7 @@ class AfterRegisterFragment : Fragment() {
     private fun initializeView(view: View) {
         afterRegisterTitle = view.findViewById(R.id.after_register_title)
         activationTextView = view.findViewById(R.id.email_not_received)
+        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTitle() {
