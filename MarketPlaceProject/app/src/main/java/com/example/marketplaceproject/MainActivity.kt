@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragmentLogIn -> hideBottomNav()
                 R.id.fragmentRegister -> hideBottomNav()
                 R.id.afterRegisterFragment -> hideBottomNav()
-                R.id.timelineFragment -> showBottomNav()
                 else -> showBottomNav()
             }
         }

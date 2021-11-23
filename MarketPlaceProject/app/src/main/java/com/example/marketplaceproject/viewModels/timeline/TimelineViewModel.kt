@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class TimelineViewModel(private val repository: Repository): ViewModel() {
     var products: MutableLiveData<List<Product>> = MutableLiveData()
+    var adapterCurrentPosition = 0
 
     init{
         Log.d("xxx", "ListViewModel constructor - Token: ${TokenApplication.token}")
