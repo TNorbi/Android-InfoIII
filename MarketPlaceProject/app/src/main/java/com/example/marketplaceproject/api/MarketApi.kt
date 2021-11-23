@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.api
 
+import android.text.Html
 import com.example.marketplaceproject.models.*
 import com.example.marketplaceproject.utils.Constants
 import retrofit2.http.*

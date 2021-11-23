@@ -6,8 +6,6 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marketplaceproject.TokenApplication
-import com.example.marketplaceproject.models.LoginRequest
 import com.example.marketplaceproject.models.RegisterRequest
 import com.example.marketplaceproject.models.User
 import com.example.marketplaceproject.repository.Repository
@@ -64,8 +62,9 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
     fun activateUser(){
         viewModelScope.launch {
             try{
+                Log.d("xxx","Username: ${user.value!!.username}")
                 val result = repository.activateUser(user.value!!.username)
-                activateResponse.value = result.htmlResponse.toString()
+                activateResponse.value = result.toString()
             }catch (e: retrofit2.HttpException){
 
                 if(e.code() == 301){

@@ -9,12 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.register.RegisterViewModel
 import com.example.marketplaceproject.viewModels.register.RegisterViewModelFactory
+import androidx.lifecycle.ViewModelProvider
+
+
+
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,8 +49,10 @@ class AfterRegisterFragment : Fragment() {
         }
 
         //itt letrehozom a registerViewModelt!
+
         val factory = RegisterViewModelFactory(this.requireContext(), Repository())
-        registerViewModel = ViewModelProvider(this,factory).get(RegisterViewModel::class.java)
+        registerViewModel = ViewModelProvider(requireParentFragment(),factory).get(RegisterViewModel::class.java)
+
     }
 
     override fun onCreateView(

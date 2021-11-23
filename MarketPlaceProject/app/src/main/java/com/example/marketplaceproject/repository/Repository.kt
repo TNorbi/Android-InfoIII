@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.repository
 
+import android.text.Html
 import com.example.marketplaceproject.api.RetrofitInstance
 import com.example.marketplaceproject.models.*
 
@@ -16,7 +17,7 @@ class Repository {
         return RetrofitInstance.api.register(request)
     }
 
-    suspend fun activateUser(username: String) : ActivateResponse{
+    suspend fun activateUser(username: String) : ActivateResponse {
         return RetrofitInstance.api.activateUser(username)
     }
 }
