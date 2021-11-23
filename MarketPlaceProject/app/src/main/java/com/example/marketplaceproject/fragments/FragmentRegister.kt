@@ -43,7 +43,7 @@ class FragmentRegister : Fragment() {
     private lateinit var passwordInput: EditText
     private lateinit var registerButton: Button
     private lateinit var loginHiperlink: TextView
-    private lateinit var bottomNavigationMenuView: BottomNavigationView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,7 @@ class FragmentRegister : Fragment() {
 
         //itt letrehozom a registerViewModelt!
         val factory = RegisterViewModelFactory(this.requireContext(), Repository())
-        registerViewModel = ViewModelProvider(this,factory).get(RegisterViewModel::class.java)
+        registerViewModel = ViewModelProvider(requireActivity(),factory).get(RegisterViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -69,9 +69,6 @@ class FragmentRegister : Fragment() {
             changeColorOfTextView()
             initializeListeners(this)
         }
-
-        //elrejtem a Bottom Navigation a Register fragmentben
-        bottomNavigationMenuView.visibility = View.GONE
 
         registerViewModel.registerResponse.observe(viewLifecycleOwner){
             Log.d("xxx", "navigate to after registration fragment")
@@ -120,7 +117,6 @@ class FragmentRegister : Fragment() {
         emailInput = view.findViewById(R.id.register_email_input)
         passwordInput = view.findViewById(R.id.register_password_input)
         registerButton = view.findViewById(R.id.register_button)
-        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTextView() {

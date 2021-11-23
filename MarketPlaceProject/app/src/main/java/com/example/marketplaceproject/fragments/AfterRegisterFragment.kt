@@ -35,7 +35,6 @@ class AfterRegisterFragment : Fragment() {
     private lateinit var afterRegisterTitle: TextView
     private lateinit var activationTextView: TextView
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var bottomNavigationMenuView: BottomNavigationView
 
     //itt letre kell hozzam a registration viewModeljet(peldanyositani)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +47,7 @@ class AfterRegisterFragment : Fragment() {
         //itt letrehozom a registerViewModelt!
 
         val factory = RegisterViewModelFactory(this.requireContext(), Repository())
-        registerViewModel = ViewModelProvider(requireParentFragment(),factory).get(RegisterViewModel::class.java)
+        registerViewModel = ViewModelProvider(requireActivity(),factory).get(RegisterViewModel::class.java)
 
     }
 
@@ -65,8 +64,6 @@ class AfterRegisterFragment : Fragment() {
             initializeListeners(this)
         }
 
-        //elrejtem a Bottom Navigation az AfterRegister fragmentben
-        bottomNavigationMenuView.visibility = View.GONE
 
         registerViewModel.activateResponse.observe(viewLifecycleOwner){
             //hogyha visszakapjuk a HTML kodot,akkor azt jelenti, hogy sikeresen aktivalva lett a user!
@@ -87,7 +84,6 @@ class AfterRegisterFragment : Fragment() {
     private fun initializeView(view: View) {
         afterRegisterTitle = view.findViewById(R.id.after_register_title)
         activationTextView = view.findViewById(R.id.email_not_received)
-        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTitle() {

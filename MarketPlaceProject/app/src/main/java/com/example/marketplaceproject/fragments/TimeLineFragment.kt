@@ -34,7 +34,6 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TimelineAdapter
-    private lateinit var bottomNavigationMenuView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +57,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         view?.apply {
             //inicializalasok
             setupRecyclerView(view)
-            bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
         }
-
-        //megjelenitem a menut a timeline fragmentben
-        bottomNavigationMenuView.visibility = View.VISIBLE
 
         timelineViewModel.products.observe(viewLifecycleOwner){
             adapter.setData(timelineViewModel.products.value as ArrayList<Product>)

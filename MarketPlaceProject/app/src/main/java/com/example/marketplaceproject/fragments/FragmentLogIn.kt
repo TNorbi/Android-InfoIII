@@ -40,7 +40,6 @@ class FragmentLogIn : Fragment() {
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
     private lateinit var loginViewModel : LoginViewModel
-    private lateinit var bottomNavigationMenuView : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +65,6 @@ class FragmentLogIn : Fragment() {
             changeColorOfTitle()
             initializeListeners(this)
         }
-
-        //elrejtem a Bottom Navigationt a Login fragmentben
-        bottomNavigationMenuView.visibility = View.GONE
 
         //itt csakis akkor fogjuk latni a main screent (Productok listajat) amikor kapunk tokent!
         //vagyis ha a token erteke(ami a viewModelben van) frissul csakis akkor fogunk atugorni loginrol Product Listbe!
@@ -121,7 +117,6 @@ class FragmentLogIn : Fragment() {
         passwordInput = view.findViewById(R.id.passwordInput)
         loginButton  = view.findViewById(R.id.logInButton)
         registerButton = view.findViewById(R.id.login_registerButton)
-        bottomNavigationMenuView = activity!!.findViewById(R.id.bottom_navigation)
     }
 
     private fun changeColorOfTitle() {
