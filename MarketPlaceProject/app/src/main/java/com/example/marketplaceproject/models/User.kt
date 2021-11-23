@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.models
 
+import android.text.Html
 import com.squareup.moshi.JsonClass
 import java.sql.Timestamp
 
@@ -39,3 +40,10 @@ data class RegisterRequest(
     //var userImage : String
 )
 
+@JsonClass(generateAdapter = true)
+data class ActivateResponse(
+    var code : String?,
+    var message : String?,
+    var timestamp: Long?,
+    var htmlResponse : Html
+)

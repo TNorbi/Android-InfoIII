@@ -37,10 +37,10 @@ class FragmentRegister : Fragment() {
     private lateinit var title: TextView
     private lateinit var registerButtomText: TextView
     private lateinit var usernameInput: EditText
-    private lateinit var email_input: EditText
-    private lateinit var password_input: EditText
+    private lateinit var emailInput: EditText
+    private lateinit var passwordInput: EditText
     private lateinit var registerButton: Button
-    private lateinit var login_hiperlink: TextView
+    private lateinit var loginHiperlink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +67,7 @@ class FragmentRegister : Fragment() {
             initializeListeners(this)
         }
 
-        registerViewModel.activateResponse.observe(viewLifecycleOwner){
+        registerViewModel.registerResponse.observe(viewLifecycleOwner){
             Log.d("xxx", "navigate to after registration fragment")
             findNavController().navigate(R.id.action_fragmentRegister_to_afterRegisterFragment)
         }
@@ -76,14 +76,14 @@ class FragmentRegister : Fragment() {
     }
 
     private fun initializeListeners(view: View) {
-        login_hiperlink.setOnClickListener {
+        loginHiperlink.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentRegister_to_fragmentLogIn)
         }
 
         registerButton.setOnClickListener {
             //meg kell nezzem, ha a User minden egyes adatot megadott!
 
-            if(usernameInput.text.isEmpty() || email_input.text.isEmpty() || password_input.text.isEmpty()){
+            if(usernameInput.text.isEmpty() || emailInput.text.isEmpty() || passwordInput.text.isEmpty()){
                 Toast.makeText(context,"Username,email or password is missing!",Toast.LENGTH_LONG).show()
             }
             else{
@@ -93,11 +93,11 @@ class FragmentRegister : Fragment() {
                     }
 
                     if (it != null) {
-                        it.email = email_input.text.toString()
+                        it.email = emailInput.text.toString()
                     }
 
                     if (it != null) {
-                        it.password = password_input.text.toString()
+                        it.password = passwordInput.text.toString()
                     }
                 }
 
@@ -109,10 +109,10 @@ class FragmentRegister : Fragment() {
     private fun initializeView(view: View) {
         title = view.findViewById(R.id.registerTitle)
         registerButtomText = view.findViewById(R.id.register_bottom_text)
-        login_hiperlink = view.findViewById(R.id.register_login_hiperlink)
+        loginHiperlink = view.findViewById(R.id.register_login_hiperlink)
         usernameInput = view.findViewById(R.id.login_username_input)
-        email_input = view.findViewById(R.id.register_email_input)
-        password_input = view.findViewById(R.id.register_password_input)
+        emailInput = view.findViewById(R.id.register_email_input)
+        passwordInput = view.findViewById(R.id.register_password_input)
         registerButton = view.findViewById(R.id.register_button)
     }
 

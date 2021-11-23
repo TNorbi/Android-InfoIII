@@ -37,5 +37,9 @@
         android:id="@+id/afterRegisterFragment"
         android:name="com.example.marketplaceproject.fragments.AfterRegisterFragment"
         android:label="fragment_after_register"
-        tools:layout="@layout/fragment_after_register" />
+        tools:layout="@layout/fragment_after_register" >
+        <action
+            android:id="@+id/action_afterRegisterFragment_to_fragmentLogIn"
+            app:destination="@id/fragmentLogIn" />
+    </fragment>
 </navigation>

@@ -8,7 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.register.RegisterViewModel
+import com.example.marketplaceproject.viewModels.register.RegisterViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +32,7 @@ class AfterRegisterFragment : Fragment() {
     private var param2: String? = null
     private lateinit var afterRegisterTitle: TextView
     private lateinit var activationTextView: TextView
+    private lateinit var registerViewModel: RegisterViewModel
 
     //itt letre kell hozzam a registration viewModeljet(peldanyositani)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +41,10 @@ class AfterRegisterFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //itt letrehozom a registerViewModelt!
+        val factory = RegisterViewModelFactory(this.requireContext(), Repository())
+        registerViewModel = ViewModelProvider(this,factory).get(RegisterViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -49,11 +60,20 @@ class AfterRegisterFragment : Fragment() {
             initializeListeners(this)
         }
 
+        registerViewModel.activateResponse.observe(viewLifecycleOwner){
+            //hogyha visszakapjuk a HTML kodot,akkor azt jelenti, hogy sikeresen aktivalva lett a user!
+            Toast.makeText(context,"Your account has been activated! Now you can log in!",Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_afterRegisterFragment_to_fragmentLogIn)
+        }
+
         return view
     }
 
     private fun initializeListeners(view: View) {
-
+        activationTextView.setOnClickListener{
+            //ha a user ranyom a textview-ra,akkor aktivalni fogjuk a fiokjat!
+            registerViewModel.activateUser()
+        }
     }
 
     private fun initializeView(view: View) {

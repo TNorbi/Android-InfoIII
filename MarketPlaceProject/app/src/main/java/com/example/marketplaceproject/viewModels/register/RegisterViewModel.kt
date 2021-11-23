@@ -14,6 +14,7 @@ import com.example.marketplaceproject.repository.Repository
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(val context: Context,val repository: Repository) : ViewModel() {
+    var registerResponse: MutableLiveData<String> = MutableLiveData()
     var activateResponse: MutableLiveData<String> = MutableLiveData()
     var user = MutableLiveData<User>()
 
@@ -27,7 +28,7 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
                 RegisterRequest(username = user.value!!.username, password = user.value!!.password, email = user.value!!.email, phone_number = user.value!!.phone_number, firebase_token = "token")
             try {
                 val result = repository.register(request)
-                activateResponse.value = result.creation_time.toString()
+                registerResponse.value = result.creation_time.toString()
                 Log.d("xxx","User successfully created!")
                 //itt kene atvaltsak egy ablakra,ahol megjelenitem a Usernek,
                 // hogy a Regisztracio sikeres lett eshogy az email postajat megnezve tudja majd aktivalni a fiokjat
@@ -52,6 +53,27 @@ class RegisterViewModel(val context: Context,val repository: Repository) : ViewM
 
                 if(e.code() == 303){
                     Toast.makeText(context,"Username,email or phone number already used.",Toast.LENGTH_LONG).show()
+                }
+
+            }catch (e: Exception){
+                Log.d("xxx", "RegisterViewModel - exception: $e")
+            }
+        }
+    }
+
+    fun activateUser(){
+        viewModelScope.launch {
+            try{
+                val result = repository.activateUser(user.value!!.username)
+                activateResponse.value = result.htmlResponse.toString()
+            }catch (e: retrofit2.HttpException){
+
+                if(e.code() == 301){
+                    Log.d("xxx","When the username param is not sent.")
+                }
+
+                if(e.code() == 300){
+                    Log.d("xxx","User not in database.")
                 }
 
             }catch (e: Exception){

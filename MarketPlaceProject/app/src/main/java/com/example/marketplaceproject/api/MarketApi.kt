@@ -15,5 +15,5 @@ interface MarketApi {
     suspend fun register(@Body request: RegisterRequest) : RegisterResponse
 
     @GET(Constants.ACTIVATE_USER_URL)
-    suspend fun activateUser(username: String)
+    suspend fun activateUser(@Query("username") username: String ) : ActivateResponse
 }

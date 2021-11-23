@@ -16,7 +16,7 @@ class Repository {
         return RetrofitInstance.api.register(request)
     }
 
-    suspend fun activateUser(username: String){
+    suspend fun activateUser(username: String) : ActivateResponse{
         return RetrofitInstance.api.activateUser(username)
     }
 }
