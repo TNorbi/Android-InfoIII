@@ -1,5 +1,7 @@
 package com.example.marketplaceproject.fragments
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +35,7 @@ class ProductDetailsCustomerFragment : Fragment() {
     private lateinit var uploadDate : TextView
     private lateinit var productName : TextView
     private lateinit var pricePerUnit : TextView
-    private lateinit var unitAvaible : TextView
+    private lateinit var unitAvailable : TextView
     private lateinit var productDescription: TextView
     private lateinit var avabilabilityIcon : ImageView
     private lateinit var availabilityTextView: TextView
@@ -59,9 +61,34 @@ class ProductDetailsCustomerFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
+            displayProductDetails()
         }
 
         return view
+    }
+
+    private fun displayProductDetails() {
+        val currentProduct  = timelineViewModel.products.value!![timelineViewModel.adapterCurrentPosition]
+
+        ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
+        ownerName.text = currentProduct.username
+        uploadDate.text = currentProduct.creation_time.toString()
+        productName.text = currentProduct.title
+        productDescription.text = currentProduct.description
+        pricePerUnit.text = "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
+        unitAvailable.text = "Available amount: ${currentProduct.units}${currentProduct.amount_type}"
+
+        if(currentProduct.is_active){
+            avabilabilityIcon.setImageResource(R.drawable.ic_active_product)
+            availabilityTextView.text = "Active"
+            availabilityTextView.setTextColor(Color.parseColor("#33B5E5"))
+        }
+        else{
+            avabilabilityIcon.setImageResource(R.drawable.ic_inactive_product)
+            availabilityTextView.text = "Inactive"
+            availabilityTextView.setTextColor(Color.parseColor("grey"))
+        }
+
     }
 
     private fun initializeView(view: View) {
@@ -71,7 +98,7 @@ class ProductDetailsCustomerFragment : Fragment() {
         productName = view.findViewById(R.id.product_name)
         productDescription = view.findViewById(R.id.product_description)
         pricePerUnit = view.findViewById(R.id.price_per_unit)
-        unitAvaible = view.findViewById(R.id.unit_avaible)
+        unitAvailable = view.findViewById(R.id.unit_avaible)
         avabilabilityIcon = view.findViewById(R.id.availability_icon)
         availabilityTextView = view.findViewById(R.id.availability_text)
     }

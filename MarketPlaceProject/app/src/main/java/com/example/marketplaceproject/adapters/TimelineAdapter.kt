@@ -17,15 +17,16 @@ class TimelineAdapter(
     private var list: ArrayList<Product>,
     private val context: Context,
     private val listener: OnItemClickListener
-): RecyclerView.Adapter<TimelineAdapter.DataViewHolder>() {
+) : RecyclerView.Adapter<TimelineAdapter.DataViewHolder>() {
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val productImageView : ImageView = itemView.findViewById(R.id.productImageView)
-        val productPriceView : TextView = itemView.findViewById(R.id.product_price_textview)
-        val ownerImageView : ImageView = itemView.findViewById(R.id.owner_picture_imageView)
-        val ownerNameView : TextView = itemView.findViewById(R.id.owner_name_textview)
-        val productNameView : TextView = itemView.findViewById(R.id.product_name_textview)
-        private val orderButtonView : Button = itemView.findViewById(R.id.orderButton)
+        val productImageView: ImageView = itemView.findViewById(R.id.productImageView)
+        val productPriceView: TextView = itemView.findViewById(R.id.product_price_textview)
+        val ownerImageView: ImageView = itemView.findViewById(R.id.owner_picture_imageView)
+        val ownerNameView: TextView = itemView.findViewById(R.id.owner_name_textview)
+        val productNameView: TextView = itemView.findViewById(R.id.product_name_textview)
+        private val orderButtonView: Button = itemView.findViewById(R.id.orderButton)
+
         init {
             orderButtonView.setOnClickListener(this)
         }
@@ -34,14 +35,15 @@ class TimelineAdapter(
             val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
 
-                if(orderButtonView.isPressed){
+                if (orderButtonView.isPressed) {
                     //hogyha a User megnyomja az "Order Now" gombot, akkor a productot meg fogja tudni vasarolni
+                    return
                 }
-                else
-                {
-                    //hogyha a User ranyom maga a CardView-ra(Productra) akkor meg fogja jeleniteni ennek reszleteit
-                    listener.onDetailsClick(position)
-                }
+
+                //hogyha a User ranyom maga a CardView-ra(Productra) akkor meg fogja jeleniteni ennek reszleteit
+                Log.d("xxx", "OnDetailsClick adapterben")
+                listener.onDetailsClick(position)
+
             }
         }
     }
@@ -62,13 +64,14 @@ class TimelineAdapter(
         val currentItem = list[position] //itt lekerem a listabol a kurens pozicioban levo elemet
 
         //a ViewHolder tartalmat fogom frissiteni itt
-        val priceText = currentItem.price_per_unit + " " + currentItem.price_type + "/" + currentItem.amount_type
+        val priceText =
+            currentItem.price_per_unit + " " + currentItem.price_type + "/" + currentItem.amount_type
         holder.ownerNameView.text = currentItem.username
         holder.productNameView.text = currentItem.title
         holder.productPriceView.text = priceText
 
         val images = currentItem.images
-        if( images != null && images.size > 0) {
+        if (images != null && images.size > 0) {
             Log.d("xxx", "#num_images: ${images.size}")
         }
 
@@ -86,7 +89,7 @@ class TimelineAdapter(
     override fun getItemCount() = list.size
 
     // Update the list
-    fun setData(newlist: ArrayList<Product>){
+    fun setData(newlist: ArrayList<Product>) {
         list = newlist
     }
 }
