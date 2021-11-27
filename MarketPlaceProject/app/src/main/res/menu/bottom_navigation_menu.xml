@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/timeline"
+        android:id="@+id/timelineFragment"
         android:enabled="true"
         android:icon="@drawable/ic_bazaar_launcher_foreground"
         android:title="@string/timeline_text"/>

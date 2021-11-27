@@ -16,11 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initializeNavigationController()
+        initializeNavigation()
         setupNavigationMenuVisibility()
     }
 
-    private fun initializeNavigationController(){
+    private fun initializeNavigation(){
         navigationView = findViewById(R.id.bottom_navigation)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
