@@ -7,5 +7,6 @@ import com.example.marketplaceproject.utils.SessionManager
 class TokenApplication:Application() {
     companion object{
         var token: String =""
+        var username: String = ""
     }
 }

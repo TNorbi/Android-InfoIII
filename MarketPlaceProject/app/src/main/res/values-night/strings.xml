@@ -19,4 +19,5 @@
     <string name="my_market_text">My market</string>
     <string name="my_fares_text">My fares</string>
     <string name="avaible_amount_text">Avaible amount:</string>
+    <string name="email_hinttext">Email</string>
 </resources>

@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         when(itemView){
             R.id.search -> Toast.makeText(this,"Search clicked",Toast.LENGTH_SHORT).show()//ide jonne a Search ablak
             R.id.filter ->Toast.makeText(this,"Filter clicked",Toast.LENGTH_SHORT).show()
-            R.id.profile ->Toast.makeText(this,"Profile clicked",Toast.LENGTH_SHORT).show()
+            R.id.profile -> navController.navigate(R.id.profileOwnerFragment)
         }
 
         return false

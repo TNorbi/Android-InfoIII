@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_timelineFragment_to_productDetailsCustomerFragment"
             app:destination="@id/productDetailsCustomerFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_profileOwnerFragment"
+            app:destination="@id/profileOwnerFragment" />
     </fragment>
     <fragment
         android:id="@+id/afterRegisterFragment"
@@ -50,5 +53,14 @@
         android:id="@+id/productDetailsCustomerFragment"
         android:name="com.example.marketplaceproject.fragments.ProductDetailsCustomerFragment"
         android:label="fragment_product_details_customer"
-        tools:layout="@layout/fragment_product_details_customer" />
+        tools:layout="@layout/fragment_product_details_customer" >
+        <action
+            android:id="@+id/action_productDetailsCustomerFragment_to_profileOwnerFragment"
+            app:destination="@id/profileOwnerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileOwnerFragment"
+        android:name="com.example.marketplaceproject.fragments.ProfileOwnerFragment"
+        android:label="fragment_profile_owner"
+        tools:layout="@layout/fragment_profile_owner" />
 </navigation>
