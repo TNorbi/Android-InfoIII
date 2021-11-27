@@ -2,7 +2,6 @@ package com.example.marketplaceproject.fragments
 
 import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +14,10 @@ import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,7 +77,7 @@ class ProductDetailsCustomerFragment : Fragment() {
 
         ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
         ownerName.text = currentProduct.username
-        uploadDate.text = currentProduct.creation_time.toString()
+        uploadDate.text = convertTimeStampToDate(currentProduct.creation_time)
         productName.text = currentProduct.title
         productDescription.text = currentProduct.description
         pricePerUnit.text = "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
@@ -91,6 +94,14 @@ class ProductDetailsCustomerFragment : Fragment() {
             availabilityTextView.setTextColor(Color.parseColor("grey"))
         }
 
+    }
+
+    private fun convertTimeStampToDate(creationTime: Long): String {
+        val pattern = "yyyy.MM.dd";
+        val stamp = Timestamp(creationTime)
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date = simpleDateFormat.format(Date(stamp.getTime()))
+        return date
     }
 
     private fun initializeView(view: View) {
