@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         initializeToolBar()
         initializeNavigation()
         setupNavigationMenuVisibility()
+        setupToolbarVisibility()
     }
 
     //-----------------Toolbar resz---------------------------------------
@@ -47,6 +48,25 @@ class MainActivity : AppCompatActivity() {
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+    }
+
+    private fun setupToolbarVisibility(){
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.fragmentLogIn -> hideToolbar()
+                R.id.fragmentRegister -> hideToolbar()
+                R.id.afterRegisterFragment -> hideToolbar()
+                else -> showToolbar()
+            }
+        }
+    }
+
+    private fun showToolbar() {
+        supportActionBar!!.show()
+    }
+
+    private fun hideToolbar() {
+        supportActionBar!!.hide()
     }
 
     //------------------------------Bottom Navigation resz----------------------------
