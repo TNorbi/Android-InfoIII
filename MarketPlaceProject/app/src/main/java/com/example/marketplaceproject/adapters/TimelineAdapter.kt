@@ -28,6 +28,7 @@ class TimelineAdapter(
         private val orderButtonView: Button = itemView.findViewById(R.id.orderButton)
 
         init {
+            itemView.setOnClickListener(this)
             orderButtonView.setOnClickListener(this)
         }
 
