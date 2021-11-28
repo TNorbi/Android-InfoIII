@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import com.example.marketplaceproject.R
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.marketplaceproject.MainActivity
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,11 +30,12 @@ class ProfileOwnerFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var userPicture : ImageView
-    private lateinit var username : TextView
+    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var userPicture: ImageView
+    private lateinit var username: TextView
     private lateinit var userEmail: EditText
-    private lateinit var editUserName : EditText
-    private lateinit var userPhoneNumber : EditText
+    private lateinit var editUserName: EditText
+    private lateinit var userPhoneNumber: EditText
     private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +45,9 @@ class ProfileOwnerFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        //itt szuksegem lesz egy viewModelre,ami megkapja a belepett felhasznalo adatait(loginal)!
+        //lekerem a profileViewModelt,amit a MainActivityben hoztam letre
+        val factory = ProfileViewModelFactory(Repository())
+        profileViewModel = ViewModelProvider(requireActivity(),factory).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -49,31 +55,39 @@ class ProfileOwnerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_profile_owner, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile_owner, container, false)
 
         view?.apply {
             initializeView(this)
-
-            //visszafele navigalo gomb
-            val toolbar: Toolbar = activity!!.findViewById(R.id.toolbar)
-            val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-            toolbar.setNavigationOnClickListener {
-                actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
-                actionBar.title = ""
-                val searchItem = (activity as MainActivity).getSearchMenuItem()
-                val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
-                searchItem.isVisible = true
-                filterMenuItem.isVisible = true
-                activity!!.onBackPressed()
-            }
-
+            navigationBackInitialize()
+            listUserDatas()
             initializeListeners(this)
         }
 
         return view
     }
 
+    private fun listUserDatas() {
+        username.text = profileViewModel.user.value!!.username
+        userEmail.setText(profileViewModel.user.value!!.email)
+        userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
+    }
 
+    private fun navigationBackInitialize() {
+        //visszafele navigalo gomb funkcionalitasa
+        val toolbar: Toolbar = activity!!.findViewById(R.id.toolbar)
+        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+
+        toolbar.setNavigationOnClickListener {
+            actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
+            actionBar.title = ""
+            val searchItem = (activity as MainActivity).getSearchMenuItem()
+            val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
+            searchItem.isVisible = true
+            filterMenuItem.isVisible = true
+            activity!!.onBackPressed()
+        }
+    }
 
     private fun initializeListeners(view: View) {
         publishButton.setOnClickListener {

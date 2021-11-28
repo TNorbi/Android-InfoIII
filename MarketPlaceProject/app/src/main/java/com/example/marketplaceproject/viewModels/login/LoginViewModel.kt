@@ -29,6 +29,7 @@ class LoginViewModel(val context: Context, val repository: Repository) : ViewMod
             try {
                 val result = repository.login(request)
                 TokenApplication.token = result.token
+                TokenApplication.username = result.username
                 token.value = result.token
                 Log.d("xxx", "MyApplication - token:  ${TokenApplication.token}")
             } catch (e: retrofit2.HttpException) {

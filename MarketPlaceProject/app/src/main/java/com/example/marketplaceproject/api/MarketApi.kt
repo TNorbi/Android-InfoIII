@@ -1,6 +1,5 @@
 package com.example.marketplaceproject.api
 
-import android.text.Html
 import com.example.marketplaceproject.models.*
 import com.example.marketplaceproject.utils.Constants
 import retrofit2.http.*
@@ -17,4 +16,7 @@ interface MarketApi {
 
     @GET(Constants.ACTIVATE_USER_URL)
     suspend fun activateUser(@Query("username") username: String ) : ActivateResponse
+
+    @GET(Constants.GET_USER_INFO_URL)
+    suspend fun getUserInfo(@Header("username") username: String) : UserInfoResponse
 }

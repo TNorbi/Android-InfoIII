@@ -47,3 +47,17 @@ data class ActivateResponse(
     var timestamp: Long?,
     var htmlResponse : Html
 )
+
+@JsonClass(generateAdapter = true)
+data class UserInfoResponse(
+    var code : Int,
+    var data: List<UserInfoField>
+)
+
+@JsonClass(generateAdapter = true)
+data class UserInfoField(
+    var username:String,
+    var phone_number: String?,
+    var email: String,
+    var creation_time: Long
+)
