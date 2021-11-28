@@ -62,5 +62,12 @@
         android:id="@+id/profileOwnerFragment"
         android:name="com.example.marketplaceproject.fragments.ProfileOwnerFragment"
         android:label="fragment_profile_owner"
-        tools:layout="@layout/fragment_profile_owner" />
+        tools:layout="@layout/fragment_profile_owner" >
+        <action
+            android:id="@+id/action_profileOwnerFragment_to_productDetailsCustomerFragment"
+            app:destination="@id/productDetailsCustomerFragment" />
+        <action
+            android:id="@+id/action_profileOwnerFragment_to_timelineFragment"
+            app:destination="@id/timelineFragment" />
+    </fragment>
 </navigation>

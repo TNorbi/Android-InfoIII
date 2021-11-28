@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import com.example.marketplaceproject.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.marketplaceproject.MainActivity
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,11 +53,27 @@ class ProfileOwnerFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
+
+            //visszafele navigalo gomb
+            val toolbar: Toolbar = activity!!.findViewById(R.id.toolbar)
+            val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+            toolbar.setNavigationOnClickListener {
+                actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
+                actionBar.title = ""
+                val searchItem = (activity as MainActivity).getSearchMenuItem()
+                val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
+                searchItem.isVisible = true
+                filterMenuItem.isVisible = true
+                activity!!.onBackPressed()
+            }
+
             initializeListeners(this)
         }
 
         return view
     }
+
+
 
     private fun initializeListeners(view: View) {
         publishButton.setOnClickListener {

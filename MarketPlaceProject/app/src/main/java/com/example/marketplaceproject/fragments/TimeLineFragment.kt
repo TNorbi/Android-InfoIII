@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +59,8 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         view?.apply {
             //inicializalasok
             setupRecyclerView(view)
+            val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+            actionBar!!.setDisplayHomeAsUpEnabled(false)
         }
 
         timelineViewModel.products.observe(viewLifecycleOwner){
