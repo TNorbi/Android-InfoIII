@@ -67,9 +67,7 @@ class MainActivity : AppCompatActivity() {
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
                     //toolbar.logo.setTint(Color.TRANSPARENT)
-                    Log.d("xxx",toolbar.logo.isVisible.toString())
-                    toolbar.logo.setVisible(false,true)
-                    Log.d("xxx",toolbar.logo.isVisible.toString())
+                    //toolbar.logo.setVisible(false,true)
                     navController.navigate(R.id.profileOwnerFragment)
                 }
             }

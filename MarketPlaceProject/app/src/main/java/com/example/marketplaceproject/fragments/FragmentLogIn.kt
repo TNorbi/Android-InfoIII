@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.fragments
 
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
@@ -125,10 +126,18 @@ class FragmentLogIn : Fragment() {
         val nightModeFlags = requireContext().resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> title.setTextColor(Color.parseColor("white"))
-            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> title.setTextColor(
-                Color.parseColor("black"))
+            Configuration.UI_MODE_NIGHT_YES ->{
+                title.setTextColor(Color.parseColor("white"))
+                usernameInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+                passwordInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+            }
+            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED ->{
+                title.setTextColor(Color.parseColor("black"))
+                usernameInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                passwordInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+            }
         }
+
     }
 
     companion object {

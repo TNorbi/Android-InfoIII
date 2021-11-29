@@ -23,7 +23,6 @@ class Repository {
     }
 
     suspend fun getUserInfo(username: String) : UserInfoResponse{
-        Log.d("xxx","Repository.getUserInfo -> Itt vagyok, username: $username")
         return RetrofitInstance.api.getUserInfo(username)
     }
 }

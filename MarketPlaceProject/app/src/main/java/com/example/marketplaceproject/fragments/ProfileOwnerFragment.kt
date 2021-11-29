@@ -1,5 +1,7 @@
 package com.example.marketplaceproject.fragments
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +16,9 @@ import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
+import android.R.color
+
+import android.content.res.ColorStateList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,7 +52,8 @@ class ProfileOwnerFragment : Fragment() {
 
         //lekerem a profileViewModelt,amit a MainActivityben hoztam letre
         val factory = ProfileViewModelFactory(Repository())
-        profileViewModel = ViewModelProvider(requireActivity(),factory).get(ProfileViewModel::class.java)
+        profileViewModel =
+            ViewModelProvider(requireActivity(), factory).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -60,6 +66,7 @@ class ProfileOwnerFragment : Fragment() {
         view?.apply {
             initializeView(this)
             navigationBackInitialize()
+            changeTextColors()
             listUserDatas()
             initializeListeners(this)
         }
@@ -67,10 +74,33 @@ class ProfileOwnerFragment : Fragment() {
         return view
     }
 
+    //forras: StackOverFlow
+    private fun changeTextColors() {
+        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
+        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
+        val nightModeFlags = requireContext().resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+
+            username.setTextColor(Color.parseColor("white"))
+            userEmail.setTextColor(Color.parseColor("white"))
+            userEmail.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+            editUserName.setTextColor(Color.parseColor("white"))
+            editUserName.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+            userPhoneNumber.setTextColor(Color.parseColor("white"))
+            userPhoneNumber.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
+        }
+    }
+
     private fun listUserDatas() {
+        userPicture.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
         username.text = profileViewModel.user.value!!.username
         userEmail.setText(profileViewModel.user.value!!.email)
-        userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
+        if (profileViewModel.user.value!!.phone_number != "null") {
+            userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
+        }
     }
 
     private fun navigationBackInitialize() {
