@@ -19,6 +19,7 @@ import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 import android.R.color
 
 import android.content.res.ColorStateList
+import androidx.navigation.fragment.findNavController
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -69,6 +70,11 @@ class ProfileOwnerFragment : Fragment() {
             changeTextColors()
             listUserDatas()
             initializeListeners(this)
+        }
+
+        profileViewModel.token.observe(viewLifecycleOwner) {
+            Toast.makeText(context, "Your settings have been saved!", Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_profileOwnerFragment_self)
         }
 
         return view
@@ -122,6 +128,13 @@ class ProfileOwnerFragment : Fragment() {
     private fun initializeListeners(view: View) {
         publishButton.setOnClickListener {
             //itt le kell majd implementaljam az Update user Data-t(Postman) funkcionalitast!
+            profileViewModel.user.let {
+                it.value!!.username = editUserName.text.toString()
+                it.value!!.email = userEmail.text.toString()
+                it.value!!.phone_number = userPhoneNumber.text.toString()
+            }
+
+            profileViewModel.updateUserInfo()
         }
     }
 

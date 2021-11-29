@@ -4,16 +4,21 @@ package com.example.marketplaceproject.models
 import android.text.Html
 import com.squareup.moshi.JsonClass
 
-data class User(var username: String="", var password: String="", var email: String="", var phone_number: String="")
+data class User(
+    var username: String = "",
+    var password: String = "",
+    var email: String = "",
+    var phone_number: String = ""
+)
 
 @JsonClass(generateAdapter = true)
-data class LoginRequest (
+data class LoginRequest(
     var username: String,
     var password: String
 )
 
 @JsonClass(generateAdapter = true)
-data class LoginResponse (
+data class LoginResponse(
     var username: String,
     var email: String,
     var phone_number: Int?,
@@ -36,28 +41,50 @@ data class RegisterRequest(
     var password: String,
     var email: String,
     var phone_number: String,
-    var firebase_token:String,
+    var firebase_token: String,
     //var userImage : String
 )
 
 @JsonClass(generateAdapter = true)
 data class ActivateResponse(
-    var code : String?,
-    var message : String?,
+    var code: String?,
+    var message: String?,
     var timestamp: Long?,
-    var htmlResponse : Html
+    var htmlResponse: Html
 )
 
 @JsonClass(generateAdapter = true)
 data class UserInfoResponse(
-    var code : Int,
+    var code: Int,
     var data: List<UserInfoField>
 )
 
 @JsonClass(generateAdapter = true)
 data class UserInfoField(
-    var username:String,
+    var username: String,
     var phone_number: String?,
     var email: String,
     var creation_time: Long
+)
+
+@JsonClass(generateAdapter = true)
+data class UserUpdateRequest(
+    var username: String,
+    var email: String,
+    var phone_number: String?
+    //var userImage: Image
+)
+
+@JsonClass(generateAdapter = true)
+data class UserUpdateResponse(
+    var code: Int,
+    var updatedData: List<UpdatedDataField>
+)
+
+@JsonClass(generateAdapter = true)
+data class UpdatedDataField(
+    var username: String,
+    val phone_number: String?,
+    var email: String,
+    var token: String
 )

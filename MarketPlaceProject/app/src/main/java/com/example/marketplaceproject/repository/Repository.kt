@@ -18,11 +18,15 @@ class Repository {
         return RetrofitInstance.api.register(request)
     }
 
-    suspend fun activateUser(username: String) : ActivateResponse {
+    suspend fun activateUser(username: String): ActivateResponse {
         return RetrofitInstance.api.activateUser(username)
     }
 
-    suspend fun getUserInfo(username: String) : UserInfoResponse{
+    suspend fun getUserInfo(username: String): UserInfoResponse {
         return RetrofitInstance.api.getUserInfo(username)
+    }
+
+    suspend fun updateUserInfo(token: String, request: UserUpdateRequest): UserUpdateResponse {
+        return RetrofitInstance.api.updateUserInfo(token, request)
     }
 }

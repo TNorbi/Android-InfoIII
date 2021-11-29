@@ -120,6 +120,7 @@ class FragmentRegister : Fragment() {
         registerButton = view.findViewById(R.id.register_button)
     }
 
+    //forras: StackOverFlow
     private fun changeColorOfTextView() {
         //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
         //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)

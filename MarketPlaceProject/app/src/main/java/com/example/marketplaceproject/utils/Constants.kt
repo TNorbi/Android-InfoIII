@@ -7,4 +7,5 @@ object Constants {
     const val REGISTER_URL = "user/register"
     const val ACTIVATE_USER_URL = "activate"
     const val GET_USER_INFO_URL = "user/data"
+    const val UPDATE_USER_DATA_URL = "user/update"
 }

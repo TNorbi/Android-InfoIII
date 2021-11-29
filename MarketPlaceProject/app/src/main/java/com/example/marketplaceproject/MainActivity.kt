@@ -20,11 +20,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: BottomNavigationView
-    private lateinit var navController : NavController
+    private lateinit var navController: NavController
     private lateinit var toolbar: Toolbar
     private lateinit var searchMenuItem: MenuItem
     private lateinit var filterMenuItem: MenuItem
-    private lateinit var profileViewModel : ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +39,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun createProfileViewModel() {
         val factory = ProfileViewModelFactory(Repository())
-        profileViewModel = ViewModelProvider(this,factory).get(ProfileViewModel::class.java)
+        profileViewModel = ViewModelProvider(this, factory).get(ProfileViewModel::class.java)
     }
 
     //-----------------Toolbar resz---------------------------------------
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu,menu)
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
         searchMenuItem = menu.findItem(R.id.search)
         filterMenuItem = menu.findItem(R.id.filter)
         return true
@@ -53,14 +53,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemView = item.itemId
 
-        when(itemView){
-            R.id.search -> Toast.makeText(this,"Search clicked",Toast.LENGTH_SHORT).show()//ide jonne a Search ablak
-            R.id.filter ->Toast.makeText(this,"Filter clicked",Toast.LENGTH_SHORT).show()
+        when (itemView) {
+            R.id.search -> Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT)
+                .show()//ide jonne a Search ablak
+            R.id.filter -> Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
             R.id.profile -> {
                 getUserInfo()
 
                 //csakis akkor megyek a Profile fragmentbe, amikor megkapom a valaszt (code 200-ast),amikor frissul a code erteke masszoval
-                profileViewModel.code.observe(this){
+                profileViewModel.code.observe(this) {
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true) //ez bekapcsolja majd a visszafele gombot a toolbarban!
                     //toolbar.title = "Profile"
                     supportActionBar!!.title = "Profile"
@@ -81,21 +82,21 @@ class MainActivity : AppCompatActivity() {
         profileViewModel.getUserInfo()
     }
 
-    fun getSearchMenuItem(): MenuItem{
+    fun getSearchMenuItem(): MenuItem {
         return searchMenuItem
     }
 
-    fun getFilterMenuItem(): MenuItem{
+    fun getFilterMenuItem(): MenuItem {
         return filterMenuItem
     }
 
-    private fun initializeToolBar(){
+    private fun initializeToolBar() {
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
     }
 
-    private fun setupToolbarVisibility(){
+    private fun setupToolbarVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.fragmentLogIn -> hideToolbar()
@@ -115,9 +116,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     //------------------------------Bottom Navigation resz----------------------------
-    private fun initializeNavigation(){
+    private fun initializeNavigation() {
         navigationView = findViewById(R.id.bottom_navigation)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         navigationView.setupWithNavController(navController)
     }

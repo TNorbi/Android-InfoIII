@@ -12,11 +12,17 @@ interface MarketApi {
     suspend fun getProducts(@Header("token") token: String): ProductResponse
 
     @POST(Constants.REGISTER_URL)
-    suspend fun register(@Body request: RegisterRequest) : RegisterResponse
+    suspend fun register(@Body request: RegisterRequest): RegisterResponse
 
     @GET(Constants.ACTIVATE_USER_URL)
-    suspend fun activateUser(@Query("username") username: String ) : ActivateResponse
+    suspend fun activateUser(@Query("username") username: String): ActivateResponse
 
     @GET(Constants.GET_USER_INFO_URL)
-    suspend fun getUserInfo(@Header("username") username: String) : UserInfoResponse
+    suspend fun getUserInfo(@Header("username") username: String): UserInfoResponse
+
+    @POST(Constants.UPDATE_USER_DATA_URL)
+    suspend fun updateUserInfo(
+        @Header("token") token: String,
+        @Body request: UserUpdateRequest
+    ): UserUpdateResponse
 }
