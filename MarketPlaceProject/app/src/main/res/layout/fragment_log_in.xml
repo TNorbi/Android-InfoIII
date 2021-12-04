@@ -10,14 +10,14 @@
         android:id="@+id/logInTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="50dp"
         android:text="@string/log_in_page_title"
         android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
 
     <EditText
         android:id="@+id/passwordInput"
@@ -103,5 +103,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logInTitle"
         tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/loginLogo"
+        android:layout_width="130dp"
+        android:layout_height="42dp"
+        android:src="@drawable/ic_bazaar_logo_coloured"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,4 +73,9 @@
             android:id="@+id/action_profileOwnerFragment_self"
             app:destination="@id/profileOwnerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileOwnerByOthersFragment"
+        android:name="com.example.marketplaceproject.fragments.ProfileOwnerByOthersFragment"
+        android:label="fragment_profile_owner_by_others"
+        tools:layout="@layout/fragment_profile_owner_by_others" />
 </navigation>

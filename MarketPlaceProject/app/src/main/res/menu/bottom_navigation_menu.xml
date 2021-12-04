@@ -3,7 +3,7 @@
     <item
         android:id="@+id/timelineFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_bazaar_launcher_foreground"
+        android:icon="@drawable/ic_bazaar_bottom_menu_logo"
         android:title="@string/timeline_text"/>
     <item
         android:id="@+id/my_market"

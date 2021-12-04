@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +56,8 @@ class FragmentRegister : Fragment() {
 
         //itt letrehozom a registerViewModelt!
         val factory = RegisterViewModelFactory(this.requireContext(), Repository())
-        registerViewModel = ViewModelProvider(requireActivity(),factory).get(RegisterViewModel::class.java)
+        registerViewModel =
+            ViewModelProvider(requireActivity(), factory).get(RegisterViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -71,7 +73,7 @@ class FragmentRegister : Fragment() {
             initializeListeners(this)
         }
 
-        registerViewModel.registerResponse.observe(viewLifecycleOwner){
+        registerViewModel.registerResponse.observe(viewLifecycleOwner) {
             Log.d("xxx", "navigate to after registration fragment")
             findNavController().navigate(R.id.action_fragmentRegister_to_afterRegisterFragment)
         }
@@ -87,10 +89,26 @@ class FragmentRegister : Fragment() {
         registerButton.setOnClickListener {
             //meg kell nezzem, ha a User minden egyes adatot megadott!
 
-            if(usernameInput.text.isEmpty() || emailInput.text.isEmpty() || passwordInput.text.isEmpty()){
-                Toast.makeText(context,"Username,email or password is missing!",Toast.LENGTH_LONG).show()
-            }
-            else{
+            //----------------------ellenorizzuk az email cimet, ha a User jol adta meg vagy sem----------------------
+
+            if (usernameInput.text.isEmpty() || emailInput.text.isEmpty() || passwordInput.text.isEmpty()) {
+                Toast.makeText(
+                    context,
+                    "Username,email or password is missing!",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput.text).matches()) {
+                //megnezzuk, hogyha egy ervenyes email cimet adott meg a User
+                //abban az esetben, ha nem ervenyes az email cim,akkor nem regisztraljuk a User adatait
+                //es szolni fogunk a Usernek, hogy adjon meg egy ervenyes email cimet!
+
+                Toast.makeText(
+                    context,
+                    "Please enter valid email address!",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else {
                 registerViewModel.user.value.let {
                     if (it != null) {
                         it.username = usernameInput.text.toString()

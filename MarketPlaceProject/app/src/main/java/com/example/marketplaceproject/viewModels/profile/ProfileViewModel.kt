@@ -55,7 +55,6 @@ class ProfileViewModel(val repository: Repository) : ViewModel() {
             } catch (e: Exception) {
                 Log.d("xxx", "ProfileViewModel - exception: $e")
             }
-
         }
     }
 }

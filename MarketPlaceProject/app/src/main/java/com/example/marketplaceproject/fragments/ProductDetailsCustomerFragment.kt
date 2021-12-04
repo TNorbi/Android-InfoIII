@@ -65,11 +65,16 @@ class ProductDetailsCustomerFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
+            initializeListeners(this)
             changeColorOfTexts()
             displayProductDetails()
         }
 
         return view
+    }
+
+    private fun initializeListeners(view: View) {
+            //itt ha a User rakattint az owner kepjere vagy nevere,akkor meg kell jelenitsuk neki az owner profiljat!
     }
 
     private fun displayProductDetails() {
