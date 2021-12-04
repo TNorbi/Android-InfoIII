@@ -124,6 +124,7 @@ class ProfileOwnerFragment : Fragment() {
         toolbar.setNavigationOnClickListener {
             actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
             actionBar.title = ""
+            //actionBar.setLogo(R.drawable.ic_bazaar_logo_coloured)
             val searchItem = (activity as MainActivity).getSearchMenuItem()
             val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
             searchItem.isVisible = true
@@ -243,8 +244,6 @@ class ProfileOwnerFragment : Fragment() {
                     }
                 }
             }
-
-
         }
     }
 

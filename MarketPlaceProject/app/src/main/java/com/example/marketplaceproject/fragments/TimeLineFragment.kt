@@ -73,6 +73,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
 
     private fun setupToolbar(){
         val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+        //actionBar!!.setLogo(R.drawable.ic_bazaar_logo_coloured)
         actionBar!!.title = ""
         val searchItem = (activity as MainActivity).getSearchMenuItem()
         val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
