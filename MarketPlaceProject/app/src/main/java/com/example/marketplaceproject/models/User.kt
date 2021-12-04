@@ -21,7 +21,7 @@ data class LoginRequest(
 data class LoginResponse(
     var username: String,
     var email: String,
-    var phone_number: Int?,
+    var phone_number: String?,
     var token: String,
     var creation_time: Long,
     var refresh_time: Long

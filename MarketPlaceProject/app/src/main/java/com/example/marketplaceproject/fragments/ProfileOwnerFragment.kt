@@ -17,9 +17,11 @@ import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 import android.R.color
+import android.app.AlertDialog
 
 import android.content.res.ColorStateList
 import android.util.Log
+import android.util.Patterns
 import androidx.navigation.fragment.findNavController
 
 
@@ -74,7 +76,7 @@ class ProfileOwnerFragment : Fragment() {
         }
 
         profileViewModel.token.observe(viewLifecycleOwner) {
-            if(profileViewModel.modosultToken){
+            if (profileViewModel.modosultToken) {
                 Toast.makeText(context, "Your settings have been saved!", Toast.LENGTH_LONG).show()
                 profileViewModel.modosultToken = false
                 findNavController().navigate(R.id.action_profileOwnerFragment_self)
@@ -127,21 +129,122 @@ class ProfileOwnerFragment : Fragment() {
             searchItem.isVisible = true
             filterMenuItem.isVisible = true
             activity!!.onBackPressed()
+            //findNavController().popBackStack()
+            //activity!!.supportFragmentManager.popBackStack()
+            //requireActivity().onBackPressed()
+            //requireActivity().supportFragmentManager.popBackStack()
         }
     }
 
     private fun initializeListeners(view: View) {
         publishButton.setOnClickListener {
-            //itt le kell majd implementaljam az Update user Data-t(Postman) funkcionalitast!
-            profileViewModel.user.let {
-                if(editUserName.text.isNotEmpty()){
-                    it.value!!.username = editUserName.text.toString()
+            //megnezem, hogyha egy ervenyes roman telefonszamot adott meg vagy sem
+
+            val romanianPhonePattern =
+                "^(\\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\\s|\\.|\\-)?([0-9]{3}(\\s|\\.|\\-|)){2}\$"
+            if (userPhoneNumber.text.isNotEmpty() && !userPhoneNumber.text.matches(
+                    Regex(
+                        romanianPhonePattern
+                    )
+                )
+            ) {
+                //ha nem adott egy jo telefonszamot,akkor ertesitem, hogy hibas telefonszamot adott meg
+
+                Toast.makeText(
+                    context,
+                    "Please give a valid romanian phone number!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                //hogyha jo volt a telefonszam akkor ellenorizni fogom az email cimet
+                //----------------------ellenorizzuk az email cimet, ha a User jol adta meg vagy sem----------------------
+
+                //hogyha az uj email box-a user,akkor nem fogjuk frissiteni a User adatait(muszaly kell legyen email cim!)
+                if (userEmail.text.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "Email field is empty! Please give a valid email address!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+
+                    //megnezzuk, hogyha egy ervenyes email cimet adott meg a User
+                    //abban az esetben, ha nem ervenyes az email cim,akkor nem frissitjuk a User adatait
+                    //es szolni fogunk a Usernek, hogy adjon meg egy ervenyes email cimet!
+
+                    if (!Patterns.EMAIL_ADDRESS.matcher(userEmail.text).matches()) {
+                        Toast.makeText(
+                            context,
+                            "Please enter valid email address!",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+
+                        //hogyha az uj email cim kulonbozik a kurens email cimtol,akkor megkerdezzuk a Usertol,
+                        // hogyha biztosan meg akarja ezt valtoztatni (egy Alert Dialoggal fogom ezt megtenni)
+                        //ha nem akarja akkor a fieldeket visszaallitom a kurens ertekekre!
+                        if (userEmail.text.toString() != profileViewModel.user.value!!.email) {
+
+
+                            val alertDialog = AlertDialog.Builder(context)
+                            alertDialog.setTitle("Submit")
+                            alertDialog.setMessage("Are you sure you want to change your email address and your data?")
+
+                            alertDialog.setPositiveButton("Yes") { _, _ ->
+
+                                profileViewModel.user.let {
+                                    if (editUserName.text.isNotEmpty()) {
+                                        it.value!!.username = editUserName.text.toString()
+                                    }
+                                    it.value!!.email = userEmail.text.toString()
+                                    it.value!!.phone_number = userPhoneNumber.text.toString()
+                                }
+
+                                profileViewModel.updateUserInfo()
+
+                            }
+
+                            alertDialog.setNegativeButton("No") { _, _ ->
+                                userEmail.setText(profileViewModel.user.value!!.email)
+                                userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
+                            }
+
+                            alertDialog.show()
+                        } else {
+                            //ha az uj email cim megegyezik a kurenssel , akkor megkerdezzuk a Usertol, hogyha biztos menteni akarja modositasait
+                            //ha nem akarja akkor visszaallitjuk az eredeti ertekekre!
+
+                            val alertDialog = AlertDialog.Builder(context)
+                            alertDialog.setTitle("Submit")
+                            alertDialog.setMessage("Are you sure you want to change your data?")
+
+                            alertDialog.setPositiveButton("Yes") { _, _ ->
+
+                                profileViewModel.user.let {
+                                    if (editUserName.text.isNotEmpty()) {
+                                        it.value!!.username = editUserName.text.toString()
+                                    }
+                                    it.value!!.email = userEmail.text.toString()
+                                    it.value!!.phone_number = userPhoneNumber.text.toString()
+                                }
+
+                                profileViewModel.updateUserInfo()
+
+                            }
+
+                            alertDialog.setNegativeButton("No") { _, _ ->
+                                userEmail.setText(profileViewModel.user.value!!.email)
+                                userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
+                            }
+
+                            alertDialog.show()
+                        }
+                    }
                 }
-                it.value!!.email = userEmail.text.toString()
-                it.value!!.phone_number = userPhoneNumber.text.toString()
             }
 
-            profileViewModel.updateUserInfo()
+
         }
     }
 
