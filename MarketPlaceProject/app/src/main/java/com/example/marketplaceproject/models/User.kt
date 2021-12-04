@@ -78,7 +78,7 @@ data class UserUpdateRequest(
 @JsonClass(generateAdapter = true)
 data class UserUpdateResponse(
     var code: Int,
-    var updatedData: List<UpdatedDataField>
+    var updatedData: UpdatedDataField
 )
 
 @JsonClass(generateAdapter = true)

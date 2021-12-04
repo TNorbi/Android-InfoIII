@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.adapters.TimelineAdapter
 import com.example.marketplaceproject.models.Product
@@ -59,8 +60,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         view?.apply {
             //inicializalasok
             setupRecyclerView(view)
-            val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-            actionBar!!.setDisplayHomeAsUpEnabled(false)
+            setupToolbar()
         }
 
         timelineViewModel.products.observe(viewLifecycleOwner){
@@ -69,6 +69,16 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         }
 
         return view
+    }
+
+    private fun setupToolbar(){
+        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+        actionBar!!.title = ""
+        val searchItem = (activity as MainActivity).getSearchMenuItem()
+        val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
+        searchItem.isVisible = true
+        filterMenuItem.isVisible = true
+        actionBar.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun setupRecyclerView(view: View){

@@ -19,6 +19,7 @@ import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 import android.R.color
 
 import android.content.res.ColorStateList
+import android.util.Log
 import androidx.navigation.fragment.findNavController
 
 
@@ -73,8 +74,12 @@ class ProfileOwnerFragment : Fragment() {
         }
 
         profileViewModel.token.observe(viewLifecycleOwner) {
-            Toast.makeText(context, "Your settings have been saved!", Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.action_profileOwnerFragment_self)
+            if(profileViewModel.modosultToken){
+                Toast.makeText(context, "Your settings have been saved!", Toast.LENGTH_LONG).show()
+                profileViewModel.modosultToken = false
+                findNavController().navigate(R.id.action_profileOwnerFragment_self)
+            }
+
         }
 
         return view
@@ -101,7 +106,7 @@ class ProfileOwnerFragment : Fragment() {
     }
 
     private fun listUserDatas() {
-        userPicture.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
+        userPicture.setImageResource(R.drawable.ic_bazaar_launcher_foreground) //ez ideiglenesen van igy, majd kesobb kell modositsam
         username.text = profileViewModel.user.value!!.username
         userEmail.setText(profileViewModel.user.value!!.email)
         if (profileViewModel.user.value!!.phone_number != "null") {
@@ -129,7 +134,9 @@ class ProfileOwnerFragment : Fragment() {
         publishButton.setOnClickListener {
             //itt le kell majd implementaljam az Update user Data-t(Postman) funkcionalitast!
             profileViewModel.user.let {
-                it.value!!.username = editUserName.text.toString()
+                if(editUserName.text.isNotEmpty()){
+                    it.value!!.username = editUserName.text.toString()
+                }
                 it.value!!.email = userEmail.text.toString()
                 it.value!!.phone_number = userPhoneNumber.text.toString()
             }

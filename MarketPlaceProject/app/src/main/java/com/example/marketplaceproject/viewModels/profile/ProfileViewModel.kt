@@ -16,6 +16,7 @@ class ProfileViewModel(val repository: Repository) : ViewModel() {
     var user = MutableLiveData<User>()
     var code = MutableLiveData<Int>()
     var token = MutableLiveData<String>()
+    var modosultToken = false
 
     init {
         user.value = User()
@@ -46,12 +47,11 @@ class ProfileViewModel(val repository: Repository) : ViewModel() {
 
             try {
                 val response = repository.updateUserInfo(TokenApplication.token, request)
-                user.value!!.username = response.updatedData[0].username
-                user.value!!.email = response.updatedData[0].email
-                user.value!!.phone_number = response.updatedData[0].phone_number.toString()
-                TokenApplication.username = response.updatedData[0].username
-                TokenApplication.token = response.updatedData[0].token
-                token.value = response.updatedData[0].token
+                Log.d("xxx","Response: $response" )
+                TokenApplication.username = response.updatedData.username
+                TokenApplication.token = response.updatedData.token
+                modosultToken = true
+                token.value = response.updatedData.token
             } catch (e: Exception) {
                 Log.d("xxx", "ProfileViewModel - exception: $e")
             }
