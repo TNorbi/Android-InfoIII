@@ -17,6 +17,7 @@ class ProfileViewModel(val repository: Repository) : ViewModel() {
     var code = MutableLiveData<Int>()
     var token = MutableLiveData<String>()
     var modosultToken = false
+    var modosultCode = false
 
     init {
         user.value = User()
@@ -30,6 +31,7 @@ class ProfileViewModel(val repository: Repository) : ViewModel() {
                 //lementem a response-ban kapott User adatait
                 user.value!!.email = response.data[0].email
                 user.value!!.phone_number = response.data[0].phone_number.toString()
+                modosultCode = true
                 code.value = response.code
             } catch (e: Exception) {
                 Log.d("xxx", "ProfileViewModel - exception: $e")

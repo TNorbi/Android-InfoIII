@@ -9,9 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
 import java.sql.Date
@@ -34,14 +39,15 @@ class ProductDetailsCustomerFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var timelineViewModel: TimelineViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var ownerImageView: ImageView
-    private lateinit var ownerName : TextView
-    private lateinit var uploadDate : TextView
-    private lateinit var productName : TextView
-    private lateinit var pricePerUnit : TextView
-    private lateinit var unitAvailable : TextView
+    private lateinit var ownerName: TextView
+    private lateinit var uploadDate: TextView
+    private lateinit var productName: TextView
+    private lateinit var pricePerUnit: TextView
+    private lateinit var unitAvailable: TextView
     private lateinit var productDescription: TextView
-    private lateinit var avabilabilityIcon : ImageView
+    private lateinit var avabilabilityIcon: ImageView
     private lateinit var availabilityTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +59,15 @@ class ProductDetailsCustomerFragment : Fragment() {
 
         //lekerdezem a timeline viewmodeljet
         val factory = TimelineViewModelFactory(Repository())
-        timelineViewModel = ViewModelProvider(requireActivity(),factory).get(TimelineViewModel::class.java)
+        timelineViewModel =
+            ViewModelProvider(requireActivity(), factory).get(TimelineViewModel::class.java)
+
+        //lekerdezem a mar letezo profile viewmodeljet
+        // (hogy majd tudjam megmondani kesobb, hogy az adott ownernek a
+        // profile-jat akarom megnezni)
+        val factoryProfile = ProfileViewModelFactory(Repository())
+        profileViewModel =
+            ViewModelProvider(requireActivity(), factoryProfile).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -61,39 +75,74 @@ class ProductDetailsCustomerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_product_details_customer, container, false)
+        val view = inflater.inflate(R.layout.fragment_product_details_customer, container, false)
 
         view?.apply {
             initializeView(this)
             initializeListeners(this)
             changeColorOfTexts()
+
             displayProductDetails()
+        }
+
+        profileViewModel.code.observe(viewLifecycleOwner){
+
+            //csak akkor jelenitem meg az owner profiljat,amikor a visszateritett kod
+            // tenyleg modosult, illetve megkaptam az osszes adatot rola
+            if(profileViewModel.modosultCode){
+                profileViewModel.modosultCode = false
+
+                //itt modositom a Toolbaromat
+                val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+                actionBar!!.setDisplayHomeAsUpEnabled(true) //ez bekapcsolja majd a visszafele gombot a toolbarban!
+                actionBar.title = "Profile"
+                val searchItem = (activity as MainActivity).getSearchMenuItem()
+                val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
+                searchItem.isVisible = false
+                filterMenuItem.isVisible = false
+                //toolbar.logo.setTint(Color.TRANSPARENT)
+                //toolbar.logo.setVisible(false,true)
+
+                //miutan a toolbart modositottam meg fogom jeleniteni az owner adatait a customernek
+                findNavController().navigate(R.id.profileOwnerByOthersFragment)
+            }
         }
 
         return view
     }
 
     private fun initializeListeners(view: View) {
-            //itt ha a User rakattint az owner kepjere vagy nevere,akkor meg kell jelenitsuk neki az owner profiljat!
+        //itt ha a User rakattint az owner kepjere vagy nevere,akkor meg kell jelenitsuk neki az owner profiljat!
+        ownerImageView.setOnClickListener {
+            profileViewModel.user.value!!.username = ownerName.text.toString()
+            profileViewModel.getUserInfo()
+        }
+
+        ownerName.setOnClickListener {
+            profileViewModel.user.value!!.username = ownerName.text.toString()
+            profileViewModel.getUserInfo()
+        }
     }
 
     private fun displayProductDetails() {
-        val currentProduct  = timelineViewModel.products.value!![timelineViewModel.adapterCurrentPosition]
+        val currentProduct =
+            timelineViewModel.products.value!![timelineViewModel.adapterCurrentPosition]
 
         ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
         ownerName.text = currentProduct.username
         uploadDate.text = convertTimeStampToDate(currentProduct.creation_time)
         productName.text = currentProduct.title
         productDescription.text = currentProduct.description
-        pricePerUnit.text = "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
-        unitAvailable.text = "Available amount: ${currentProduct.units}${currentProduct.amount_type}"
+        pricePerUnit.text =
+            "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
+        unitAvailable.text =
+            "Available amount: ${currentProduct.units}${currentProduct.amount_type}"
 
-        if(currentProduct.is_active){
+        if (currentProduct.is_active) {
             avabilabilityIcon.setImageResource(R.drawable.ic_active_product)
             availabilityTextView.text = "Active"
             availabilityTextView.setTextColor(Color.parseColor("#33B5E5"))
-        }
-        else{
+        } else {
             avabilabilityIcon.setImageResource(R.drawable.ic_inactive_product)
             availabilityTextView.text = "Inactive"
             availabilityTextView.setTextColor(Color.parseColor("grey"))

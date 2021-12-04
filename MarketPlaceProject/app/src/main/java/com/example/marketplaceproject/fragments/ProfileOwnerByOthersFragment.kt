@@ -1,5 +1,8 @@
 package com.example.marketplaceproject.fragments
 
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +12,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
+import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,9 +35,12 @@ class ProfileOwnerByOthersFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var profileViewModel : ProfileViewModel
     private lateinit var ownerPicture: ImageView
     private lateinit var ownerUsername : TextView
+    private lateinit var emailLabel : TextView
     private lateinit var ownerEmail: TextView
+    private lateinit var phoneNumberLabel : TextView
     private lateinit var ownerPhoneNumber : TextView
     private lateinit var chatButton: Button
 
@@ -37,6 +50,11 @@ class ProfileOwnerByOthersFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //itt lekerem a mar letezo profileViewModelt
+        val factory = ProfileViewModelFactory(Repository())
+        profileViewModel =
+            ViewModelProvider(requireActivity(), factory).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -49,14 +67,59 @@ class ProfileOwnerByOthersFragment : Fragment() {
         view?.apply {
             initializeView(this)
             initializeListeners(this)
+            navigationBackInitialize()
+            changeTextColors()
             loadUserData()
         }
 
         return view
     }
 
+    private fun navigationBackInitialize() {
+        //visszafele navigalo gomb funkcionalitasa
+        val toolbar: Toolbar = activity!!.findViewById(R.id.toolbar)
+        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+
+        toolbar.setNavigationOnClickListener {
+            actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
+            actionBar.title = ""
+            //actionBar.setLogo(R.drawable.ic_bazaar_logo_coloured)
+            val searchItem = (activity as MainActivity).getSearchMenuItem()
+            val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
+            searchItem.isVisible = true
+            filterMenuItem.isVisible = true
+            activity!!.onBackPressed()
+            //findNavController().popBackStack()
+            //activity!!.supportFragmentManager.popBackStack()
+            //requireActivity().onBackPressed()
+            //requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
+    //forras: StackOverFlow
+    private fun changeTextColors() {
+        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
+        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
+        val nightModeFlags = requireContext().resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+
+            ownerUsername.setTextColor(Color.parseColor("white"))
+            emailLabel.setTextColor(Color.parseColor("white"))
+            ownerEmail.setTextColor(Color.parseColor("white"))
+            phoneNumberLabel.setTextColor(Color.parseColor("white"))
+            ownerPhoneNumber.setTextColor(Color.parseColor("white"))
+        }
+    }
+
     private fun loadUserData() {
-        //szuksegem lesz egy viewModelre,amivel feltoltom a UI elemeit
+        ownerPicture.setImageResource(R.drawable.ic_bazaar_launcher_foreground) //placeholder, itt kesobb be kell tegyem az owner valodi kepet
+        ownerUsername.text = profileViewModel.user.value!!.username
+        ownerEmail.text = profileViewModel.user.value!!.email
+        if (profileViewModel.user.value!!.phone_number != "null") {
+            ownerPhoneNumber.text = profileViewModel.user.value!!.phone_number
+        }
     }
 
     private fun initializeListeners(view: View) {
@@ -67,6 +130,9 @@ class ProfileOwnerByOthersFragment : Fragment() {
 
     private fun initializeView(view: View) {
         ownerPicture = view.findViewById(R.id.ownerPicture)
+        emailLabel = view.findViewById(R.id.email_label)
+        phoneNumberLabel = view.findViewById(R.id.phone_number_label)
+        ownerUsername = view.findViewById(R.id.owner_username)
         ownerEmail = view.findViewById(R.id.owner_email)
         ownerPhoneNumber = view.findViewById(R.id.owner_phone_number)
         chatButton = view.findViewById(R.id.chat_message_button)
