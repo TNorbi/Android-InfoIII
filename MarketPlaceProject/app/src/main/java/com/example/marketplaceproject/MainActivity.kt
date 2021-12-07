@@ -1,6 +1,7 @@
 package com.example.marketplaceproject
 
 import android.graphics.Color
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                     filterMenuItem.isVisible = false
                     //toolbar.logo.setTint(Color.TRANSPARENT)
                     //toolbar.logo.setVisible(false,true)
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
                     navController.navigate(R.id.profileOwnerFragment)
                 }
             }
@@ -103,6 +105,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragmentLogIn -> hideToolbar()
                 R.id.fragmentRegister -> hideToolbar()
                 R.id.afterRegisterFragment -> hideToolbar()
+                R.id.forgotPasswordFragment -> hideToolbar()
+                R.id.afterForgotPasswordFragment -> hideToolbar()
                 else -> showToolbar()
             }
         }
@@ -133,6 +137,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragmentLogIn -> hideBottomNav()
                 R.id.fragmentRegister -> hideBottomNav()
                 R.id.afterRegisterFragment -> hideBottomNav()
+                R.id.forgotPasswordFragment -> hideBottomNav()
+                R.id.afterForgotPasswordFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

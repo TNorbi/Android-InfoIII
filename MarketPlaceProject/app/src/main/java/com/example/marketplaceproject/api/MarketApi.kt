@@ -25,4 +25,7 @@ interface MarketApi {
         @Header("token") token: String,
         @Body request: UserUpdateRequest
     ): UserUpdateResponse
+
+    @POST(Constants.FORGOT_PASSWORD_POST_URL)
+    suspend fun resetUserPassword(@Body request: ResetPasswordRequest) : ResetPasswordResponse
 }

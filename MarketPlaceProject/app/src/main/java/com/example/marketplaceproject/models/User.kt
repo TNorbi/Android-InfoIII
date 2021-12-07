@@ -88,3 +88,16 @@ data class UpdatedDataField(
     var email: String,
     var token: String
 )
+
+@JsonClass(generateAdapter = true)
+data class ResetPasswordRequest(
+    var username: String,
+    var email: String
+)
+
+@JsonClass(generateAdapter = true)
+data class ResetPasswordResponse(
+    var code : Int,
+    var message: String,
+    var timestamp: Long
+)

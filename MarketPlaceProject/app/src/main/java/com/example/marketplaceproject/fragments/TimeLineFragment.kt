@@ -80,6 +80,7 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         searchItem.isVisible = true
         filterMenuItem.isVisible = true
         actionBar.setDisplayHomeAsUpEnabled(false)
+        actionBar.setDisplayUseLogoEnabled(true)
     }
 
     private fun setupRecyclerView(view: View){

@@ -29,4 +29,8 @@ class Repository {
     suspend fun updateUserInfo(token: String, request: UserUpdateRequest): UserUpdateResponse {
         return RetrofitInstance.api.updateUserInfo(token, request)
     }
+
+    suspend fun resetUserPassword(request : ResetPasswordRequest): ResetPasswordResponse{
+        return RetrofitInstance.api.resetUserPassword(request)
+    }
 }
