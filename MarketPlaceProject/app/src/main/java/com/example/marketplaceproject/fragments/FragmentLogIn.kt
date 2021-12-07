@@ -41,6 +41,8 @@ class FragmentLogIn : Fragment() {
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
     private lateinit var loginViewModel : LoginViewModel
+    private lateinit var forgotPasswordLabel : TextView
+    private lateinit var forgotPasswordLink : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +112,10 @@ class FragmentLogIn : Fragment() {
             //ha a User ranyom a Sign Up gombra,akkor atnavigalja a Register reszre
             findNavController().navigate(R.id.action_fragmentLogIn_to_fragmentRegister)
         }
+
+        forgotPasswordLink.setOnClickListener{
+            findNavController().navigate(R.id.action_fragmentLogIn_to_forgotPasswordFragment)
+        }
     }
 
     private fun initializeView(view: View) {
@@ -118,6 +124,8 @@ class FragmentLogIn : Fragment() {
         passwordInput = view.findViewById(R.id.passwordInput)
         loginButton  = view.findViewById(R.id.logInButton)
         registerButton = view.findViewById(R.id.login_registerButton)
+        forgotPasswordLabel = view.findViewById(R.id.login_forgot_password_label)
+        forgotPasswordLink = view.findViewById(R.id.login_forgot_password_hiperlink)
     }
 
     private fun changeColorOfTitle() {
@@ -128,6 +136,7 @@ class FragmentLogIn : Fragment() {
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES ->{
                 title.setTextColor(Color.parseColor("white"))
+                forgotPasswordLabel.setTextColor(Color.parseColor("white"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 passwordInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             }

@@ -2,6 +2,7 @@ package com.example.marketplaceproject.viewModels.forgotpassword
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,8 +27,22 @@ class ForgotPasswordViewModel(val context: Context,val repository: Repository): 
             try {
                 val response = repository.resetUserPassword(request)
                 code.value = response.code
-            }catch (e: Exception){
+
+            }catch (e: retrofit2.HttpException){
                 //itt le kell kezeljem majd a hibakat
+                if(e.code() == 300){
+                    Toast.makeText(context, "Username or email not set in body.", Toast.LENGTH_LONG).show()
+                }
+
+                if(e.code() == 301){
+                    Toast.makeText(context, "Username or email is wrong.", Toast.LENGTH_LONG).show()
+                }
+
+                if(e.code() == 302){
+                    Toast.makeText(context, "Mail could not be sent.Please try again!", Toast.LENGTH_LONG).show()
+                }
+
+            }catch (e: Exception){
                 Log.d("xxx","ForgotPasswordViewmodel: $e")
             }
         }
