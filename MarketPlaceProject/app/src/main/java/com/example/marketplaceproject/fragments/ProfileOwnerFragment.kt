@@ -69,7 +69,6 @@ class ProfileOwnerFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
-            navigationBackInitialize()
             changeTextColors()
             listUserDatas()
             initializeListeners(this)
@@ -113,28 +112,6 @@ class ProfileOwnerFragment : Fragment() {
         userEmail.setText(profileViewModel.user.value!!.email)
         if (profileViewModel.user.value!!.phone_number != "null") {
             userPhoneNumber.setText(profileViewModel.user.value!!.phone_number)
-        }
-    }
-
-    private fun navigationBackInitialize() {
-        //visszafele navigalo gomb funkcionalitasa
-        val toolbar: Toolbar = activity!!.findViewById(R.id.toolbar)
-        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-
-        toolbar.setNavigationOnClickListener {
-            actionBar!!.setDisplayHomeAsUpEnabled(false) //ez kikapcsolja majd a visszafele gombot a toolbarban
-            actionBar!!.setDisplayUseLogoEnabled(true)
-            actionBar.title = ""
-            //actionBar.setLogo(R.drawable.ic_bazaar_logo_coloured)
-            val searchItem = (activity as MainActivity).getSearchMenuItem()
-            val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
-            searchItem.isVisible = true
-            filterMenuItem.isVisible = true
-            activity!!.onBackPressed()
-            //findNavController().popBackStack()
-            //activity!!.supportFragmentManager.popBackStack()
-            //requireActivity().onBackPressed()
-            //requireActivity().supportFragmentManager.popBackStack()
         }
     }
 

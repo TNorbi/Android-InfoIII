@@ -91,18 +91,6 @@ class ProductDetailsCustomerFragment : Fragment() {
             // tenyleg modosult, illetve megkaptam az osszes adatot rola
             if(profileViewModel.modosultCode){
                 profileViewModel.modosultCode = false
-
-                //itt modositom a Toolbaromat
-                val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-                actionBar!!.setDisplayHomeAsUpEnabled(true) //ez bekapcsolja majd a visszafele gombot a toolbarban!
-                actionBar.title = "Profile"
-                val searchItem = (activity as MainActivity).getSearchMenuItem()
-                val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
-                searchItem.isVisible = false
-                filterMenuItem.isVisible = false
-                //toolbar.logo.setTint(Color.TRANSPARENT)
-                //toolbar.logo.setVisible(false,true)
-
                 //miutan a toolbart modositottam meg fogom jeleniteni az owner adatait a customernek
                 findNavController().navigate(R.id.profileOwnerByOthersFragment)
             }

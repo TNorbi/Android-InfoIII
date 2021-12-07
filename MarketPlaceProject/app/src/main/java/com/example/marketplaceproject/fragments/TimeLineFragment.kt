@@ -60,7 +60,6 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         view?.apply {
             //inicializalasok
             setupRecyclerView(view)
-            setupToolbar()
         }
 
         timelineViewModel.products.observe(viewLifecycleOwner){
@@ -69,18 +68,6 @@ class TimeLineFragment : Fragment(),TimelineAdapter.OnItemClickListener {
         }
 
         return view
-    }
-
-    private fun setupToolbar(){
-        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-        //actionBar!!.setLogo(R.drawable.ic_bazaar_logo_coloured)
-        actionBar!!.title = ""
-        val searchItem = (activity as MainActivity).getSearchMenuItem()
-        val filterMenuItem = (activity as MainActivity).getFilterMenuItem()
-        searchItem.isVisible = true
-        filterMenuItem.isVisible = true
-        actionBar.setDisplayHomeAsUpEnabled(false)
-        actionBar.setDisplayUseLogoEnabled(true)
     }
 
     private fun setupRecyclerView(view: View){

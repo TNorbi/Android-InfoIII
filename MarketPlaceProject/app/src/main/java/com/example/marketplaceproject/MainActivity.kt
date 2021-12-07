@@ -36,7 +36,12 @@ class MainActivity : AppCompatActivity() {
         initializeToolBar()
         initializeNavigation()
         setupNavigationMenuVisibility()
-        setupToolbarVisibility()
+        setupToolbar()
+
+        //hogyha megnyomjuk a toolbaron a visszafele gombot, akkor visszamegyunk a korabbi ablakra
+        toolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
     }
 
     private fun createProfileViewModel() {
@@ -64,14 +69,6 @@ class MainActivity : AppCompatActivity() {
 
                 //csakis akkor megyek a Profile fragmentbe, amikor megkapom a valaszt (code 200-ast),amikor frissul a code erteke masszoval
                 profileViewModel.code.observe(this) {
-                    supportActionBar!!.setDisplayHomeAsUpEnabled(true) //ez bekapcsolja majd a visszafele gombot a toolbarban!
-                    //toolbar.title = "Profile"
-                    supportActionBar!!.title = "Profile"
-                    searchMenuItem.isVisible = false
-                    filterMenuItem.isVisible = false
-                    //toolbar.logo.setTint(Color.TRANSPARENT)
-                    //toolbar.logo.setVisible(false,true)
-                    supportActionBar!!.setDisplayUseLogoEnabled(false)
                     navController.navigate(R.id.profileOwnerFragment)
                 }
             }
@@ -85,21 +82,13 @@ class MainActivity : AppCompatActivity() {
         profileViewModel.getUserInfo()
     }
 
-    fun getSearchMenuItem(): MenuItem {
-        return searchMenuItem
-    }
-
-    fun getFilterMenuItem(): MenuItem {
-        return filterMenuItem
-    }
-
     private fun initializeToolBar() {
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
     }
 
-    private fun setupToolbarVisibility() {
+    private fun setupToolbar() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.fragmentLogIn -> hideToolbar()
@@ -107,6 +96,32 @@ class MainActivity : AppCompatActivity() {
                 R.id.afterRegisterFragment -> hideToolbar()
                 R.id.forgotPasswordFragment -> hideToolbar()
                 R.id.afterForgotPasswordFragment -> hideToolbar()
+                R.id.timelineFragment -> {
+                    showToolbar()
+                    //ide probalom majd testreszabni a toolbart,hogy mi jelenjen meg es hogy hogyan
+                    supportActionBar!!.title = ""
+                    searchMenuItem.isVisible = true
+                    filterMenuItem.isVisible = true
+                    supportActionBar!!.setDisplayUseLogoEnabled(true)
+                    supportActionBar!!.setLogo(R.drawable.ic_bazaar_logo_coloured);
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+                }
+                R.id.profileOwnerFragment,R.id.profileOwnerByOthersFragment ->{
+                    showToolbar()
+                    supportActionBar!!.title = "Profile"
+                    searchMenuItem.isVisible = false
+                    filterMenuItem.isVisible = false
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.productDetailsCustomerFragment -> {
+                    showToolbar()
+                    supportActionBar!!.title = "Product detail"
+                    searchMenuItem.isVisible = false
+                    filterMenuItem.isVisible = false
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                }
                 else -> showToolbar()
             }
         }
