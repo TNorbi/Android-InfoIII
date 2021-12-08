@@ -6,12 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.adapters.MarketAdapter
@@ -20,7 +19,6 @@ import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,17 +27,18 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ListFragment.newInstance] factory method to
+ * Use the [MyMarketFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
+class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var recyclerView: RecyclerView
     //private lateinit var adapter: TimelineAdapter
     private lateinit var adapter: MarketAdapter
+    private lateinit var listViewModel: TimelineViewModel
+    private lateinit var ownerProducts : List<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +47,9 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        //letrehozom a timeline viewmodeljet
+        //lekerem a letezo viewmodelt
         val factory = TimelineViewModelFactory(Repository())
-        timelineViewModel = ViewModelProvider(requireActivity(),factory).get(TimelineViewModel::class.java)
+        listViewModel = ViewModelProvider(requireActivity(),factory).get(TimelineViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -58,22 +57,27 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_timeline, container, false)
-
+        val view =  inflater.inflate(R.layout.fragment_my_market, container, false)
         view?.apply {
-            //inicializalasok
             setupRecyclerView(view)
+            //listViewModel.getOwnerProducts(TokenApplication.username)
         }
 
-        timelineViewModel.products.observe(viewLifecycleOwner){
-            adapter.setData(timelineViewModel.products.value as ArrayList<Product>)
+        //Tesztelesre hasznaltam manyit es kiadta mind3 termeket,szoval ezzel a modszerrel mukodik
+        //tulajdonkeppen a Timelimeban kapott products listat hasznalom fel itt, ahol csak filterezem a lista tartalmat
+        //Az API fuggvenyem valami okbol kifolyolag nem akart mukodni, 500 Internal Server Errort kaptam
+        ownerProducts = listViewModel.products.value!!.filter { it.username.equals("manyi")}
+
+        listViewModel.products.observe(viewLifecycleOwner){
+            //adapter.setData(listViewModel.products.value as ArrayList<Product>)
+            adapter.setData(ownerProducts as ArrayList<Product>)
             adapter.notifyDataSetChanged()
         }
 
         return view
     }
 
-    private fun setupRecyclerView(view: View){
+    private fun setupRecyclerView(view: View) {
         //adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)
         adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(),this)
         recyclerView = view.findViewById(R.id.recycler_view)
@@ -83,16 +87,8 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
     }
 
     override fun onDetailsClick(position: Int) {
-        timelineViewModel.adapterCurrentPosition = position
-
-        if(timelineViewModel.products.value!![position].username == "manyi"){
-            //hogyha a sajat termekunkre kattintunk,akkor megjeleniti ennek detail-jei,amit tud modositani
-            findNavController().navigate(R.id.action_timelineFragment_to_ownerProductDetailsFragment)
-        }
-        else{
-            //hogyha mas user termekere kattintunk, akkor annak detailjei fognak megjeleni,amit akar meg is tudunk venni
-            findNavController().navigate(R.id.action_timelineFragment_to_productDetailsCustomerFragment)
-        }
+        listViewModel.adapterCurrentPosition = position
+        findNavController().navigate(R.id.action_myMarketFragment_to_ownerProductDetailsFragment)
     }
 
     companion object {
@@ -102,12 +98,12 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ListFragment.
+         * @return A new instance of fragment MyMarketFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            TimeLineFragment().apply {
+            MyMarketFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

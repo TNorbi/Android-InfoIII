@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_bazaar_bottom_menu_logo"
         android:title="@string/timeline_text"/>
     <item
-        android:id="@+id/my_market"
+        android:id="@+id/myMarketFragment"
         android:enabled="true"
         android:icon="@drawable/ic_my_market"
         android:title="@string/my_market_text"/>

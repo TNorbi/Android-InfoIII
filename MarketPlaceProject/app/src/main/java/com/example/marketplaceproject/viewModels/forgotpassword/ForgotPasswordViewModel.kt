@@ -25,10 +25,13 @@ class ForgotPasswordViewModel(val context: Context,val repository: Repository): 
             val request = ResetPasswordRequest(username = user.value!!.username,email = user.value!!.email)
 
             try {
+                Log.d("xxx","ForgotPassWord: request = $request")
                 val response = repository.resetUserPassword(request)
+                Log.d("xxx","ForgotPassWord: response = $response")
                 code.value = response.code
 
             }catch (e: retrofit2.HttpException){
+                Log.d("xxx","HTTPExceptionben vagyok, e.code() = ${e.code()}, message: ${e.message()}")
                 //itt le kell kezeljem majd a hibakat
                 if(e.code() == 300){
                     Toast.makeText(context, "Username or email not set in body.", Toast.LENGTH_LONG).show()

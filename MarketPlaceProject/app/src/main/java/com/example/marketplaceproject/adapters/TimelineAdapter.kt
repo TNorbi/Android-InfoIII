@@ -20,6 +20,7 @@ class TimelineAdapter(
 ) : RecyclerView.Adapter<TimelineAdapter.DataViewHolder>() {
     inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
+
         val productImageView: ImageView = itemView.findViewById(R.id.productImageView)
         val productPriceView: TextView = itemView.findViewById(R.id.product_price_textview)
         val ownerImageView: ImageView = itemView.findViewById(R.id.owner_picture_imageView)
@@ -55,8 +56,9 @@ class TimelineAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
+
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.customer_item_layout, parent, false)
 
         return DataViewHolder(itemView)
     }
@@ -64,7 +66,6 @@ class TimelineAdapter(
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = list[position] //itt lekerem a listabol a kurens pozicioban levo elemet
 
-        //a ViewHolder tartalmat fogom frissiteni itt
         val priceText =
             currentItem.price_per_unit + " " + currentItem.price_type + "/" + currentItem.amount_type
         holder.ownerNameView.text = currentItem.username

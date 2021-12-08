@@ -30,7 +30,11 @@ class Repository {
         return RetrofitInstance.api.updateUserInfo(token, request)
     }
 
-    suspend fun resetUserPassword(request : ResetPasswordRequest): ResetPasswordResponse{
+    suspend fun resetUserPassword(request: ResetPasswordRequest): ResetPasswordResponse {
         return RetrofitInstance.api.resetUserPassword(request)
+    }
+
+    suspend fun getOwnerProducts(token: String, filterRequest: FilterRequest): ProductResponse {
+        return RetrofitInstance.api.getOwnerProducts(token, filterRequest)
     }
 }

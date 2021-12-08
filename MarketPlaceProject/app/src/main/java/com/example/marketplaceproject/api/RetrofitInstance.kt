@@ -16,8 +16,8 @@ object RetrofitInstance {
         .baseUrl(BASE_URL)
         .build()
 
-    val api: MarketApi by lazy{
-        retrofit.create(MarketApi :: class.java)
+    val api: MarketApi by lazy {
+        retrofit.create(MarketApi::class.java)
     }
 
 }

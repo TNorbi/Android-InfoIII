@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_timelineFragment_to_profileOwnerFragment"
             app:destination="@id/profileOwnerFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_myMarketFragment"
+            app:destination="@id/myMarketFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_ownerProductDetailsFragment"
+            app:destination="@id/ownerProductDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/afterRegisterFragment"
@@ -70,12 +76,6 @@
         android:label="fragment_profile_owner"
         tools:layout="@layout/fragment_profile_owner" >
         <action
-            android:id="@+id/action_profileOwnerFragment_to_productDetailsCustomerFragment"
-            app:destination="@id/productDetailsCustomerFragment" />
-        <action
-            android:id="@+id/action_profileOwnerFragment_to_timelineFragment"
-            app:destination="@id/timelineFragment" />
-        <action
             android:id="@+id/action_profileOwnerFragment_self"
             app:destination="@id/profileOwnerFragment" />
     </fragment>
@@ -83,11 +83,7 @@
         android:id="@+id/profileOwnerByOthersFragment"
         android:name="com.example.marketplaceproject.fragments.ProfileOwnerByOthersFragment"
         android:label="fragment_profile_owner_by_others"
-        tools:layout="@layout/fragment_profile_owner_by_others" >
-        <action
-            android:id="@+id/action_profileOwnerByOthersFragment_to_productDetailsCustomerFragment"
-            app:destination="@id/productDetailsCustomerFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile_owner_by_others" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.example.marketplaceproject.fragments.ForgotPasswordFragment"
@@ -106,4 +102,24 @@
             android:id="@+id/action_afterForgotPasswordFragment_to_fragmentLogIn"
             app:destination="@id/fragmentLogIn" />
     </fragment>
+    <fragment
+        android:id="@+id/myMarketFragment"
+        android:name="com.example.marketplaceproject.fragments.MyMarketFragment"
+        android:label="fragment_my_market"
+        tools:layout="@layout/fragment_my_market" >
+        <action
+            android:id="@+id/action_myMarketFragment_to_profileOwnerFragment"
+            app:destination="@id/profileOwnerFragment" />
+        <action
+            android:id="@+id/action_myMarketFragment_to_timelineFragment"
+            app:destination="@id/timelineFragment" />
+        <action
+            android:id="@+id/action_myMarketFragment_to_ownerProductDetailsFragment"
+            app:destination="@id/ownerProductDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ownerProductDetailsFragment"
+        android:name="com.example.marketplaceproject.fragments.OwnerProductDetailsFragment"
+        android:label="fragment_owner_product_details"
+        tools:layout="@layout/fragment_owner_product_details" />
 </navigation>

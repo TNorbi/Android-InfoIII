@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marketplaceproject.TokenApplication
+import com.example.marketplaceproject.models.FilterRequest
 import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.repository.Repository
 import kotlinx.coroutines.launch
@@ -26,6 +27,23 @@ class TimelineViewModel(private val repository: Repository): ViewModel() {
                 products.value = result.products
                 Log.d("xxx", "ListViewModel - #products:  ${result.item_count}")
             }catch(e: Exception){
+                Log.d("xxx", "ListViewMofdel exception: $e")
+            }
+        }
+    }
+
+    fun getOwnerProducts(username: String){
+        viewModelScope.launch {
+            val request = FilterRequest(username = username)
+
+            try{
+                Log.d("xxx","Listviewmodel: request: $request")
+                val response = repository.getOwnerProducts(TokenApplication.token,request)
+                Log.d("xxx","Listviewmodel: response: $response")
+
+                products.value = response.products
+                Log.d("xxx", "ListViewModel - #products:  ${response.item_count}")
+            }catch (e: Exception){
                 Log.d("xxx", "ListViewMofdel exception: $e")
             }
         }

@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var searchMenuItem: MenuItem
     private lateinit var filterMenuItem: MenuItem
+    private lateinit var profileMenuItem : MenuItem
     private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         searchMenuItem = menu.findItem(R.id.search)
         filterMenuItem = menu.findItem(R.id.filter)
+        profileMenuItem = menu.findItem(R.id.profile)
         return true
     }
 
@@ -102,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.title = ""
                     searchMenuItem.isVisible = true
                     filterMenuItem.isVisible = true
+                    profileMenuItem.isVisible = true
                     supportActionBar!!.setDisplayUseLogoEnabled(true)
                     supportActionBar!!.setLogo(R.drawable.ic_bazaar_logo_coloured);
                     supportActionBar!!.setDisplayHomeAsUpEnabled(false)
@@ -111,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.title = "Profile"
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
+                    profileMenuItem.isVisible = true
                     supportActionBar!!.setDisplayUseLogoEnabled(false)
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 }
@@ -119,6 +123,25 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.title = "Product detail"
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
+                    profileMenuItem.isVisible = true
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.myMarketFragment ->{
+                    showToolbar()
+                    supportActionBar!!.title = "My market"
+                    searchMenuItem.isVisible = true
+                    filterMenuItem.isVisible = false
+                    profileMenuItem.isVisible = true
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.ownerProductDetailsFragment -> {
+                    showToolbar()
+                    supportActionBar!!.title = "Product detail"
+                    searchMenuItem.isVisible = false
+                    filterMenuItem.isVisible = false
+                    profileMenuItem.isVisible = false
                     supportActionBar!!.setDisplayUseLogoEnabled(false)
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 }
