@@ -37,4 +37,26 @@ class Repository {
     suspend fun getOwnerProducts(token: String, filterRequest: FilterRequest): ProductResponse {
         return RetrofitInstance.api.getOwnerProducts(token, filterRequest)
     }
+
+    suspend fun addProduct(
+        token: String,
+        title: String,
+        description: String,
+        price_per_unit: String,
+        units: String,
+        is_active: Boolean,
+        amount_type: String,
+        price_type: String
+    ): AddProductResponse {
+        return RetrofitInstance.api.addProduct(
+            token,
+            title,
+            description,
+            price_per_unit,
+            units,
+            is_active,
+            amount_type,
+            price_type
+        )
+    }
 }

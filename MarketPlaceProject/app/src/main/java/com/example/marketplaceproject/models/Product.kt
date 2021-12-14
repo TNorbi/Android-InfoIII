@@ -32,3 +32,19 @@ data class ProductResponse(val item_count: Int, val products: List<Product>, val
 data class FilterRequest(
     var username: String
 )
+
+@JsonClass(generateAdapter = true)
+data class AddProductResponse(
+    var creation: String,
+    var product_id: String,
+    var username: String,
+    var is_active: Boolean,
+    var price_per_unit: String,
+    var units: String,
+    var description: String,
+    var title: String,
+    var amount_type: String,
+    var price_type: String,
+    var images: List<Image>,
+    var creation_time: Long
+)

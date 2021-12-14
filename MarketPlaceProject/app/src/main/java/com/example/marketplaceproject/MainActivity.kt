@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var searchMenuItem: MenuItem
     private lateinit var filterMenuItem: MenuItem
-    private lateinit var profileMenuItem : MenuItem
+    private lateinit var profileMenuItem: MenuItem
     private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
 
         //hogyha megnyomjuk a toolbaron a visszafele gombot, akkor visszamegyunk a korabbi ablakra
-        toolbar.setNavigationOnClickListener{
+        toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
     }
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.setLogo(R.drawable.ic_bazaar_logo_coloured);
                     supportActionBar!!.setDisplayHomeAsUpEnabled(false)
                 }
-                R.id.profileOwnerFragment,R.id.profileOwnerByOthersFragment ->{
+                R.id.profileOwnerFragment, R.id.profileOwnerByOthersFragment -> {
                     showToolbar()
                     supportActionBar!!.title = "Profile"
                     searchMenuItem.isVisible = false
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.setDisplayUseLogoEnabled(false)
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 }
-                R.id.myMarketFragment ->{
+                R.id.myMarketFragment -> {
                     showToolbar()
                     supportActionBar!!.title = "My market"
                     searchMenuItem.isVisible = true
@@ -139,6 +139,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.ownerProductDetailsFragment -> {
                     showToolbar()
                     supportActionBar!!.title = "Product detail"
+                    searchMenuItem.isVisible = false
+                    filterMenuItem.isVisible = false
+                    profileMenuItem.isVisible = false
+                    supportActionBar!!.setDisplayUseLogoEnabled(false)
+                    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.addProductFragment -> {
+                    showToolbar()
+                    supportActionBar!!.title = "Create your fare"
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
                     profileMenuItem.isVisible = false

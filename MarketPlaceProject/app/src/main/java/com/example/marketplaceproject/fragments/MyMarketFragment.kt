@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,15 +32,17 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MyMarketFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
+class MyMarketFragment : Fragment(), MarketAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var recyclerView: RecyclerView
+
     //private lateinit var adapter: TimelineAdapter
     private lateinit var adapter: MarketAdapter
     private lateinit var listViewModel: TimelineViewModel
-    private lateinit var ownerProducts : List<Product>
+    private lateinit var ownerProducts: List<Product>
+    private lateinit var addProductButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,8 @@ class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
 
         //lekerem a letezo viewmodelt
         val factory = TimelineViewModelFactory(Repository())
-        listViewModel = ViewModelProvider(requireActivity(),factory).get(TimelineViewModel::class.java)
+        listViewModel =
+            ViewModelProvider(requireActivity(), factory).get(TimelineViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -57,19 +62,22 @@ class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_my_market, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_market, container, false)
         view?.apply {
-            setupRecyclerView(view)
+            setupRecyclerView(this)
+            addProductButton = this.findViewById(R.id.add_product_circle_button)
+            initializeListeners(this)
             //listViewModel.getOwnerProducts(TokenApplication.username)
         }
 
         //Tesztelesre hasznaltam manyit es kiadta mind3 termeket,szoval ezzel a modszerrel mukodik
         //tulajdonkeppen a Timelimeban kapott products listat hasznalom fel itt, ahol csak filterezem a lista tartalmat
         //Az API fuggvenyem valami okbol kifolyolag nem akart mukodni, 500 Internal Server Errort kaptam
-        ownerProducts = listViewModel.products.value!!.filter { it.username.equals("manyi")}
+        ownerProducts = listViewModel.products.value!!.filter { it.username.equals("demen") }
 
-        listViewModel.products.observe(viewLifecycleOwner){
+        listViewModel.products.observe(viewLifecycleOwner) {
             //adapter.setData(listViewModel.products.value as ArrayList<Product>)
+            ownerProducts = listViewModel.products.value!!.filter { it.username.equals("demen") }
             adapter.setData(ownerProducts as ArrayList<Product>)
             adapter.notifyDataSetChanged()
         }
@@ -77,9 +85,16 @@ class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
         return view
     }
 
+    private fun initializeListeners(view: View) {
+        addProductButton.setOnClickListener {
+            //hogyha a User rakattint az Add buttonra, akkor megjeleniti az Add Product ablak
+            findNavController().navigate(R.id.action_myMarketFragment_to_addProductFragment)
+        }
+    }
+
     private fun setupRecyclerView(view: View) {
         //adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)
-        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(),this)
+        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(), this)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -87,7 +102,14 @@ class MyMarketFragment : Fragment(),MarketAdapter.OnItemClickListener {
     }
 
     override fun onDetailsClick(position: Int) {
-        listViewModel.adapterCurrentPosition = position
+        val selectedProduct = ownerProducts[position]
+        //meg kell kapjam  a termeknek a poziciojat a nagylistabol,
+        // amelynek a product_id-ja megegyezik a kivalasztott termek
+        // product_id-val(es ez a backend szerint egyedi kulcs,
+        // szoval csak 1 elemet kene visszateritsen)
+
+        listViewModel.adapterCurrentPosition =
+            listViewModel.products.value!!.indexOf(selectedProduct)
         findNavController().navigate(R.id.action_myMarketFragment_to_ownerProductDetailsFragment)
     }
 

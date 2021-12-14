@@ -34,4 +34,17 @@ interface MarketApi {
         @Header("token") token: String,
         @Header("filter") filterRequest: FilterRequest
     ): ProductResponse
+
+    @Multipart
+    @POST(Constants.ADD_PRODUCT_URL)
+    suspend fun addProduct(
+        @Header("token") token: String,
+        @Part("title") title: String,
+        @Part("description") description: String,
+        @Part("price_per_unit") price_per_unit: String,
+        @Part("units") units: String,
+        @Part("is_active") isActive: Boolean,
+        @Part("amount_type") amountType: String,
+        @Part("price_type") priceType: String
+    ) : AddProductResponse
 }

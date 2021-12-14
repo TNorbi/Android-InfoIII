@@ -25,4 +25,20 @@
     <string name="forgot_password_labelText">Forgot Password</string>
     <string name="after_forgot_password_text">An email was sent to your address with the instructions on how to reset your password.</string>
     <string name="forgot_password_text">We will send you an email with instructions on how to reset your password.</string>
+    <string name="upload_product_date_label_text">Today</string>
+
+    <string-array name="Price_Type">
+        <item>RON</item>
+        <item>EURO</item>
+        <item>HUF</item>
+    </string-array>
+
+    <string-array name="Amount_type">
+        <item>Kg</item>
+        <item>g</item>
+        <item>db</item>
+        <item>L</item>
+        <item>m</item>
+    </string-array>
+
 </resources>

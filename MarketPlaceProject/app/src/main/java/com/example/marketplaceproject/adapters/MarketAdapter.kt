@@ -45,7 +45,7 @@ class MarketAdapter(
     override fun getItemCount()= list.size
 
     override fun getItemViewType(position: Int): Int {
-        if(list[position].username == "manyi") {
+        if(list[position].username == "demen") {
             //ha a kurens lista elem termeke az altalunk feltett termek,akkor visszateritjuk az Owner_item_layout-ot!
             return R.layout.owner_item_layout
         }

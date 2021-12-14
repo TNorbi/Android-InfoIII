@@ -85,7 +85,7 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
     override fun onDetailsClick(position: Int) {
         timelineViewModel.adapterCurrentPosition = position
 
-        if(timelineViewModel.products.value!![position].username == "manyi"){
+        if(timelineViewModel.products.value!![position].username == "demen"){
             //hogyha a sajat termekunkre kattintunk,akkor megjeleniti ennek detail-jei,amit tud modositani
             findNavController().navigate(R.id.action_timelineFragment_to_ownerProductDetailsFragment)
         }
