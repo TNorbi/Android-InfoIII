@@ -1,7 +1,5 @@
 package com.example.marketplaceproject.repository
 
-import android.text.Html
-import android.util.Log
 import com.example.marketplaceproject.api.RetrofitInstance
 import com.example.marketplaceproject.models.*
 
@@ -10,8 +8,8 @@ class Repository {
         return RetrofitInstance.api.login(request)
     }
 
-    suspend fun getProducts(token: String): ProductResponse {
-        return RetrofitInstance.api.getProducts(token)
+    suspend fun getProducts(token: String,limit: Int): ProductResponse {
+        return RetrofitInstance.api.getProducts(token,limit)
     }
 
     suspend fun register(request: RegisterRequest): RegisterResponse {
@@ -40,10 +38,10 @@ class Repository {
 
     suspend fun addProduct(
         token: String,
-        title: String,
-        description: String,
-        price_per_unit: String,
-        units: String,
+        title: String?,
+        description: String?,
+        price_per_unit: String?,
+        units: String?,
         is_active: Boolean,
         amount_type: String,
         price_type: String

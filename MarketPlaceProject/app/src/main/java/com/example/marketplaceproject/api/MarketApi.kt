@@ -9,7 +9,7 @@ interface MarketApi {
     suspend fun login(@Body request: LoginRequest): LoginResponse
 
     @GET(Constants.GET_PRODUCT_URL)
-    suspend fun getProducts(@Header("token") token: String): ProductResponse
+    suspend fun getProducts(@Header("token") token: String,@Header("limit") limit: Int): ProductResponse
 
     @POST(Constants.REGISTER_URL)
     suspend fun register(@Body request: RegisterRequest): RegisterResponse
@@ -39,10 +39,10 @@ interface MarketApi {
     @POST(Constants.ADD_PRODUCT_URL)
     suspend fun addProduct(
         @Header("token") token: String,
-        @Part("title") title: String,
-        @Part("description") description: String,
-        @Part("price_per_unit") price_per_unit: String,
-        @Part("units") units: String,
+        @Part("title") title: String?,
+        @Part("description") description: String?,
+        @Part("price_per_unit") price_per_unit: String?,
+        @Part("units") units: String?,
         @Part("is_active") isActive: Boolean,
         @Part("amount_type") amountType: String,
         @Part("price_type") priceType: String

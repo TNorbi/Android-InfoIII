@@ -4,14 +4,23 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModel
+import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModelFactory
+import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
+import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +36,8 @@ class AddProductFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var addProductViewModel: AddProductViewModel
+    private lateinit var listViewModel: TimelineViewModel
     private lateinit var availabilitySwitch: Switch
     private lateinit var uploadDate: TextView
     private lateinit var detailsFareLabel: TextView
@@ -50,6 +61,15 @@ class AddProductFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //itt letrehozom az addproduct viewModeljet
+        val factory = AddProductViewModelFactory(requireContext(), Repository())
+        addProductViewModel =
+            ViewModelProvider(requireActivity(), factory).get(AddProductViewModel::class.java)
+
+        val factory2 = TimelineViewModelFactory(Repository())
+        listViewModel =
+            ViewModelProvider(requireActivity(), factory2).get(TimelineViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -64,6 +84,26 @@ class AddProductFragment : Fragment() {
             initializeSpinners()
             changeColorOfViewElements()
             initializeListeners(this)
+        }
+
+        addProductViewModel.productID.observe(viewLifecycleOwner) {
+            //hogyha a productId modosult,akkor azt jelenti, hogy sikeresen hozzaadodott a termekunk az adatbazisra
+            //ebben az esetben visszaterunk a My Market ablakra
+
+            if (addProductViewModel.modosultProductID) {
+                addProductViewModel.modosultProductID = false
+
+                Toast.makeText(
+                    context,
+                    "Your product has been successfully added!",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+
+                listViewModel.getProducts()
+
+                findNavController().navigate(R.id.action_addProductFragment_to_myMarketFragment)
+            }
         }
 
         return view
@@ -154,7 +194,27 @@ class AddProductFragment : Fragment() {
 
         launchFare.setOnClickListener {
             //hogyha a User megnyomja a Launch Fare gombot, akkor feltolti az uj termeket az adatbazisba
+            if (titleInput.text!!.isEmpty() || productDescription.text!!.isEmpty() || priceAmountInput.text!!.isEmpty() || availableAmountInput.text!!.isEmpty()) {
+                Toast.makeText(
+                    context,
+                    "Title, description , price or quantity missing",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                addProductViewModel.newProduct.value.let {
+                    //itt feltoltom a viewModelt a user altal megadott adatokkal,majd elinditom az Add Product kerest/muveletet
+                    Log.d("xxx", "Title: ${titleInput.text}")
+                    it!!.title = titleInput.text.toString()
+                    it!!.description = productDescription.text.toString()
+                    it!!.price_per_unit = priceAmountInput.text.toString()
+                    it!!.units = availableAmountInput.text.toString()
+                    it!!.is_active = availabilitySwitch.isChecked
+                    it!!.amount_type = amountType
+                    it!!.price_type = priceType
+                }
 
+                addProductViewModel.addProduct()
+            }
         }
     }
 

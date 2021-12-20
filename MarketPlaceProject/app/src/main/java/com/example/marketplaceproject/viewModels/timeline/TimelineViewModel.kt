@@ -7,14 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.models.FilterRequest
 import com.example.marketplaceproject.models.Product
+import com.example.marketplaceproject.models.SortRequest
 import com.example.marketplaceproject.repository.Repository
 import kotlinx.coroutines.launch
 
-class TimelineViewModel(private val repository: Repository): ViewModel() {
+class TimelineViewModel(private val repository: Repository) : ViewModel() {
     var products: MutableLiveData<List<Product>> = MutableLiveData()
+
+    //var updateTimeLineList : MutableLiveData<Boolean> = MutableLiveData()
     var adapterCurrentPosition = 0
 
-    init{
+    init {
         Log.d("xxx", "ListViewModel constructor - Token: ${TokenApplication.token}")
         getProducts()
     }
@@ -23,27 +26,30 @@ class TimelineViewModel(private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             try {
                 val result =
-                    repository.getProducts(TokenApplication.token)
+                    repository.getProducts(
+                        TokenApplication.token,
+                        Int.MAX_VALUE
+                    )
                 products.value = result.products
                 Log.d("xxx", "ListViewModel - #products:  ${result.item_count}")
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 Log.d("xxx", "ListViewMofdel exception: $e")
             }
         }
     }
 
-    fun getOwnerProducts(username: String){
+    fun getOwnerProducts(username: String) {
         viewModelScope.launch {
             val request = FilterRequest(username = username)
 
-            try{
-                Log.d("xxx","Listviewmodel: request: $request")
-                val response = repository.getOwnerProducts(TokenApplication.token,request)
-                Log.d("xxx","Listviewmodel: response: $response")
+            try {
+                Log.d("xxx", "Listviewmodel: request: $request")
+                val response = repository.getOwnerProducts(TokenApplication.token, request)
+                Log.d("xxx", "Listviewmodel: response: $response")
 
                 products.value = response.products
                 Log.d("xxx", "ListViewModel - #products:  ${response.item_count}")
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.d("xxx", "ListViewMofdel exception: $e")
             }
         }

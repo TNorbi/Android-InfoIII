@@ -32,12 +32,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
+class TimeLineFragment : Fragment(), MarketAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var recyclerView: RecyclerView
+
     //private lateinit var adapter: TimelineAdapter
     private lateinit var adapter: MarketAdapter
 
@@ -50,7 +51,8 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
 
         //letrehozom a timeline viewmodeljet
         val factory = TimelineViewModelFactory(Repository())
-        timelineViewModel = ViewModelProvider(requireActivity(),factory).get(TimelineViewModel::class.java)
+        timelineViewModel =
+            ViewModelProvider(requireActivity(), factory).get(TimelineViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -65,7 +67,9 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
             setupRecyclerView(view)
         }
 
-        timelineViewModel.products.observe(viewLifecycleOwner){
+        timelineViewModel.getProducts()
+
+        timelineViewModel.products.observe(viewLifecycleOwner) {
             adapter.setData(timelineViewModel.products.value as ArrayList<Product>)
             adapter.notifyDataSetChanged()
         }
@@ -73,9 +77,9 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
         return view
     }
 
-    private fun setupRecyclerView(view: View){
+    private fun setupRecyclerView(view: View) {
         //adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)
-        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(),this)
+        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(), this)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -85,11 +89,10 @@ class TimeLineFragment : Fragment(),MarketAdapter.OnItemClickListener {
     override fun onDetailsClick(position: Int) {
         timelineViewModel.adapterCurrentPosition = position
 
-        if(timelineViewModel.products.value!![position].username == "demen"){
+        if (timelineViewModel.products.value!![position].username == TokenApplication.username) {
             //hogyha a sajat termekunkre kattintunk,akkor megjeleniti ennek detail-jei,amit tud modositani
             findNavController().navigate(R.id.action_timelineFragment_to_ownerProductDetailsFragment)
-        }
-        else{
+        } else {
             //hogyha mas user termekere kattintunk, akkor annak detailjei fognak megjeleni,amit akar meg is tudunk venni
             findNavController().navigate(R.id.action_timelineFragment_to_productDetailsCustomerFragment)
         }

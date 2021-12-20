@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.viewholders.MarketRecyclerViewHolder
 
@@ -45,7 +46,7 @@ class MarketAdapter(
     override fun getItemCount()= list.size
 
     override fun getItemViewType(position: Int): Int {
-        if(list[position].username == "demen") {
+        if(list[position].username == TokenApplication.username) {
             //ha a kurens lista elem termeke az altalunk feltett termek,akkor visszateritjuk az Owner_item_layout-ot!
             return R.layout.owner_item_layout
         }

@@ -73,11 +73,14 @@ class MyMarketFragment : Fragment(), MarketAdapter.OnItemClickListener {
         //Tesztelesre hasznaltam manyit es kiadta mind3 termeket,szoval ezzel a modszerrel mukodik
         //tulajdonkeppen a Timelimeban kapott products listat hasznalom fel itt, ahol csak filterezem a lista tartalmat
         //Az API fuggvenyem valami okbol kifolyolag nem akart mukodni, 500 Internal Server Errort kaptam
-        ownerProducts = listViewModel.products.value!!.filter { it.username.equals("demen") }
+
+        ownerProducts =
+            listViewModel.products.value!!.filter { it.username.equals(TokenApplication.username) }
 
         listViewModel.products.observe(viewLifecycleOwner) {
             //adapter.setData(listViewModel.products.value as ArrayList<Product>)
-            ownerProducts = listViewModel.products.value!!.filter { it.username.equals("demen") }
+            ownerProducts =
+                listViewModel.products.value!!.filter { it.username.equals(TokenApplication.username) }
             adapter.setData(ownerProducts as ArrayList<Product>)
             adapter.notifyDataSetChanged()
         }
