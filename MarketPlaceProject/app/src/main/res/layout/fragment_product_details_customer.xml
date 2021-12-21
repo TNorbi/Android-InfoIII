@@ -16,8 +16,8 @@
             android:id="@+id/owner_picture"
             android:layout_width="47dp"
             android:layout_height="45dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="152dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
@@ -27,8 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="168dp"
+            android:layout_marginTop="96dp"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/upload_date"
+            app:layout_constraintHorizontal_bias="0.04"
             app:layout_constraintStart_toEndOf="@+id/owner_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,70 +38,63 @@
             android:id="@+id/upload_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="168dp"
+            android:layout_marginTop="96dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.819"
-            app:layout_constraintStart_toEndOf="@+id/owner_name"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/owner_picture"
             app:layout_constraintTop_toBottomOf="@+id/owner_picture" />
 
         <TextView
             android:id="@+id/price_per_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="35dp"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/product_name"
             app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
         <TextView
             android:id="@+id/unit_avaible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/price_per_unit"
             app:layout_constraintTop_toBottomOf="@+id/price_per_unit" />
 
         <TextView
             android:id="@+id/product_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.04"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unit_avaible"
-            app:layout_constraintVertical_bias="0.060000002" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/unit_avaible"
+            app:layout_constraintTop_toBottomOf="@+id/unit_avaible" />
 
         <ImageView
             android:id="@+id/availability_icon"
             android:layout_width="45dp"
             android:layout_height="49dp"
-            android:layout_marginStart="50dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toEndOf="@+id/price_per_unit"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/availability_text"
             app:layout_constraintTop_toBottomOf="@+id/product_name"
             tools:src="@tools:sample/avatars" />
 
@@ -107,14 +102,10 @@
             android:id="@+id/availability_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
             android:layout_marginTop="44dp"
-            android:layout_marginEnd="5dp"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.065"
-            app:layout_constraintStart_toEndOf="@+id/availability_icon"
+            app:layout_constraintEnd_toEndOf="@+id/upload_date"
             app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
         <Button

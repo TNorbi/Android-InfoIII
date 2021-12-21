@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.repository.Repository
@@ -137,6 +138,7 @@ class OwnerProductDetailsFragment : Fragment() {
             //=> ez egy uj termek lesz,ami nincs fent az adatbazisban
             // => az edit gombot el kell rejteni!
 
+            (activity as MainActivity).supportActionBar!!.title = "Product detail preview"
             editProduct.visibility = View.GONE
 
             ownerUsername.text = TokenApplication.username
