@@ -1,11 +1,13 @@
 package com.example.marketplaceproject.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -74,6 +76,20 @@ class TimeLineFragment : Fragment(), MarketAdapter.OnItemClickListener {
             adapter.notifyDataSetChanged()
         }
 
+        timelineViewModel.deletedProductID.observe(viewLifecycleOwner){
+            //hogyha a deleteProductID erteke modosul, akkor az azt fogja jelenteni, hogy
+            //termek sikeresen torlodott
+
+            if(timelineViewModel.modosultDeletedProductID){
+                timelineViewModel.modosultDeletedProductID = false
+
+                //frissitem a lista tartalmat
+                timelineViewModel.getProducts()
+
+                Toast.makeText(context, "Product has been successfully deleted!", Toast.LENGTH_LONG).show()
+            }
+        }
+
         return view
     }
 
@@ -96,6 +112,23 @@ class TimeLineFragment : Fragment(), MarketAdapter.OnItemClickListener {
             //hogyha mas user termekere kattintunk, akkor annak detailjei fognak megjeleni,amit akar meg is tudunk venni
             findNavController().navigate(R.id.action_timelineFragment_to_productDetailsCustomerFragment)
         }
+    }
+
+    override fun onDeleteClick(position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Delete Product")
+        alertDialog.setMessage("Are you sure you want to delete this product?")
+
+        alertDialog.setPositiveButton("Yes") { _, _ ->
+            //Hogyha a User a Yes gombra nyom, akkor a kivalasztott termek ki fog torlodni!
+            timelineViewModel.adapterCurrentPosition = position
+            timelineViewModel.deleteProduct()
+        }
+
+        alertDialog.setNegativeButton("No") { _, _ ->
+        }
+
+        alertDialog.show()
     }
 
     companion object {

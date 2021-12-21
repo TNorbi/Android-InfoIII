@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModel
@@ -20,7 +21,6 @@ import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,6 +54,8 @@ class AddProductFragment : Fragment() {
     private lateinit var launchFare: Button
     private lateinit var priceType: String
     private lateinit var amountType: String
+    private lateinit var priceTypes: Array<String>
+    private lateinit var amount_type: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +84,15 @@ class AddProductFragment : Fragment() {
         view?.apply {
             initializeView(this)
             initializeSpinners()
+
+            if (listViewModel.editOwnerProduct) {
+                //hogyha a mar letezo termekunket akarjuk modositani,
+                // akkor ennek adatai fognak megjelenni a formon
+                (activity as MainActivity).supportActionBar!!.title = "Edit your fare"
+                launchFare.text = "Edit my fair"
+                showProductData()
+            }
+
             changeColorOfViewElements()
             initializeListeners(this)
         }
@@ -106,13 +117,62 @@ class AddProductFragment : Fragment() {
             }
         }
 
+        addProductViewModel.updatedItemID.observe(viewLifecycleOwner) {
+            //hogyha az updatedItemId erteke modosul,akkor azt fogja jelenteni, hogy a
+            // termek sikeresen lett modositva => visszaterunk a product details ablakra,
+            // ahol majd a friss adatok fognak megjelenni
+
+            if (addProductViewModel.modosultupdatedItemID) {
+                addProductViewModel.modosultupdatedItemID = false
+
+                Toast.makeText(
+                    context,
+                    "Your product's data has been successfully updated!",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                //frissitem a listviewmodelben levo products tartalmat a legfrisebb adatokkal
+                listViewModel.getProducts()
+
+                findNavController().navigate(R.id.action_addProductFragment_to_ownerProductDetailsFragment)
+            }
+        }
+
         return view
+    }
+
+    private fun showProductData() {
+        //ebben a fuggvenyben fogom feltolteni a kurens termek adatait a formon
+
+        val currentProduct = listViewModel.products.value!![listViewModel.adapterCurrentPosition]
+
+        titleInput.setText(currentProduct.title)
+        priceAmountInput.setText(currentProduct.price_per_unit)
+        availableAmountInput.setText(currentProduct.units)
+        productDescription.setText(currentProduct.description)
+        availabilitySwitch.isChecked = currentProduct.is_active
+
+        if (availabilitySwitch.isChecked) {
+            availabilitySwitch.text = "Active"
+            availabilitySwitch.setTextColor(Color.parseColor("#00B5C0"))
+        } else {
+            availabilitySwitch.text = "Inactive"
+            availabilitySwitch.setTextColor(Color.parseColor("#9A9A9A"))
+        }
+
+        //torlom a string elejerol es vegerol a " karaktert,
+        // hogy a spinner tudjam kivalasztani a kurens elemet!
+        currentProduct.price_type = currentProduct.price_type.replace("\"", "")
+        currentProduct.amount_type = currentProduct.amount_type.replace("\"", "")
+
+        priceTypeSpinner.setSelection(priceTypes.indexOf(currentProduct.price_type))
+        availableAmountSpinner.setSelection(amount_type.indexOf(currentProduct.amount_type))
     }
 
     private fun initializeSpinners() {
         //------------------------price type spinner inicializalasa----------------------
 
-        val priceTypes = resources.getStringArray(R.array.Price_Type)
+        priceTypes = resources.getStringArray(R.array.Price_Type)
 
         val adapterPrice =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, priceTypes)
@@ -135,7 +195,7 @@ class AddProductFragment : Fragment() {
         }
 
         //---------------------------available amount spinner inicializalasa--------------
-        val amount_type = resources.getStringArray(R.array.Amount_type)
+        amount_type = resources.getStringArray(R.array.Amount_type)
         val adapterAmountType =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, amount_type)
         availableAmountSpinner.adapter = adapterAmountType
@@ -213,7 +273,16 @@ class AddProductFragment : Fragment() {
                     it!!.price_type = priceType
                 }
 
-                addProductViewModel.addProduct()
+                //hogyha az Owner az edit gombra nyomott, ami altal modositani akarja a
+                // mar letezo termeket,akkor az Update Product endpoint hivodik meg
+                //ha pedig uj termeket akarna beszurni,akkor az Add Product endpoint hivodik meg
+                if (listViewModel.editOwnerProduct) {
+                    addProductViewModel.newProduct.value!!.product_id =
+                        listViewModel.products.value!![listViewModel.adapterCurrentPosition].product_id
+                    addProductViewModel.updateProduct()
+                } else {
+                    addProductViewModel.addProduct()
+                }
             }
         }
     }

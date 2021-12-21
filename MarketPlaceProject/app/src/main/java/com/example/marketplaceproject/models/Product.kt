@@ -26,7 +26,7 @@ data class Image(
 )
 
 @JsonClass(generateAdapter = true)
-data class ProductResponse(val item_count: Int, val products: List<Product>, val timestamp: Long)
+data class ProductResponse(val item_count: Int, val products: MutableList<Product>, val timestamp: Long)
 
 @JsonClass(generateAdapter = true)
 data class FilterRequest(
@@ -52,4 +52,45 @@ data class AddProductResponse(
 @JsonClass(generateAdapter = true)
 data class SortRequest(
     var creation_time: Int
+)
+
+//----------------------------------UPDATE PRODUCT DATA CLASS------------------------------
+@JsonClass(generateAdapter = true)
+data class UpdateProductRequest(
+    var title: String?,
+    var price_per_unit: Int?,
+    var units: Int?,
+    var description: String?,
+    var price_type: String?,
+    var amount_type: String?,
+    var is_active: Boolean?
+)
+
+@JsonClass(generateAdapter = true)
+data class UpdateProductResponse(
+    var updated_item: UpdatedItemField
+)
+
+@JsonClass(generateAdapter = true)
+data class UpdatedItemField(
+    var _id : String,
+    var product_id: String,
+    var username: String,
+    var price_per_unit: Int,
+    var units: Int,
+    var description: String,
+    var title : String,
+    //var images: List<Image>
+    var creation_time: Long,
+    var __v : Int,
+    var is_active: Boolean
+)
+//-----------------------------------------------------------------------------------------
+
+//--------------------------------------DELETE PRODUCT DATA CLASS-------------------------
+@JsonClass(generateAdapter = true)
+data class DeleteProductResponse(
+    var message: String,
+    var product_id: String,
+    var deletion_time : Long
 )

@@ -17,6 +17,7 @@ class MarketAdapter(
 
     interface OnItemClickListener {
         fun onDetailsClick(position: Int)
+        fun onDeleteClick(position: Int)
     }
 
 

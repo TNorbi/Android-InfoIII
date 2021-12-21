@@ -1,5 +1,6 @@
 package com.example.marketplaceproject.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -85,6 +86,20 @@ class MyMarketFragment : Fragment(), MarketAdapter.OnItemClickListener {
             adapter.notifyDataSetChanged()
         }
 
+        listViewModel.deletedProductID.observe(viewLifecycleOwner){
+            //hogyha a deleteProductID erteke modosul, akkor az azt fogja jelenteni, hogy
+            //termek sikeresen torlodott
+
+            if(listViewModel.modosultDeletedProductID){
+                listViewModel.modosultDeletedProductID = false
+
+                //frissitem a lista tartalmat
+                listViewModel.getProducts()
+
+                Toast.makeText(context, "Product has been successfully deleted!", Toast.LENGTH_LONG).show()
+            }
+        }
+
         return view
     }
 
@@ -114,6 +129,24 @@ class MyMarketFragment : Fragment(), MarketAdapter.OnItemClickListener {
         listViewModel.adapterCurrentPosition =
             listViewModel.products.value!!.indexOf(selectedProduct)
         findNavController().navigate(R.id.action_myMarketFragment_to_ownerProductDetailsFragment)
+    }
+
+    override fun onDeleteClick(position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Delete Product")
+        alertDialog.setMessage("Are you sure you want to delete this product?")
+
+        alertDialog.setPositiveButton("Yes") { _, _ ->
+            //Hogyha a User a Yes gombra nyom, akkor a kivalasztott termek ki fog torlodni!
+            val selectedProduct = ownerProducts[position]
+            listViewModel.adapterCurrentPosition = listViewModel.products.value!!.indexOf(selectedProduct)
+            listViewModel.deleteProduct()
+        }
+
+        alertDialog.setNegativeButton("No") { _, _ ->
+        }
+
+        alertDialog.show()
     }
 
     companion object {

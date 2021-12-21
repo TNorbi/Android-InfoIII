@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
@@ -85,6 +86,8 @@ class OwnerProductDetailsFragment : Fragment() {
     private fun loadOwnerProductDetails() {
         //itt feltoltom a View elemek adatait
 
+        timelineViewModel.editOwnerProduct = false
+
         //ez place holderkent fog szerepelni
         ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
 
@@ -147,6 +150,8 @@ class OwnerProductDetailsFragment : Fragment() {
         editProduct.setOnClickListener {
             //ha ranyom az edit gombra,akkor lehet a termekunket modositani
             Toast.makeText(context, "Modify your product feature", Toast.LENGTH_SHORT).show()
+            timelineViewModel.editOwnerProduct = true
+            findNavController().navigate(R.id.action_ownerProductDetailsFragment_to_addProductFragment)
         }
     }
 

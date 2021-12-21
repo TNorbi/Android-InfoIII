@@ -11,9 +11,12 @@ import com.example.marketplaceproject.R
 import com.example.marketplaceproject.adapters.MarketAdapter
 import com.example.marketplaceproject.models.Product
 
-sealed class MarketRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+sealed class MarketRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    class CustomerViewHolder(itemView: View, private val listener: MarketAdapter.OnItemClickListener) : MarketRecyclerViewHolder(itemView),View.OnClickListener{
+    class CustomerViewHolder(
+        itemView: View,
+        private val listener: MarketAdapter.OnItemClickListener
+    ) : MarketRecyclerViewHolder(itemView), View.OnClickListener {
 
         private val productImageView: ImageView = itemView.findViewById(R.id.productImageView)
         private val productPriceView: TextView = itemView.findViewById(R.id.product_price_textview)
@@ -27,7 +30,7 @@ sealed class MarketRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(i
             orderButtonView.setOnClickListener(this)
         }
 
-        fun bind(product: Product){
+        fun bind(product: Product) {
             val priceText =
                 product.price_per_unit + " " + product.price_type + "/" + product.amount_type
             ownerNameView.text = product.username
@@ -66,21 +69,25 @@ sealed class MarketRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(i
         }
     }
 
-    class OwnerViewHolder(itemView: View, private val listener: MarketAdapter.OnItemClickListener):MarketRecyclerViewHolder(itemView),View.OnClickListener{
+    class OwnerViewHolder(itemView: View, private val listener: MarketAdapter.OnItemClickListener) :
+        MarketRecyclerViewHolder(itemView), View.OnClickListener,
+        View.OnLongClickListener {
         private val productImageView: ImageView = itemView.findViewById(R.id.product_image)
         private val productPriceView: TextView = itemView.findViewById(R.id.price_label)
         private val ownerImageView: ImageView = itemView.findViewById(R.id.owner_image)
         private val ownerNameView: TextView = itemView.findViewById(R.id.owner_name_label)
         private val productNameView: TextView = itemView.findViewById(R.id.product_name_label)
-        private val availabilityImageView: ImageView = itemView.findViewById(R.id.avability_imageview)
-        private val availabilityLabel : TextView = itemView.findViewById(R.id.avability_label)
+        private val availabilityImageView: ImageView =
+            itemView.findViewById(R.id.avability_imageview)
+        private val availabilityLabel: TextView = itemView.findViewById(R.id.avability_label)
 
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
-        fun bind(product: Product){
+        fun bind(product: Product) {
             val priceText =
                 product.price_per_unit + " " + product.price_type + "/" + product.amount_type
             ownerNameView.text = product.username
@@ -102,11 +109,10 @@ sealed class MarketRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(i
                 .override(200, 200)
                 .into(ownerImageView)
 
-            if(product.is_active){
+            if (product.is_active) {
                 availabilityImageView.setImageResource(R.drawable.ic_active_product)
                 availabilityLabel.text = "Active"
-            }
-            else{
+            } else {
                 availabilityImageView.setImageResource(R.drawable.ic_inactive_product)
                 availabilityLabel.text = "Inactive"
             }
@@ -120,6 +126,18 @@ sealed class MarketRecyclerViewHolder(itemView: View): RecyclerView.ViewHolder(i
                 Log.d("xxx", "OnDetailsClick adapterben")
                 listener.onDetailsClick(position)
             }
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            val position = absoluteAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+
+                //hogyha a User hosszan ranyom maga a CardView-ra(Productra) akkor a torles muveletet kell vegrehajtani
+                Log.d("xxx", "onLongClick adapterben")
+                listener.onDeleteClick(position)
+            }
+
+            return true
         }
     }
 }
