@@ -52,6 +52,7 @@ class AddProductFragment : Fragment() {
     private lateinit var availableAmountLayout: TextInputLayout
     private lateinit var descriptionLayout: TextInputLayout
     private lateinit var launchFare: Button
+    private lateinit var previewButton: Button
     private lateinit var priceType: String
     private lateinit var amountType: String
     private lateinit var priceTypes: Array<String>
@@ -92,6 +93,8 @@ class AddProductFragment : Fragment() {
                 launchFare.text = "Edit my fair"
                 showProductData()
             }
+
+            addProductViewModel.previewMyFair = false
 
             changeColorOfViewElements()
             initializeListeners(this)
@@ -239,6 +242,7 @@ class AddProductFragment : Fragment() {
         descriptionLayout = view.findViewById(R.id.product_description_input_layout)
 
         launchFare = view.findViewById(R.id.launch_fair_button)
+        previewButton = view.findViewById(R.id.preview_my_fair_button)
     }
 
     private fun initializeListeners(view: View) {
@@ -284,6 +288,28 @@ class AddProductFragment : Fragment() {
                     addProductViewModel.addProduct()
                 }
             }
+        }
+
+        previewButton.setOnClickListener {
+            //hogyha a User ranyom a Preview my fair gombra,akkor megjeleniti
+            //egy ablakban, hogy a termek hirdetese hogyan fog majd kinezni korulbelul
+
+        //(itt fel fogom hasznalni az OwnerProductDetail fragmenst annyi kulonbseggel,
+        // hogy az edit gombot el fogom rejteni)
+
+            addProductViewModel.newProduct.value.let {
+                //itt feltoltom a viewModelt a user altal megadott adatokkal,majd elinditom az Add Product kerest/muveletet
+                it!!.title = titleInput.text.toString()
+                it!!.description = productDescription.text.toString()
+                it!!.price_per_unit = priceAmountInput.text.toString()
+                it!!.units = availableAmountInput.text.toString()
+                it!!.is_active = availabilitySwitch.isChecked
+                it!!.amount_type = amountType
+                it!!.price_type = priceType
+            }
+
+            addProductViewModel.previewMyFair = true
+            findNavController().navigate(R.id.action_addProductFragment_to_ownerProductDetailsFragment)
         }
     }
 

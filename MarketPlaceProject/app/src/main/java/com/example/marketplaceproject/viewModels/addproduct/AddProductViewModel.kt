@@ -20,6 +20,7 @@ class AddProductViewModel(val context: Context, val repository: Repository) : Vi
     var modosultProductID: Boolean = false
     var updatedItemID = MutableLiveData<String>()
     var modosultupdatedItemID = false
+    var previewMyFair = false
 
     init {
         newProduct.value = Product()

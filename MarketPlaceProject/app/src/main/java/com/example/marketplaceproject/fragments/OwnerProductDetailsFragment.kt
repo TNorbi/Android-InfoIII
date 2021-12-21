@@ -13,7 +13,10 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.repository.Repository
+import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModel
+import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModelFactory
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
 import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
 import java.sql.Date
@@ -52,6 +55,7 @@ class OwnerProductDetailsFragment : Fragment() {
     private lateinit var revenueCircle: TextView
     private lateinit var revenueLabel: TextView
     private lateinit var timelineViewModel: TimelineViewModel
+    private lateinit var addProductViewModel: AddProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +68,11 @@ class OwnerProductDetailsFragment : Fragment() {
         val factory = TimelineViewModelFactory(Repository())
         timelineViewModel =
             ViewModelProvider(this.requireActivity(), factory).get(TimelineViewModel::class.java)
+
+        //itt lekerem a letezo addProductViewModelt (preview my fair miatt)
+        val factory2 = AddProductViewModelFactory(requireContext(), Repository())
+        addProductViewModel =
+            ViewModelProvider(requireActivity(), factory2).get(AddProductViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -91,30 +100,72 @@ class OwnerProductDetailsFragment : Fragment() {
         //ez place holderkent fog szerepelni
         ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
 
-        val currentProduct = timelineViewModel.products.value!![timelineViewModel.adapterCurrentPosition]
+        if (!addProductViewModel.previewMyFair) {
+            //Owner nem preview modban nezi a termeket => tudja majd hasznalni az edit-et!
+            //ugyanakkor a mar letezo listabol kell kiszedjem az infokat(letezo termek ez!)
+            editProduct.visibility = View.VISIBLE
 
-        ownerUsername.text = currentProduct.username
-        uploadDate.text = convertTimeStampToDate(currentProduct.creation_time)
-        productName.text = currentProduct.title
-        productPricePerUnit.text = "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
+            val currentProduct =
+                timelineViewModel.products.value!![timelineViewModel.adapterCurrentPosition]
 
-        if(currentProduct.is_active){
-            availabilityIcon.setImageResource(R.drawable.ic_active_product)
-            availabilityTextView.text = "Active"
-            availabilityTextView.setTextColor(Color.parseColor("#00B5C0"))
+            ownerUsername.text = currentProduct.username
+            uploadDate.text = convertTimeStampToDate(currentProduct.creation_time)
+            productName.text = currentProduct.title
+            productPricePerUnit.text =
+                "${currentProduct.price_per_unit} ${currentProduct.price_type}/${currentProduct.amount_type}"
+
+            if (currentProduct.is_active) {
+                availabilityIcon.setImageResource(R.drawable.ic_active_product)
+                availabilityTextView.text = "Active"
+                availabilityTextView.setTextColor(Color.parseColor("#00B5C0"))
+            } else {
+                availabilityIcon.setImageResource(R.drawable.ic_inactive_product)
+                availabilityTextView.text = "Inactive"
+            }
+
+            productDetail.text = currentProduct.description
+            totalItemsCircle.text = "${currentProduct.units} ${currentProduct.amount_type}"
+
+            pricePerUnitCircle.text =
+                "${currentProduct.price_per_unit} ${currentProduct.price_type}"
+
+            soldItemsCircle.text = "Yet to be developed"
+            revenueCircle.text = "Yet to be developed"
+
+        } else {
+            //Owner preview modban nezi meg a termeket
+            //=> ez egy uj termek lesz,ami nincs fent az adatbazisban
+            // => az edit gombot el kell rejteni!
+
+            editProduct.visibility = View.GONE
+
+            ownerUsername.text = TokenApplication.username
+            uploadDate.text = "Today"
+            productName.text = addProductViewModel.newProduct.value!!.title
+            productPricePerUnit.text =
+                "${addProductViewModel.newProduct.value!!.price_per_unit} ${addProductViewModel.newProduct.value!!.price_type}/${addProductViewModel.newProduct.value!!.amount_type}"
+
+            if (addProductViewModel.newProduct.value!!.is_active) {
+                availabilityIcon.setImageResource(R.drawable.ic_active_product)
+                availabilityTextView.text = "Active"
+                availabilityTextView.setTextColor(Color.parseColor("#00B5C0"))
+            } else {
+                availabilityIcon.setImageResource(R.drawable.ic_inactive_product)
+                availabilityTextView.text = "Inactive"
+            }
+
+            productDetail.text = addProductViewModel.newProduct.value!!.description
+            totalItemsCircle.text =
+                "${addProductViewModel.newProduct.value!!.units} ${addProductViewModel.newProduct.value!!.amount_type}"
+
+            pricePerUnitCircle.text =
+                "${addProductViewModel.newProduct.value!!.price_per_unit} ${addProductViewModel.newProduct.value!!.price_type}"
+
+            soldItemsCircle.text = "0 ${addProductViewModel.newProduct.value!!.amount_type}"
+            revenueCircle.text = "0 ${addProductViewModel.newProduct.value!!.price_type}"
+
+            addProductViewModel.previewMyFair = false
         }
-        else{
-            availabilityIcon.setImageResource(R.drawable.ic_inactive_product)
-            availabilityTextView.text = "Inactive"
-        }
-
-        productDetail.text = currentProduct.description
-        totalItemsCircle.text = "${currentProduct.units} ${currentProduct.amount_type}"
-
-        pricePerUnitCircle.text = "${currentProduct.price_per_unit} ${currentProduct.price_type}"
-
-        soldItemsCircle.text = "Yet to be developed"
-        revenueCircle.text = "Yet to be developed"
     }
 
 
