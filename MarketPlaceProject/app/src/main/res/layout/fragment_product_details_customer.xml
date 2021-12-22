@@ -108,26 +108,63 @@
             app:layout_constraintEnd_toEndOf="@+id/upload_date"
             app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="191dp"
-            android:layout_height="135dp"
-            android:layout_marginStart="4dp"
-            android:text="Button"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/messageButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="40dp"
+            app:backgroundTint="#3A3B3C"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_mail"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp"
+            app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_description"
-            app:layout_constraintVertical_bias="0.43" />
+            app:layout_constraintVertical_bias="0.089999974"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/orderNowButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            app:backgroundTint="#00B5C0"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_my_market"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/messageButton"
+            app:layout_constraintTop_toBottomOf="@+id/product_description"
+            app:layout_constraintVertical_bias="0.09"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="197dp"
-            android:layout_height="138dp"
-            android:layout_marginTop="108dp"
-            android:text="Button"
+            android:id="@+id/callNumberButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="#3A3B3C"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_phone_call"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp"
+            app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/orderNowButton"
             app:layout_constraintTop_toBottomOf="@+id/product_description"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.087"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
