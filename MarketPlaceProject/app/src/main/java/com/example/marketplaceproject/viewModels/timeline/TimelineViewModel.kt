@@ -34,6 +34,7 @@ class TimelineViewModel(private val repository: Repository) : ViewModel() {
                     )
 
                 val list = listWithoutDoubleQuotes(result)
+                list.sortByDescending { it.creation_time }
                 products.value = list
                 Log.d("xxx", "ListViewModel - #products:  ${result.item_count}")
             } catch (e: Exception) {

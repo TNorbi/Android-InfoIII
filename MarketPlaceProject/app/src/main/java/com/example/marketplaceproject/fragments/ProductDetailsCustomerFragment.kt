@@ -85,6 +85,8 @@ class ProductDetailsCustomerFragment : Fragment() {
             displayProductDetails()
         }
 
+        (activity as MainActivity).closeSearchView()
+
         profileViewModel.code.observe(viewLifecycleOwner){
 
             //csak akkor jelenitem meg az owner profiljat,amikor a visszateritett kod

@@ -90,6 +90,8 @@ class OwnerProductDetailsFragment : Fragment() {
             initializeListeners(this)
         }
 
+        (activity as MainActivity).closeSearchView()
+
         return view
     }
 

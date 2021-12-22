@@ -2,18 +2,24 @@ package com.example.marketplaceproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.SearchView
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.marketplaceproject.models.Product
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModel
 import com.example.marketplaceproject.viewModels.profile.ProfileViewModelFactory
+import com.example.marketplaceproject.viewModels.timeline.TimelineViewModel
+import com.example.marketplaceproject.viewModels.timeline.TimelineViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var filterMenuItem: MenuItem
     private lateinit var profileMenuItem: MenuItem
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var timelineViewModel: TimelineViewModel
+    private var searchView : androidx.appcompat.widget.SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +67,46 @@ class MainActivity : AppCompatActivity() {
         val itemView = item.itemId
 
         when (itemView) {
-            R.id.search -> Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT)
-                .show()//ide jonne a Search ablak
+            R.id.search -> {
+                Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT)
+                    .show()//ide jonne a Search ablak
+
+                //lekerem a letezo timelineViewmodelt, ami a Timeline fragmensben jott letre legeloszor
+                val factory = TimelineViewModelFactory(Repository())
+                timelineViewModel =
+                    ViewModelProvider(this, factory).get(TimelineViewModel::class.java)
+
+
+                val eredetiLista = timelineViewModel.products.value
+
+                searchView = searchMenuItem.actionView as androidx.appcompat.widget.SearchView
+                searchView!!.queryHint = "Type here"
+
+                searchView!!.setOnQueryTextListener(object : OnQueryTextListener,
+                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+
+                        if (newText!!.isNotEmpty()) {
+                            timelineViewModel.products.value = eredetiLista?.filter {
+                                it.title.contains(
+                                    newText,
+                                    ignoreCase = true
+                                )
+                            } as MutableList<Product>?
+                        } else {
+                            Log.d("xxx","onQueryTextChange: az else agban vagyok!!!!!!")
+                            timelineViewModel.products.value = eredetiLista
+                        }
+                        return true
+                    }
+
+                })
+
+            }
             R.id.filter -> Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
             R.id.profile -> {
                 getUserInfo()
@@ -107,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profileOwnerFragment, R.id.profileOwnerByOthersFragment -> {
                     showToolbar()
+                    closeSearchView()
                     supportActionBar!!.title = "Profile"
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
@@ -125,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.myMarketFragment -> {
                     showToolbar()
+                    closeSearchView()
                     supportActionBar!!.title = "My market"
                     searchMenuItem.isVisible = true
                     filterMenuItem.isVisible = false
@@ -143,6 +191,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.addProductFragment -> {
                     showToolbar()
+                    closeSearchView()
                     supportActionBar!!.title = "Create your fare"
                     searchMenuItem.isVisible = false
                     filterMenuItem.isVisible = false
@@ -151,6 +200,17 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 }
                 else -> showToolbar()
+            }
+        }
+    }
+
+     fun closeSearchView() {
+        if(searchView != null){
+            Log.d("xxx","CloseSearchView : nem vagyok null!")
+            if(!searchView!!.isIconified){
+                Log.d("xxx","CloseSearchView: az if agban vagyok!")
+                searchView!!.isIconified = true
+               searchMenuItem.collapseActionView()
             }
         }
     }
