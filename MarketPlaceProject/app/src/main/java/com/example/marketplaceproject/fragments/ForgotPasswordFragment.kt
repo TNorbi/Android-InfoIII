@@ -35,8 +35,6 @@ class ForgotPasswordFragment : Fragment() {
     private lateinit var usernameInput : EditText
     private lateinit var emailInput : EditText
     private lateinit var emailMeButton : Button
-    private lateinit var forgotPasswordLabel : TextView
-    private lateinit var forgotPasswordText : TextView
     private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +58,7 @@ class ForgotPasswordFragment : Fragment() {
         
         view?.apply { 
             initializeView(this)
-            changeColorOfTexts()
+            changeColorOfUnderline()
             initializeListeners(this)
         }
 
@@ -79,8 +77,6 @@ class ForgotPasswordFragment : Fragment() {
         usernameInput = view.findViewById(R.id.username_input)
         emailInput = view.findViewById(R.id.email_input)
         emailMeButton = view.findViewById(R.id.email_me_button)
-        forgotPasswordLabel = view.findViewById(R.id.forgot_password_label)
-        forgotPasswordText = view.findViewById(R.id.forgot_password_text)
     }
 
     private fun initializeListeners(view: View){
@@ -94,25 +90,17 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     //forras: StackOverFlow
-    private fun changeColorOfTexts() {
+    private fun changeColorOfUnderline() {
         //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
         //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
         val nightModeFlags = requireContext().resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES ->{
-                forgotPasswordLabel.setTextColor(Color.parseColor("white"))
-                forgotPasswordText.setTextColor(Color.parseColor("white"))
-                usernameInput.setTextColor(Color.parseColor("white"))
-                emailInput.setTextColor(Color.parseColor("white"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 emailInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             }
             Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED ->{
-                forgotPasswordLabel.setTextColor(Color.parseColor("black"))
-                forgotPasswordText.setTextColor(Color.parseColor("black"))
-                usernameInput.setTextColor(Color.parseColor("black"))
-                emailInput.setTextColor(Color.parseColor("black"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 emailInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
             }

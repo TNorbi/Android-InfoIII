@@ -19,6 +19,7 @@
             android:layout_marginTop="108dp"
             android:layout_marginEnd="24dp"
             android:text="@string/upload_product_date_label_text"
+            android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Give us details about your fare"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/availability_switch"
             app:layout_constraintTop_toBottomOf="@+id/availability_switch" />
@@ -54,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Title"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="?attr/boxBackgroundColor"
+            app:boxStrokeColor="?android:attr/textColorPrimary"
             app:counterEnabled="true"
             app:counterMaxLength="30"
             app:hintTextColor="@color/teal_200"
@@ -66,7 +67,8 @@
                 android:id="@+id/title_input_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:textColor="?android:attr/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Price/amount"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="?attr/boxBackgroundColor"
+            app:boxStrokeColor="?android:attr/textColorPrimary"
             app:counterEnabled="true"
             app:counterMaxLength="10"
             app:hintTextColor="@color/teal_200"
@@ -89,7 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:textColor="?android:attr/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
@@ -111,8 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Available amount"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="?attr/boxBackgroundColor"
+            app:boxStrokeColor="?android:attr/textColorPrimary"
             app:counterEnabled="true"
             app:counterMaxLength="10"
             app:hintTextColor="@color/teal_200"
@@ -124,7 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:maxLength="10"/>
+                android:maxLength="10"
+                android:textColor="?android:attr/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -134,8 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:hint="Short description"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/black"
+            app:boxBackgroundColor="?attr/boxBackgroundColor"
+            app:boxStrokeColor="?android:attr/textColorPrimary"
             app:counterEnabled="true"
             app:counterMaxLength="150"
             app:hintTextColor="@color/teal_200"
@@ -146,7 +150,8 @@
                 android:id="@+id/product_description_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="150" />
+                android:maxLength="150"
+                android:textColor="?android:attr/textColorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

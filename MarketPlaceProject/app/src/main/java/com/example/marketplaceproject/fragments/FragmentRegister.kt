@@ -146,16 +146,12 @@ class FragmentRegister : Fragment() {
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                title.setTextColor(Color.parseColor("white"))
-                registerButtomText.setTextColor(Color.parseColor("white"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 emailInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 passwordInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             }
 
             Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                title.setTextColor(Color.parseColor("black"))
-                registerButtomText.setTextColor(Color.parseColor("black"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 emailInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 passwordInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)

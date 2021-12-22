@@ -69,7 +69,7 @@ class ProfileOwnerFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
-            changeTextColors()
+            changeUnderlineColor()
             listUserDatas()
             initializeListeners(this)
         }
@@ -87,22 +87,16 @@ class ProfileOwnerFragment : Fragment() {
     }
 
     //forras: StackOverFlow
-    private fun changeTextColors() {
+    private fun changeUnderlineColor() {
         //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
         //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
         val nightModeFlags = requireContext().resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
 
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-
-            username.setTextColor(Color.parseColor("white"))
-            userEmail.setTextColor(Color.parseColor("white"))
             userEmail.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-            editUserName.setTextColor(Color.parseColor("white"))
             editUserName.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-            userPhoneNumber.setTextColor(Color.parseColor("white"))
             userPhoneNumber.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-
         }
     }
 

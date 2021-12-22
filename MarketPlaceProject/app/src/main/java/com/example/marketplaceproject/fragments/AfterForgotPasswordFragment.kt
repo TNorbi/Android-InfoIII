@@ -27,8 +27,6 @@ class AfterForgotPasswordFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var backToLogInText : TextView
-    private lateinit var forgotPasswordLabel : TextView
-    private lateinit var forgotPasswordText : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +45,6 @@ class AfterForgotPasswordFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
-            changeColorOfTexts()
             initializeListeners(this)
         }
 
@@ -56,32 +53,12 @@ class AfterForgotPasswordFragment : Fragment() {
 
     private fun initializeView(view: View) {
         backToLogInText = view.findViewById(R.id.back_to_login_hiperlink)
-        forgotPasswordLabel = view.findViewById(R.id.after_forgot_password_label)
-        forgotPasswordText = view.findViewById(R.id.after_forgot_password_text)
     }
 
     private fun initializeListeners(view: View){
         backToLogInText.setOnClickListener{
             //ha a User rakattint erre a szovegre,akkor visszaviszi a Login screenre
             findNavController().navigate(R.id.action_afterForgotPasswordFragment_to_fragmentLogIn)
-        }
-    }
-
-    //forras: StackOverFlow
-    private fun changeColorOfTexts() {
-        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
-        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
-        val nightModeFlags = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-        when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES ->{
-                forgotPasswordLabel.setTextColor(Color.parseColor("white"))
-                forgotPasswordText.setTextColor(Color.parseColor("white"))
-            }
-            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED ->{
-                forgotPasswordLabel.setTextColor(Color.parseColor("black"))
-                forgotPasswordText.setTextColor(Color.parseColor("black"))
-            }
         }
     }
 

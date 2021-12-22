@@ -48,13 +48,9 @@ class OwnerProductDetailsFragment : Fragment() {
     private lateinit var availabilityTextView: TextView
     private lateinit var productDetail: TextView
     private lateinit var totalItemsCircle: TextView
-    private lateinit var totalItemsLabel: TextView
     private lateinit var pricePerUnitCircle: TextView
-    private lateinit var pricePerItemLabel: TextView
     private lateinit var soldItemsCircle: TextView
-    private lateinit var soldItemsLabel: TextView
     private lateinit var revenueCircle: TextView
-    private lateinit var revenueLabel: TextView
     private lateinit var timelineViewModel: TimelineViewModel
     private lateinit var addProductViewModel: AddProductViewModel
 
@@ -190,13 +186,9 @@ class OwnerProductDetailsFragment : Fragment() {
         availabilityTextView = view.findViewById(R.id.availability_text_owner_published)
         productDetail = view.findViewById(R.id.product_detail_owner_published)
         totalItemsCircle = view.findViewById(R.id.total_items_circle_textview)
-        totalItemsLabel = view.findViewById(R.id.total_items_label)
         pricePerUnitCircle = view.findViewById(R.id.price_per_item_circle_textview)
-        pricePerItemLabel = view.findViewById(R.id.price_per_item_label)
         soldItemsCircle = view.findViewById(R.id.sold_items_circle_textview)
-        soldItemsLabel = view.findViewById(R.id.sold_items_label)
         revenueCircle = view.findViewById(R.id.revenue_circle_textview)
-        revenueLabel = view.findViewById(R.id.revenue_label)
     }
 
     private fun initializeListeners(view: View) {
@@ -216,16 +208,6 @@ class OwnerProductDetailsFragment : Fragment() {
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                ownerUsername.setTextColor(Color.parseColor("white"))
-                uploadDate.setTextColor(Color.parseColor("white"))
-                productName.setTextColor(Color.parseColor("white"))
-                productDetail.setTextColor(Color.parseColor("white"))
-                pricePerItemLabel.setTextColor(Color.parseColor("white"))
-                revenueLabel.setTextColor(Color.parseColor("white"))
-                soldItemsLabel.setTextColor(Color.parseColor("white"))
-                totalItemsLabel.setTextColor(Color.parseColor("white"))
-                productPricePerUnit.setTextColor(Color.parseColor("white"))
-
                 totalItemsCircle.setBackgroundResource(R.drawable.textview_circle_darkmode)
                 totalItemsCircle.setTextColor(Color.parseColor("white"))
 

@@ -80,8 +80,6 @@ class ProductDetailsCustomerFragment : Fragment() {
         view?.apply {
             initializeView(this)
             initializeListeners(this)
-            changeColorOfTexts()
-
             displayProductDetails()
         }
 
@@ -158,32 +156,6 @@ class ProductDetailsCustomerFragment : Fragment() {
         unitAvailable = view.findViewById(R.id.unit_avaible)
         avabilabilityIcon = view.findViewById(R.id.availability_icon)
         availabilityTextView = view.findViewById(R.id.availability_text)
-    }
-
-    //forras: StackOverFlow
-    private fun changeColorOfTexts() {
-        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
-        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
-        val nightModeFlags = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-        when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> {
-                ownerName.setTextColor(Color.parseColor("white"))
-                uploadDate.setTextColor(Color.parseColor("white"))
-                productName.setTextColor(Color.parseColor("white"))
-                productDescription.setTextColor(Color.parseColor("white"))
-                pricePerUnit.setTextColor(Color.parseColor("white"))
-                unitAvailable.setTextColor(Color.parseColor("white"))
-            }
-            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                ownerName.setTextColor(Color.parseColor("black"))
-                uploadDate.setTextColor(Color.parseColor("black"))
-                productName.setTextColor(Color.parseColor("black"))
-                productDescription.setTextColor(Color.parseColor("black"))
-                pricePerUnit.setTextColor(Color.parseColor("black"))
-                unitAvailable.setTextColor(Color.parseColor("black"))
-            }
-        }
     }
 
     companion object {

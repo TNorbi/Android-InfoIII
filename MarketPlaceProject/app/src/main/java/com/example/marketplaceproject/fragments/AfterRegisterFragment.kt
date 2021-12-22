@@ -35,6 +35,7 @@ class AfterRegisterFragment : Fragment() {
     private lateinit var afterRegisterTitle: TextView
     private lateinit var activationTextView: TextView
     private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var loginHiperlink : TextView
 
     //itt letre kell hozzam a registration viewModeljet(peldanyositani)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +61,6 @@ class AfterRegisterFragment : Fragment() {
 
         view?.apply {
             initializeView(this)
-            changeColorOfTitle()
             initializeListeners(this)
         }
 
@@ -79,24 +79,16 @@ class AfterRegisterFragment : Fragment() {
             //ha a user ranyom a textview-ra,akkor aktivalni fogjuk a fiokjat!
             registerViewModel.activateUser()
         }
+
+        loginHiperlink.setOnClickListener {
+            findNavController().navigate(R.id.action_afterRegisterFragment_to_fragmentLogIn)
+        }
     }
 
     private fun initializeView(view: View) {
         afterRegisterTitle = view.findViewById(R.id.after_register_title)
         activationTextView = view.findViewById(R.id.email_not_received)
-    }
-
-    private fun changeColorOfTitle() {
-        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
-        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
-        val nightModeFlags = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-        when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> afterRegisterTitle.setTextColor(Color.parseColor("white"))
-            Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> afterRegisterTitle.setTextColor(
-                Color.parseColor("black")
-            )
-        }
+        loginHiperlink = view.findViewById(R.id.back_to_log_in)
     }
 
     companion object {

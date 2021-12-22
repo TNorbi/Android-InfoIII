@@ -65,7 +65,7 @@ class FragmentLogIn : Fragment() {
 
         view?.apply {
             initializeView(this)
-            changeColorOfTitle()
+            changeColorOfUnderline()
             initializeListeners(this)
         }
 
@@ -128,20 +128,17 @@ class FragmentLogIn : Fragment() {
         forgotPasswordLink = view.findViewById(R.id.login_forgot_password_hiperlink)
     }
 
-    private fun changeColorOfTitle() {
+    private fun changeColorOfUnderline() {
         //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
         //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
         val nightModeFlags = requireContext().resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
             Configuration.UI_MODE_NIGHT_YES ->{
-                title.setTextColor(Color.parseColor("white"))
-                forgotPasswordLabel.setTextColor(Color.parseColor("white"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 passwordInput.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             }
             Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED ->{
-                title.setTextColor(Color.parseColor("black"))
                 usernameInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 passwordInput.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
             }

@@ -40,18 +40,12 @@ class AddProductFragment : Fragment() {
     private lateinit var addProductViewModel: AddProductViewModel
     private lateinit var listViewModel: TimelineViewModel
     private lateinit var availabilitySwitch: Switch
-    private lateinit var uploadDate: TextView
-    private lateinit var detailsFareLabel: TextView
     private lateinit var titleInput: TextInputEditText
     private lateinit var priceAmountInput: TextInputEditText
     private lateinit var priceTypeSpinner: Spinner
     private lateinit var availableAmountInput: TextInputEditText
     private lateinit var availableAmountSpinner: Spinner
     private lateinit var productDescription: TextInputEditText
-    private lateinit var titleInputLayout: TextInputLayout
-    private lateinit var priceAmountLayout: TextInputLayout
-    private lateinit var availableAmountLayout: TextInputLayout
-    private lateinit var descriptionLayout: TextInputLayout
     private lateinit var launchFare: Button
     private lateinit var previewButton: Button
     private lateinit var priceType: String
@@ -96,8 +90,6 @@ class AddProductFragment : Fragment() {
             }
 
             addProductViewModel.previewMyFair = false
-
-            changeColorOfViewElements()
             initializeListeners(this)
         }
 
@@ -225,8 +217,6 @@ class AddProductFragment : Fragment() {
 
     private fun initializeView(view: View) {
         availabilitySwitch = view.findViewById(R.id.availability_switch)
-        uploadDate = view.findViewById(R.id.avability_date_label)
-        detailsFareLabel = view.findViewById(R.id.details_fare_label)
         titleInput = view.findViewById(R.id.title_input_edit)
 
         priceAmountInput = view.findViewById(R.id.price_amount_input)
@@ -238,11 +228,6 @@ class AddProductFragment : Fragment() {
         availableAmountSpinner = view.findViewById(R.id.available_amount_spinner)
 
         productDescription = view.findViewById(R.id.product_description_input)
-
-        titleInputLayout = view.findViewById(R.id.title_input_layout)
-        priceAmountLayout = view.findViewById(R.id.price_amount_textinput_layout)
-        availableAmountLayout = view.findViewById(R.id.available_amount_textinput_layout)
-        descriptionLayout = view.findViewById(R.id.product_description_input_layout)
 
         launchFare = view.findViewById(R.id.launch_fair_button)
         previewButton = view.findViewById(R.id.preview_my_fair_button)
@@ -313,31 +298,6 @@ class AddProductFragment : Fragment() {
 
             addProductViewModel.previewMyFair = true
             findNavController().navigate(R.id.action_addProductFragment_to_ownerProductDetailsFragment)
-        }
-    }
-
-    //forras: StackOverFlow
-    private fun changeColorOfViewElements() {
-        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
-        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
-        val nightModeFlags = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-        when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> {
-                detailsFareLabel.setTextColor(Color.parseColor("white"))
-                titleInput.setTextColor(Color.parseColor("white"))
-                titleInputLayout.boxStrokeColor = Color.parseColor("white")
-                titleInputLayout.boxBackgroundColor = Color.parseColor("#3A3B3C")
-                priceAmountInput.setTextColor(Color.parseColor("white"))
-                priceAmountLayout.boxBackgroundColor = Color.parseColor("#3A3B3C")
-                priceAmountLayout.boxStrokeColor = Color.parseColor("white")
-                availableAmountLayout.boxBackgroundColor = Color.parseColor("#3A3B3C")
-                availableAmountLayout.boxStrokeColor = Color.parseColor("white")
-                availableAmountInput.setTextColor(Color.parseColor("white"))
-                descriptionLayout.boxBackgroundColor = Color.parseColor("#3A3B3C")
-                descriptionLayout.boxStrokeColor = Color.parseColor("white")
-                productDescription.setTextColor(Color.parseColor("white"))
-            }
         }
     }
 

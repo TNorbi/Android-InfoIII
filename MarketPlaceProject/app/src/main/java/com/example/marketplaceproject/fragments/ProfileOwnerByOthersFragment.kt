@@ -67,28 +67,10 @@ class ProfileOwnerByOthersFragment : Fragment() {
         view?.apply {
             initializeView(this)
             initializeListeners(this)
-            changeTextColors()
             loadUserData()
         }
 
         return view
-    }
-
-    //forras: StackOverFlow
-    private fun changeTextColors() {
-        //ez a kicsi kod megnezi, hogy a telefonunk night modban van vagy sem
-        //ha night modban van akkor a text color feher lesz (hogy konyebben lehessen latni), ellenkezo esetben fekete szin marad (forras : Stack)
-        val nightModeFlags = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK
-
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-
-            ownerUsername.setTextColor(Color.parseColor("white"))
-            emailLabel.setTextColor(Color.parseColor("white"))
-            ownerEmail.setTextColor(Color.parseColor("white"))
-            phoneNumberLabel.setTextColor(Color.parseColor("white"))
-            ownerPhoneNumber.setTextColor(Color.parseColor("white"))
-        }
     }
 
     private fun loadUserData() {
