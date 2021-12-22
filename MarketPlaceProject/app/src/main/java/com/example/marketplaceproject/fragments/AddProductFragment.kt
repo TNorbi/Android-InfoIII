@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
+import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.repository.Repository
 import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModel
 import com.example.marketplaceproject.viewModels.addproduct.AddProductViewModelFactory
@@ -135,8 +136,10 @@ class AddProductFragment : Fragment() {
                 ).show()
 
                 //frissitem a listviewmodelben levo products tartalmat a legfrisebb adatokkal
+                listViewModel.editOwnerProduct = false
                 listViewModel.getProducts()
-
+                listViewModel.products.value!![listViewModel.adapterCurrentPosition] =
+                    addProductViewModel.newProduct.value!!
                 findNavController().navigate(R.id.action_addProductFragment_to_ownerProductDetailsFragment)
             }
         }
@@ -294,8 +297,8 @@ class AddProductFragment : Fragment() {
             //hogyha a User ranyom a Preview my fair gombra,akkor megjeleniti
             //egy ablakban, hogy a termek hirdetese hogyan fog majd kinezni korulbelul
 
-        //(itt fel fogom hasznalni az OwnerProductDetail fragmenst annyi kulonbseggel,
-        // hogy az edit gombot el fogom rejteni)
+            //(itt fel fogom hasznalni az OwnerProductDetail fragmenst annyi kulonbseggel,
+            // hogy az edit gombot el fogom rejteni)
 
             addProductViewModel.newProduct.value.let {
                 //itt feltoltom a viewModelt a user altal megadott adatokkal,majd elinditom az Add Product kerest/muveletet

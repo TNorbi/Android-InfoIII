@@ -92,6 +92,7 @@ class AddProductViewModel(val context: Context, val repository: Repository) : Vi
 
     fun updateProduct() {
         viewModelScope.launch {
+            Log.d("xxx","NEwProduct values: ${newProduct.value}")
             val request = UpdateProductRequest(
                 title = newProduct.value?.title,
                 price_per_unit = newProduct.value?.price_per_unit?.toInt(),
@@ -112,8 +113,10 @@ class AddProductViewModel(val context: Context, val repository: Repository) : Vi
 
                 Log.d("xxx","Edit: Response = $response")
 
+                newProduct.value!!.username = response.updated_item.username
+                newProduct.value!!.creation_time = response.updated_item.creation_time
                 modosultupdatedItemID = true
-                updatedItemID.value = response.updated_item._id
+                updatedItemID.value = response.updated_item.product_id
 
                 Log.d("xxx", "Termek sikeresen modosult!")
 

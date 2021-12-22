@@ -96,8 +96,6 @@ class OwnerProductDetailsFragment : Fragment() {
     private fun loadOwnerProductDetails() {
         //itt feltoltom a View elemek adatait
 
-        timelineViewModel.editOwnerProduct = false
-
         //ez place holderkent fog szerepelni
         ownerImageView.setImageResource(R.drawable.ic_bazaar_launcher_foreground)
 

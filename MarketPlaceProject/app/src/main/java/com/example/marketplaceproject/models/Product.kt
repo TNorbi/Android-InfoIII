@@ -73,17 +73,19 @@ data class UpdateProductResponse(
 
 @JsonClass(generateAdapter = true)
 data class UpdatedItemField(
-    var _id : String,
+    var rating: Double,
+    var amount_type: String,
+    var price_type: String,
     var product_id: String,
     var username: String,
-    var price_per_unit: Int,
-    var units: Int,
+    var is_active: Boolean,
+    var price_per_unit:String,
+    var units: String,
     var description: String,
-    var title : String,
-    //var images: List<Image>
-    var creation_time: Long,
-    var __v : Int,
-    var is_active: Boolean
+    var title: String,
+    //var images : List<Image>,
+    var creation_time: Long
+    //var messages : List<Message>
 )
 //-----------------------------------------------------------------------------------------
 

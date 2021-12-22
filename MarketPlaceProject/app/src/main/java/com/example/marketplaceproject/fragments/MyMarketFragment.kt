@@ -67,6 +67,7 @@ class MyMarketFragment : Fragment(), MarketAdapter.OnItemClickListener {
         view?.apply {
             setupRecyclerView(this)
             addProductButton = this.findViewById(R.id.add_product_circle_button)
+            listViewModel.editOwnerProduct = false
             initializeListeners(this)
             //listViewModel.getOwnerProducts(TokenApplication.username)
         }

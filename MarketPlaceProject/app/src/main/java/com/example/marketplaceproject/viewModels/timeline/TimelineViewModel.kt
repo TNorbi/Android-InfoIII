@@ -13,7 +13,7 @@ import com.example.marketplaceproject.repository.Repository
 import kotlinx.coroutines.launch
 
 class TimelineViewModel(private val repository: Repository) : ViewModel() {
-    var products: MutableLiveData<List<Product>> = MutableLiveData()
+    var products: MutableLiveData<MutableList<Product>> = MutableLiveData()
     var editOwnerProduct = false
     var adapterCurrentPosition = 0
     var deletedProductID = MutableLiveData<String>()
@@ -34,7 +34,6 @@ class TimelineViewModel(private val repository: Repository) : ViewModel() {
                     )
 
                 val list = listWithoutDoubleQuotes(result)
-                Log.d("xxx", "List: $list")
                 products.value = list
                 Log.d("xxx", "ListViewModel - #products:  ${result.item_count}")
             } catch (e: Exception) {
@@ -47,29 +46,13 @@ class TimelineViewModel(private val repository: Repository) : ViewModel() {
         val resultList = mutableListOf<Product>()
 
         for (product in result.products) {
-            if (product.title.contains(Regex("^\"|\"$"))) {
-                product.title = product.title.replace("\"", "")
-            }
 
-            if (product.description.contains(Regex("^\"|\"$"))) {
-                product.description = product.description.replace("\"", "")
-            }
-
-            if (product.units.contains(Regex("^\"|\"$"))) {
-                product.units = product.units.replace("\"", "")
-            }
-
-            if (product.amount_type.contains(Regex("^\"|\"$"))) {
-                product.amount_type = product.amount_type.replace("\"", "")
-            }
-
-            if (product.price_type.contains(Regex("^\"|\"$"))) {
-                product.price_type = product.price_type.replace("\"", "")
-            }
-
-            if (product.price_per_unit.contains(Regex("^\"|\"$"))) {
-                product.price_per_unit = product.price_per_unit.replace("\"", "")
-            }
+            product.title = product.title.removeSurrounding("\"", "\"")
+            product.description = product.description.removeSurrounding("\"", "\"")
+            product.units = product.units.removeSurrounding("\"", "\"")
+            product.amount_type = product.amount_type.removeSurrounding("\"", "\"")
+            product.price_type = product.price_type.removeSurrounding("\"", "\"")
+            product.price_per_unit = product.price_per_unit.removeSurrounding("\"", "\"")
 
             resultList.add(product)
         }
