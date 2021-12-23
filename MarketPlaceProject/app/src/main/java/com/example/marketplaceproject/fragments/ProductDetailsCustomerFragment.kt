@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +50,7 @@ class ProductDetailsCustomerFragment : Fragment() {
     private lateinit var productDescription: TextView
     private lateinit var avabilabilityIcon: ImageView
     private lateinit var availabilityTextView: TextView
+    private lateinit var orderNowButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +112,11 @@ class ProductDetailsCustomerFragment : Fragment() {
             profileViewModel.user.value!!.username = ownerName.text.toString()
             profileViewModel.getUserInfo()
         }
+
+        orderNowButton.setOnClickListener {
+            val dialog = OrderNowDialogFragment()
+            dialog.show(requireActivity().supportFragmentManager,"orderDialog")
+        }
     }
 
     private fun displayProductDetails() {
@@ -156,6 +163,7 @@ class ProductDetailsCustomerFragment : Fragment() {
         unitAvailable = view.findViewById(R.id.unit_avaible)
         avabilabilityIcon = view.findViewById(R.id.availability_icon)
         availabilityTextView = view.findViewById(R.id.availability_text)
+        orderNowButton = view.findViewById(R.id.orderNowButton)
     }
 
     companion object {
