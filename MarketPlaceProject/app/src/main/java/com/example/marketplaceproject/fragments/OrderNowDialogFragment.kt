@@ -67,9 +67,11 @@ class OrderNowDialogFragment: DialogFragment() {
             if(myFaresViewModel.modosultNewOrderID){
                 myFaresViewModel.modosultNewOrderID = false
 
-                val dialog = AfterOrderNowDialogFragment()
+                dismiss()
 
-                dialog.show(requireActivity(),"afterOrderDialog")
+                val dialog = AfterNewOrderDialogFragment()
+
+                dialog.show(requireActivity().supportFragmentManager,"afterOrderDialog")
             }
         }
 
