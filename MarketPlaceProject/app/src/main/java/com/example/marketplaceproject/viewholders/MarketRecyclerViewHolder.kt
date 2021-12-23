@@ -7,14 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.adapters.MarketAdapter
+import com.example.marketplaceproject.fragments.OrderNowDialogFragment
 import com.example.marketplaceproject.models.Product
 
 sealed class MarketRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     class CustomerViewHolder(
         itemView: View,
+        private val activity: MainActivity,
         private val listener: MarketAdapter.OnItemClickListener
     ) : MarketRecyclerViewHolder(itemView), View.OnClickListener {
 
@@ -58,13 +61,23 @@ sealed class MarketRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(
             if (position != RecyclerView.NO_POSITION) {
 
                 if (orderButtonView.isPressed) {
-                    //hogyha a User megnyomja az "Order Now" gombot, akkor a productot meg fogja tudni vasarolni
-                    return
-                }
+                    //hogyha a User megnyomja az "Order Now" gombot,
+                    // akkor meg fog jelenni egy DialogFragment,
+                    // ahol rajta lesznek a termek bizonyos adatai
+                    // es ezt meg tudja venni
 
-                //hogyha a User ranyom maga a CardView-ra(Productra) akkor meg fogja jeleniteni ennek reszleteit
-                Log.d("xxx", "OnDetailsClick adapterben")
-                listener.onDetailsClick(position)
+                    //Figman levo Bazaar Detail_viewd by costumerben
+                    //talalhato DialogFragment szerint mentem
+
+                    val dialog = OrderNowDialogFragment()
+                    listener.onOrderNowClick(position)
+                    dialog.show(activity.supportFragmentManager, "OrderNow")
+
+                } else {
+                    //hogyha a User ranyom maga a CardView-ra(Productra)
+                    // akkor meg fogja jeleniteni ennek reszleteit
+                    listener.onDetailsClick(position)
+                }
             }
         }
     }

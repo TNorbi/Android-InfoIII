@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marketplaceproject.MainActivity
 import com.example.marketplaceproject.R
 import com.example.marketplaceproject.TokenApplication
 import com.example.marketplaceproject.models.Product
@@ -12,12 +13,14 @@ import com.example.marketplaceproject.viewholders.MarketRecyclerViewHolder
 class MarketAdapter(
     private var list: ArrayList<Product>,
     private val context: Context,
+    private val activity : MainActivity,
     private val listener : OnItemClickListener
 ): RecyclerView.Adapter<MarketRecyclerViewHolder>() {
 
     interface OnItemClickListener {
         fun onDetailsClick(position: Int)
         fun onDeleteClick(position: Int)
+        fun onOrderNowClick(position: Int)
     }
 
 
@@ -29,7 +32,7 @@ class MarketAdapter(
             }
             R.layout.customer_item_layout ->{
                 val itemView =  LayoutInflater.from(parent.context).inflate(R.layout.customer_item_layout, parent, false)
-                MarketRecyclerViewHolder.CustomerViewHolder(itemView,listener)//itt meghivom a CustomerViewHoldert
+                MarketRecyclerViewHolder.CustomerViewHolder(itemView,activity,listener)//itt meghivom a CustomerViewHoldert
             }
            else -> throw Exception("MarketAdapter: Nincs lekezelve az adott viewType: $viewType")
        }

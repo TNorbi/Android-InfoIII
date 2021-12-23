@@ -63,4 +63,21 @@ interface MarketApi {
         @Header("token") token: String,
         @Query("product_id") product_id: String
     ) : DeleteProductResponse
+
+    @GET(Constants.GET_ORDERS_URL)
+    suspend fun getOrders(
+        @Header("token") token: String,
+        @Header("limit") limit : Int
+    ) : GetOrdersResponse
+
+    @Multipart
+    @POST(Constants.ADD_ORDER_URL)
+    suspend fun addOrder(
+        @Header("token") token: String,
+        @Part("title") title: String,
+        @Part("description") description: String?,
+        @Part("price_per_unit") price_per_unit: String,
+        @Part("units") units: String,
+        @Part("owner_username") owner_username: String
+    ) : AddOrderResponse
 }

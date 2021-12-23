@@ -95,7 +95,8 @@ class TimeLineFragment : Fragment(), MarketAdapter.OnItemClickListener {
 
     private fun setupRecyclerView(view: View) {
         //adapter = TimelineAdapter(ArrayList<Product>(), this.requireContext(),this)
-        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(), this)
+        //adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(), this)
+        adapter = MarketAdapter(ArrayList<Product>(), this.requireContext(), activity as MainActivity,this)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -129,6 +130,10 @@ class TimeLineFragment : Fragment(), MarketAdapter.OnItemClickListener {
         }
 
         alertDialog.show()
+    }
+
+    override fun onOrderNowClick(position: Int) {
+        timelineViewModel.adapterCurrentPosition = position
     }
 
     companion object {

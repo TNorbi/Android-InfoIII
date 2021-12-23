@@ -69,4 +69,26 @@ class Repository {
     suspend fun deleteProduct(token: String, product_id: String): DeleteProductResponse {
         return RetrofitInstance.api.deleteProduct(token, product_id)
     }
+
+    suspend fun getOrders(token : String, limit: Int) : GetOrdersResponse{
+        return RetrofitInstance.api.getOrders(token,limit)
+    }
+
+    suspend fun addOrder(
+        token: String,
+        title: String,
+        description: String?,
+        price_per_unit: String,
+        units: String,
+        owner_username: String
+    ): AddOrderResponse {
+        return RetrofitInstance.api.addOrder(
+            token,
+            title,
+            description,
+            price_per_unit,
+            units,
+            owner_username
+        )
+    }
 }
